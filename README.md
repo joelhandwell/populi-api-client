@@ -1,4 +1,7 @@
 # populi-api-client
+
+[![Build Status](https://travis-ci.org/joelhandwell/populi-api-client.svg?branch=master)](https://travis-ci.org/joelhandwell/populi-api-client)
+
 Populi API Client with Retrofit2 and JAXB
 
 ## Usage
