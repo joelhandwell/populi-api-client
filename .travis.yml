@@ -1,0 +1,23 @@
+---
+dist: xenial
+
+language: java
+
+jdk: openjdk12
+
+before_install: chmod +x gradlew
+
+install: ./gradlew assemble
+
+script: ./gradlew check
+
+# configure caching (https://docs.travis-ci.com/user/languages/java/#Caching)
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+# format from https://docs.travis-ci.com/user/caching/#Enabling-multiple-caching-features
+cache:
+  bundler: true
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
