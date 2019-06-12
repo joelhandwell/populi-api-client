@@ -20,13 +20,10 @@ dependencies {
 Then in your kotlin code,
 
 ```kotlin
-import com.github.joelhandwell.populi.Populi
-import com.github.joelhandwell.populi.populiClientOf
-
 fun main(){
-    val client: Populi = populiClientOf("https://your_university.populiweb.com/")
     val accessKey = "7283dac8472d4e5d..."
-    val degrees = client.degreeRequest(accessKey = accessKey).execute().body()
+    val populi = Populi.Builder().withBaseUrl("https://your_university.populiweb.com/").withAccessKey(accessKey).build()
+    val degrees = populi.getDegrees()
     println(degrees)
 }
 ```
