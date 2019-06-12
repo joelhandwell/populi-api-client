@@ -21,7 +21,7 @@ class Populi(
         fun withBaseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
         fun build(): Populi {
 
-            val api = Retrofit.Builder().baseUrl(baseUrl)
+            val api = Retrofit.Builder().baseUrl(baseUrl ?: throw RuntimeException("baseUrl is null"))
                 .addConverterFactory(JaxbConverterFactory.create())
                 .build().create(PopuliApi::class.java)
 
