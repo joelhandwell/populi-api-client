@@ -62,3 +62,23 @@ data class User(
 data class UserResponse(
     var person: MutableList<User> = mutableListOf()
 )
+
+@XmlRootElement(name = "campus")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class Campus(
+    var id: Int,
+    var name: String,
+    var status: String,
+    var city: String,
+    var state: String,
+    var zip: String,
+    var country: String,
+
+    @XmlElement(name = "is_primary")
+    var is_primary: Int
+)
+
+@XmlRootElement(name = "response")
+data class CampusResponse(
+    var campus: MutableList<Campus> = mutableListOf()
+)

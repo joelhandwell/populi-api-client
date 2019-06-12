@@ -79,15 +79,22 @@ class Populi(
      */
     fun getUsers(): MutableList<User> = sendRequest(this.api.getUsers(accessKey)).person
 
+    /**
+     * Returns all campuses. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCampuses)
+     */
+    fun getCampuses(): MutableList<Campus> = sendRequest(this.api.getCampuses(accessKey)).campus
+
+    fun getRaw(task: String): String = this.api.getRaw(accessKey, task).execute().body().toString()
 }
 
 interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun requestAccessKey(@Field("username") username: String, @Field("password") password: String): Call<AccessKeyResponse>
     @FormUrlEncoded @POST(API_URI) fun getDegrees(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getDegrees"): Call<DegreeResponse>
     @FormUrlEncoded @POST(API_URI) fun getUsers(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUsers"): Call<UserResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCampuses(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCampuses"): Call<CampusResponse>
 
     //for debug
-    //@FormUrlEncoded @POST(API_URI) fun getUsersRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUsers"): Call<String>
+    @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
 }
 
 private const val API_URI = "api/"

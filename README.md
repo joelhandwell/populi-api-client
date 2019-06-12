@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.joelhandwell:populi-api-client:1.0.3'
+    implementation 'com.github.joelhandwell:populi-api-client:1.0.4'
 }
 ```
 
@@ -32,6 +32,7 @@ fun clientWithAccessKey(){
                                  .withAccessKey("7283dac8472d4e5d...").build()
     println(populi.getDegrees())
     println(populi.getUsers())
+    println(populi.getCampuses())
 }
 ```
 
@@ -64,7 +65,7 @@ fun clientWithAccessKey(){
 | AvailableRoles                    | get            | [getAvailableRoles](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getAvailableRoles)                                             |<ul><li> - [ ] </li></ul> |
 | Backup                            | download       | [downloadBackup](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#downloadBackup)                                                   |<ul><li> - [ ] </li></ul> |
 | Backup                            | request        | [requestBackup](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#requestBackup)                                                     |<ul><li> - [ ] </li></ul> |
-| Campuses                          | get            | [getCampuses](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCampuses)                                                         |<ul><li> - [ ] </li></ul> |
+| Campuses                          | get            | [getCampuses](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCampuses)                                                         |<ul><li> - [x] </li></ul> |
 | CampusFromStudent                 | delete         | [deleteCampusFromStudent](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#deleteCampusFromStudent)                                 |<ul><li> - [ ] </li></ul> |
 | CampusToStudent                   | add            | [addCampusToStudent](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#addCampusToStudent)                                           |<ul><li> - [ ] </li></ul> |
 | CommunicationPlanFromPerson       | delete         | [deleteCommunicationPlanFromPerson](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#deleteCommunicationPlanFromPerson)             |<ul><li> - [ ] </li></ul> |
