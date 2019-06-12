@@ -59,6 +59,9 @@ class Populi(
         }
     }
 
+    /**
+     * Returns information about each degree configured at the school. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCountries)
+     */
     fun getDegrees(): MutableList<Degree>? = this.api!!.getDegrees(accessKey).execute().body()!!.degree
 }
 
