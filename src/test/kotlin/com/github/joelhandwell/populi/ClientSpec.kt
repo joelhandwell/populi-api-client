@@ -65,6 +65,14 @@ object ClientSpec : Spek({
             assertCampuses(populi.getCampuses())
         }
 
+        it("send request, receive response and parse it into Programs") {
+            WireMock.stubFor(
+                WireMock.post("/api/").withRequestBody(WireMock.containing("access_key=$TEST_API_ACCESS_KEY&task=getPrograms"))
+                    .willReturn(WireMock.aResponse().withBody(getProgramsXml))
+            )
+            assertPrograms(populi.getPrograms())
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties").toFile().inputStream()
             val p = Properties()
@@ -77,7 +85,7 @@ object ClientSpec : Spek({
                 .withDebugFlag(true)
                 .build()
 
-            println(real.getRaw("getCampuses"))
+            println(real.getRaw("getPrograms"))
         }
 
         afterGroup { wireMockServer.stop() }

@@ -82,3 +82,18 @@ data class Campus(
 data class CampusResponse(
     var campus: MutableList<Campus> = mutableListOf()
 )
+
+@XmlRootElement(name = "program")
+data class Program(
+    var id: Int,
+    var name: String,
+    var units: String,
+    var graduate_level: Int,
+    var status: String,
+    var default: Int
+)
+
+@XmlRootElement(name = "response")
+data class ProgramResponse(
+    var program: MutableList<Program> = mutableListOf()
+)

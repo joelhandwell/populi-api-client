@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.joelhandwell:populi-api-client:1.0.4'
+    implementation 'com.github.joelhandwell:populi-api-client:1.0.5'
 }
 ```
 
@@ -180,7 +180,7 @@ fun clientWithAccessKey(){
 | PossibleDuplicatePeople           | get            | [getPossibleDuplicatePeople](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPossibleDuplicatePeople)                           |<ul><li> - [ ] </li></ul> |
 | PrintLayouts                      | get            | [getPrintLayouts](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPrintLayouts)                                                 |<ul><li> - [ ] </li></ul> |
 | ProfilePicture                    | add            | [addProfilePicture](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#addProfilePicture)                                             |<ul><li> - [ ] </li></ul> |
-| Programs                          | get            | [getPrograms](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPrograms)                                                         |<ul><li> - [ ] </li></ul> |
+| Programs                          | get            | [getPrograms](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPrograms)                                                         |<ul><li> - [x] </li></ul> |
 | Provinces                         | get            | [getProvinces](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getProvinces)                                                       |<ul><li> - [ ] </li></ul> |
 | Races                             | get            | [getRaces](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getRaces)                                                               |<ul><li> - [ ] </li></ul> |
 | Refund                            | get            | [getRefund](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getRefund)                                                             |<ul><li> - [ ] </li></ul> |

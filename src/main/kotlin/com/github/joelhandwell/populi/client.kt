@@ -84,6 +84,14 @@ class Populi(
      */
     fun getCampuses(): MutableList<Campus> = sendRequest(this.api.getCampuses(accessKey)).campus
 
+    /**
+     * Returns information about each program configured at the school. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPrograms)
+     */
+    fun getPrograms(): MutableList<Program> = sendRequest(this.api.getPrograms(accessKey)).program
+
+    /**
+     * Method to confirm xml from real populi server
+     */
     fun getRaw(task: String): String = this.api.getRaw(accessKey, task).execute().body().toString()
 }
 
@@ -92,6 +100,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getDegrees(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getDegrees"): Call<DegreeResponse>
     @FormUrlEncoded @POST(API_URI) fun getUsers(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUsers"): Call<UserResponse>
     @FormUrlEncoded @POST(API_URI) fun getCampuses(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCampuses"): Call<CampusResponse>
+    @FormUrlEncoded @POST(API_URI) fun getPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPrograms"): Call<ProgramResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
