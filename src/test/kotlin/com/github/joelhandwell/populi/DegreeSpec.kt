@@ -115,7 +115,7 @@ object DegreeSpec : Spek({
             assertDegree(d)
         }
 
-        it("unmarshal to DegreeRequest") {
+        it("unmarshal to DegreeResponse") {
             val xml = """
             <request>
                 <degree>
@@ -156,7 +156,7 @@ object DegreeSpec : Spek({
             </request>
             """.trimIndent()
 
-            val dr = JAXB.unmarshal(xml.reader(), DegreeRequest::class.java)
+            val dr = JAXB.unmarshal(xml.reader(), DegreeResponse::class.java)
             assertDegreeRequest(dr.degree)
         }
     }

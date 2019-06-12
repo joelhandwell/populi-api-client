@@ -13,18 +13,24 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.joelhandwell:populi-api-client:1.0.1'
+    implementation 'com.github.joelhandwell:populi-api-client:1.0.2'
 }
 ```
 
 Then in your kotlin code,
 
 ```kotlin
-fun main(){
-    val accessKey = "7283dac8472d4e5d..."
-    val populi = Populi.Builder().withBaseUrl("https://your_university.populiweb.com/").withAccessKey(accessKey).build()
-    val degrees = populi.getDegrees()
-    println(degrees)
+fun clientWithUsernamePassword(){
+    val populi = Populi.Builder().withBaseUrl("https://your_university.populiweb.com/")
+                                 .withUsername("your_name")
+                                 .withPassword("your_password").build()
+    println(populi.getDegrees())
+}
+
+fun clientWithAccessKey(){
+    val populi = Populi.Builder().withBaseUrl("https://your_university.populiweb.com/")
+                                 .withAccessKey("7283dac8472d4e5d...").build()
+    println(populi.getDegrees())
 }
 ```
 
