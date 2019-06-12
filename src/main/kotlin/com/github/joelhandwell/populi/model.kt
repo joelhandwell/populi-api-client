@@ -2,6 +2,17 @@ package com.github.joelhandwell.populi
 
 import javax.xml.bind.annotation.*
 
+@XmlRootElement(name = "account_id")
+class AccountId(var id: Int)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+class AccessKeyResponse(
+    var access_key: String,
+    var account_id: AccountId,
+    var account_type: String
+)
+
 @XmlRootElement(name = "specialization")
 data class Specialization(
     var id: Int,
@@ -34,6 +45,6 @@ data class Degree(
 )
 
 @XmlRootElement(name = "response")
-data class DegreeRequest(
+data class DegreeResponse(
     var degree: MutableList<Degree> = mutableListOf()
 )
