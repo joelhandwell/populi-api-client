@@ -16,7 +16,7 @@ plugins {
 }
 
 group 'com.github.joelhandwell'
-version '1.0.2'
+version '1.0.3'
 
 repositories {
     jcenter()
@@ -27,6 +27,7 @@ dependencies {
 
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-jaxb:$retrofit_version"
     implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
 

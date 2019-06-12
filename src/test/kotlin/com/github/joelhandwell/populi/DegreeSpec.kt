@@ -157,7 +157,7 @@ object DegreeSpec : Spek({
             """.trimIndent()
 
             val dr = JAXB.unmarshal(xml.reader(), DegreeResponse::class.java)
-            assertDegreeRequest(dr.degree)
+            assertDegrees(dr.degree)
         }
     }
 })
@@ -186,7 +186,7 @@ fun assertDegree(d: Degree) {
     assertSpecialization(d.specialization.first())
 }
 
-fun assertDegreeRequest(degrees: MutableList<Degree>) {
+fun assertDegrees(degrees: MutableList<Degree>) {
     assertDegree(degrees.first())
     assertEquals(2, degrees.size)
     assertEquals(3, degrees.flatMap { it.specialization }.size)

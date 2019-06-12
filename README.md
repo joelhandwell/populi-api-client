@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.joelhandwell:populi-api-client:1.0.2'
+    implementation 'com.github.joelhandwell:populi-api-client:1.0.3'
 }
 ```
 
@@ -31,6 +31,7 @@ fun clientWithAccessKey(){
     val populi = Populi.Builder().withBaseUrl("https://your_university.populiweb.com/")
                                  .withAccessKey("7283dac8472d4e5d...").build()
     println(populi.getDegrees())
+    println(populi.getUsers())
 }
 ```
 
@@ -231,5 +232,5 @@ fun clientWithAccessKey(){
 | User                              | block          | [blockUser](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#blockUser)                                                             |<ul><li> - [ ] </li></ul> |
 | User                              | remove         | [removeUser](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#removeUser)                                                           |<ul><li> - [ ] </li></ul> |
 | User                              | unblock        | [unblockUser](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#unblockUser)                                                         |<ul><li> - [ ] </li></ul> |
-| Users                             | get            | [getUsers](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getUsers)                                                               |<ul><li> - [ ] </li></ul> |
+| Users                             | get            | [getUsers](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getUsers)                                                               |<ul><li> - [x] </li></ul> |
 | VoidedTransactions                | get            | [getVoidedTransactions](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getVoidedTransactions)                                     |<ul><li> - [ ] </li></ul> |

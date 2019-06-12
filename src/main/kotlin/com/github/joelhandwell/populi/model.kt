@@ -48,3 +48,17 @@ data class Degree(
 data class DegreeResponse(
     var degree: MutableList<Degree> = mutableListOf()
 )
+
+@XmlRootElement(name = "person")
+data class User(
+    var person_id: Int,
+    var first: String,
+    var last: String,
+    var username: String,
+    var blocked: Int
+)
+
+@XmlRootElement(name = "response")
+data class UserResponse(
+    var person: MutableList<User> = mutableListOf()
+)
