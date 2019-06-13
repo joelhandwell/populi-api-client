@@ -10,20 +10,21 @@ class AccountId(var id: Int)
 @XmlRootElement(name = "response")
 @XmlAccessorType(XmlAccessType.FIELD)
 class AccessKeyResponse(
-    var access_key: String,
-    var account_id: AccountId,
-    var account_type: String
+    var access_key: String, var account_id: AccountId, var account_type: String
 )
 
 @XmlRootElement(name = "specialization")
+@XmlAccessorType(XmlAccessType.FIELD)
 data class Specialization(
     var id: Int,
-    var type: String,
+    var type: String? = null,
     var name: String,
-    var description: String,
+    var description: String? = null,
+
+    @XmlElements(XmlElement(name = "abbrv"), XmlElement(name = "abbreviation"))
     var abbrv: String,
-    var status: String,
-    var cip_code: String
+    var status: String? = null,
+    var cip_code: String? = null
 )
 
 @XmlRootElement(name = "degree")
@@ -31,19 +32,20 @@ data class Specialization(
 data class Degree(
     var id: Int,
     var name: String,
-    var abbrv: String,
-    var program_id: Int,
-    var program_name: String,
-    var department_id: Int,
-    var department_name: String,
-    var status: String,
-    var graduate: Int,
-    var length: Int,
-    var length_unit: String,
 
-    @XmlElementWrapper(name = "specializations")
-    @XmlElement
-    var specialization: MutableList<Specialization> = mutableListOf()
+    @XmlElements(XmlElement(name = "abbreviation"), XmlElement(name = "abbrv"))
+    var abbrv: String,
+
+    var program_id: Int? = null,
+    var program_name: String? = null,
+    var department_id: Int? = null,
+    var department_name: String? = null,
+    var status: String? = null,
+    var graduate: Int? = null,
+    var length: Int? = null,
+    var length_unit: String? = null,
+
+    @XmlElementWrapper(name = "specializations") @XmlElement var specialization: MutableList<Specialization> = mutableListOf()
 )
 
 @XmlRootElement(name = "response")
@@ -53,11 +55,7 @@ data class DegreeResponse(
 
 @XmlRootElement(name = "person")
 data class User(
-    var person_id: Int,
-    var first: String,
-    var last: String,
-    var username: String,
-    var blocked: Int
+    var person_id: Int, var first: String, var last: String, var username: String, var blocked: Int
 )
 
 @XmlRootElement(name = "response")
@@ -76,8 +74,7 @@ data class Campus(
     var zip: String,
     var country: String,
 
-    @XmlElement(name = "is_primary")
-    var is_primary: Int
+    @XmlElement(name = "is_primary") var is_primary: Int
 )
 
 @XmlRootElement(name = "response")
@@ -102,9 +99,7 @@ data class ProgramResponse(
 
 @XmlRootElement(name = "academic_year")
 data class AcademicYear(
-    var yearid: Int,
-    var start_year: Int,
-    var end_year: Int
+    var yearid: Int, var start_year: Int, var end_year: Int
 )
 
 @XmlRootElement(name = "response")
@@ -134,13 +129,18 @@ data class AcademicTermResponse(
 @XmlRootElement(name = "course")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Course(
+
+    @XmlElements(XmlElement(name = "id"), XmlElement(name = "courseid"))
     var courseid: Int,
     var name: String,
+
+    @XmlElements(XmlElement(name = "abbrv"), XmlElement(name = "abbreviation"))
     var abbrv: String,
-    var description: String,
+
+    var description: String? = null,
     var credits: Double,
     var hours: Double,
-    var status: String,
+    var status: String? = null,
     var department_id: Int,
     var department_name: String,
 
@@ -161,4 +161,18 @@ data class CourseGroup(
 @XmlAccessorType(XmlAccessType.FIELD)
 data class CourseGroupResponse(
     @XmlElementWrapper(name = "course_groups") var course_group: MutableList<CourseGroup> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class CourseGroupInfoResponse(
+
+    @XmlElementWrapper(name = "catalog_courses")
+    var catalog_course: MutableList<Course> = mutableListOf(),
+
+    @XmlElementWrapper(name = "degrees_requiring_course_group")
+    var degree: MutableList<Degree> = mutableListOf(),
+
+    @XmlElementWrapper(name = "specializations_requiring_course_group")
+    var specialization: MutableList<Specialization> = mutableListOf()
 )

@@ -116,6 +116,15 @@ class Populi(
      * Returns a list of course groups. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseGroups)
      */
     fun getCourseGroups(): MutableList<CourseGroup> = sendRequest(this.api.getCourseGroups(accessKey)).course_group
+
+    /**
+     * Returns information about a course group.[ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseGroupInfo)
+     *
+     * @param course_group_id The numeric ID of the course group you're interested in. Required.
+     *
+     * @param academic_year_id The numeric ID of the academic year you're interested in. Defaults to the current academic year ID. Not required.
+     */
+    fun getCourseGroupInfo(course_group_id: Int, academic_year_id: Int? = null) = sendRequest(this.api.getCourseGroupInfo(accessKey, course_group_id = course_group_id, academic_year_id = academic_year_id))
 }
 
 interface PopuliApi {
@@ -128,6 +137,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getAcademicTerms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getAcademicTerms"): Call<AcademicTermResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseCatalog(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseCatalog", @Field("include_retired") include_retired: Int? = null): Call<CourseResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseGroups(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseGroups"): Call<CourseGroupResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseGroupInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseGroupInfo", @Field("course_group_id") course_group_id: Int, @Field("academic_year_id") academic_year_id: Int? = null): Call<CourseGroupInfoResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

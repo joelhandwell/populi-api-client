@@ -15,19 +15,24 @@ object ClientSpec : Spek({
     describe("Client") {
         (LoggerFactory.getLogger("org.eclipse.jetty") as ch.qos.logback.classic.Logger).level = Level.INFO
         val wireMockServer = WireMockServer()
-        val populi =
-            Populi.Builder().withBaseUrl("http://localhost:$WIREMOCK_PORT/").withAccessKey(TEST_API_ACCESS_KEY).build()
+        val populi = Populi.Builder()
+            .withBaseUrl("http://localhost:$WIREMOCK_PORT/")
+            .withAccessKey(TEST_API_ACCESS_KEY)
+            .build()
         beforeGroup { wireMockServer.start() }
 
         it("creates api client with username and password") {
             WireMock.stubFor(
-                WireMock.post("/api/").withRequestBody(WireMock.containing("username=john&password=pass"))
-                    .willReturn(WireMock.aResponse().withBodyFile("accessKeyRequest.xml"))
+                WireMock.post("/api/").withRequestBody(WireMock.containing("username=john&password=pass")).willReturn(
+                    WireMock.aResponse().withBodyFile("accessKeyRequest.xml")
+                )
             )
 
-            val populiWithUsernamePassword =
-                Populi.Builder().withBaseUrl("http://localhost:$WIREMOCK_PORT/").withUsername("john")
-                    .withPassword("pass").build()
+            val populiWithUsernamePassword = Populi.Builder()
+                .withBaseUrl("http://localhost:$WIREMOCK_PORT/")
+                .withUsername("john")
+                .withPassword("pass")
+                .build()
 
             stubForPopuli("getDegrees", getDegreesXml)
 
@@ -58,29 +63,37 @@ object ClientSpec : Spek({
             assertPrograms(populi.getPrograms())
         }
 
-        it("send request, receive response and parse it into AcademicYear"){
+        it("send request, receive response and parse it into AcademicYear") {
             stubForPopuli("getAcademicYears", getAcademicYearsXml)
             assertAcademicYears(populi.getAcademicYears())
         }
 
-        it("send request, receive response and parse it into AcademicTerm"){
+        it("send request, receive response and parse it into AcademicTerm") {
             stubForPopuli("getAcademicTerms", getAcademicTermsXml)
             assertAcademicTerms(populi.getAcademicTerms())
         }
 
-        it("send request, receive response and parse it into Course"){
+        it("send request, receive response and parse it into Course") {
             stubForPopuli("getCourseCatalog", getCourseCatalogXml)
             assertCourses(populi.getCourseCatalog())
             assertCourses(populi.getCourseCatalog(true)) //better to test with retired courses
         }
 
-        it("send request, receive response and parse it into CourseGroup"){
+        it("send request, receive response and parse it into CourseGroup") {
             stubForPopuli("getCourseGroups", getCourseGroupsXml)
             assertCourseGroups(populi.getCourseGroups())
         }
 
+        it("send request, receive response and parse it into CourseGroupInfo"){
+            stubForPopuli("getCourseGroupInfo", getCourseGroupInfoXml)
+            assertCourseGroupInfo(populi.getCourseGroupInfo(1111))
+            assertCourseGroupInfo(populi.getCourseGroupInfo(1111, 2222))
+        }
+
         xit("real") {
-            val input = Paths.get("${System.getProperty("user.dir")}\\local.properties").toFile().inputStream()
+            val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
+                .toFile()
+                .inputStream()
             val p = Properties()
             p.load(input)
 
@@ -91,16 +104,20 @@ object ClientSpec : Spek({
                 .withDebugFlag(true)
                 .build()
 
-            println(real.getRaw("getAcademicTerms"))
+            println(real.getRaw("getCourseGroups"))
+
+            val cgi = real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt())
+            println(cgi)
         }
 
         afterGroup { wireMockServer.stop() }
     }
 })
 
-fun stubForPopuli(task: String, xml: String){
+fun stubForPopuli(task: String, xml: String) {
     WireMock.stubFor(
-        WireMock.post("/api/").withRequestBody(WireMock.containing("access_key=$TEST_API_ACCESS_KEY&task=$task"))
-            .willReturn(WireMock.aResponse().withBody(xml))
+        WireMock.post("/api/").withRequestBody(WireMock.containing("access_key=$TEST_API_ACCESS_KEY&task=$task")).willReturn(
+            WireMock.aResponse().withBody(xml)
+        )
     )
 }
