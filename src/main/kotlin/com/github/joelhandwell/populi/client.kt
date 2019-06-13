@@ -39,17 +39,17 @@ class Populi(
             val builder = Retrofit.Builder().baseUrl(baseUrl ?: throw RuntimeException("baseUrl is null"))
                 .addConverterFactory(JaxbConverterFactory.create())
 
-            val api = if(debugFlag){
+            val api = if (debugFlag) {
                 builder.addConverterFactory(ScalarsConverterFactory.create())
-            }else{
+            } else {
                 builder
             }.build().create(PopuliApi::class.java)
 
             if (accessKey == null) {
                 log.info("fetching accessKey with username and password")
                 val response = api.requestAccessKey(
-                    username ?: throw RuntimeException("username null"),
-                    password ?: throw RuntimeException("password null")
+                    username ?: throw RuntimeException("username null"), password
+                        ?: throw RuntimeException("password null")
                 )
 
                 val body = sendRequest(response)
@@ -103,6 +103,14 @@ class Populi(
      * Returns all academic terms. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getAcademicTerms)
      */
     fun getAcademicTerms(): MutableList<AcademicTerm> = sendRequest(this.api.getAcademicTerms(accessKey)).academic_term
+
+    /**
+     * Returns courses from your catalog (only active courses are returned by default). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseCatalog)
+     *
+     * @param include_retired If set to true, retired courses will be returned as well. Not required.
+     */
+    fun getCourseCatalog(include_retired: Boolean = false): MutableList<Course> =
+        sendRequest(this.api.getCourseCatalog(accessKey, include_retired = if (include_retired) 1 else null)).course
 }
 
 interface PopuliApi {
@@ -113,6 +121,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPrograms"): Call<ProgramResponse>
     @FormUrlEncoded @POST(API_URI) fun getAcademicYears(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getAcademicYears"): Call<AcademicYearResponse>
     @FormUrlEncoded @POST(API_URI) fun getAcademicTerms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getAcademicTerms"): Call<AcademicTermResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseCatalog(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseCatalog", @Field("include_retired") include_retired: Int? = null): Call<CourseResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

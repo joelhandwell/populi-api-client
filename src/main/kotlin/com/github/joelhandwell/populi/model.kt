@@ -89,10 +89,10 @@ data class CampusResponse(
 data class Program(
     var id: Int,
     var name: String,
-    var units: String,
-    var graduate_level: Int,
-    var status: String,
-    var default: Int
+    var units: String? = null,
+    var graduate_level: Int? = null,
+    var status: String? = null,
+    var default: Int? = null
 )
 
 @XmlRootElement(name = "response")
@@ -129,4 +129,25 @@ data class AcademicTerm(
 @XmlRootElement(name = "response")
 data class AcademicTermResponse(
     var academic_term: MutableList<AcademicTerm> = mutableListOf()
+)
+
+@XmlRootElement(name = "course")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class Course(
+    var courseid: Int,
+    var name: String,
+    var abbrv: String,
+    var description: String,
+    var credits: Double,
+    var hours: Double,
+    var status: String,
+    var department_id: Int,
+    var department_name: String,
+
+    @XmlElementWrapper(name = "programs") var program: MutableList<Program> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+data class CourseResponse(
+    var course: MutableList<Course> = mutableListOf()
 )
