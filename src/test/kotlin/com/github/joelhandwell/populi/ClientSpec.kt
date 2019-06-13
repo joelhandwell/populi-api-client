@@ -90,6 +90,11 @@ object ClientSpec : Spek({
             assertCourseGroupInfo(populi.getCourseGroupInfo(1111, 2222))
         }
 
+        it("send request, receive response and parse it into CourseInstance"){
+            stubForPopuli("getTermCourseInstances", getTermCourseInstancesXml)
+            assertTermCourseInstanceResponses(populi.getTermCourseInstances(1111))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -104,10 +109,11 @@ object ClientSpec : Spek({
                 .withDebugFlag(true)
                 .build()
 
-            println(real.getRaw("getCourseGroups"))
+            //println(real.getRaw("getCourseGroups"))
+            //println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
 
-            val cgi = real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt())
-            println(cgi)
+            //println(real.getAcademicTerms())
+            println(real.getTermCourseInstances(p.getProperty("real.term_id").toInt()))
         }
 
         afterGroup { wireMockServer.stop() }

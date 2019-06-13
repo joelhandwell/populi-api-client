@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.joelhandwell:populi-api-client:1.0.6'
+    implementation 'com.github.joelhandwell:populi-api-client:1.0.7'
 }
 ```
 
@@ -215,7 +215,7 @@ fun clientWithAccessKey(){
 | TaggedPeople                      | get            | [getTaggedPeople](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTaggedPeople)                                                 |<ul><li> - [ ] </li></ul> |
 | Tags                              | get            | [getTags](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTags)                                                                 |<ul><li> - [ ] </li></ul> |
 | TermBillingInfo                   | get            | [getTermBillingInfo](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermBillingInfo)                                           |<ul><li> - [ ] </li></ul> |
-| TermCourseInstances               | get            | [getTermCourseInstances](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermCourseInstances)                                   |<ul><li> - [ ] </li></ul> |
+| TermCourseInstances               | get            | [getTermCourseInstances](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermCourseInstances)                                   |<ul><li> - [x] </li></ul> |
 | TermEnrollment                    | get            | [getTermEnrollment](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermEnrollment)                                             |<ul><li> - [ ] </li></ul> |
 | TermStudents                      | get            | [getTermStudents](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermStudents)                                                 |<ul><li> - [ ] </li></ul> |
 | TermTuitionScheduleFromStudent    | remove         | [removeTermTuitionScheduleFromStudent](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#removeTermTuitionScheduleFromStudent)       |<ul><li> - [ ] </li></ul> |

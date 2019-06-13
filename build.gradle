@@ -16,7 +16,7 @@ plugins {
 }
 
 group 'com.github.joelhandwell'
-version '1.0.6'
+version '1.0.7'
 
 repositories {
     jcenter()

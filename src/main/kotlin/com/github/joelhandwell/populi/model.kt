@@ -176,3 +176,38 @@ data class CourseGroupInfoResponse(
     @XmlElementWrapper(name = "specializations_requiring_course_group")
     var specialization: MutableList<Specialization> = mutableListOf()
 )
+
+@XmlRootElement(name = "course_instance")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class CourseInstance(
+    var instanceid: Int,
+    var courseid: Int,
+    var name: String,
+    var abbrv: String,
+    var section: Int,
+    var primary_faculty_id: Int,
+    var primary_faculty_name: String,
+    var description: String,
+    var department_id: Int,
+    var department_name: String,
+    var credits: Double,
+    var hours: Double,
+    var delivery_method_id: Int,
+    var delivery_method_name: String,
+    var campus_id: Int,
+    var campus_name: String,
+    var start_date: LocalDate,
+    var end_date: LocalDate,
+    var open_to_students_date: LocalDate,
+    var closed_to_students_date: LocalDate,
+    var max_enrolled: Int,
+    var max_auditors: Int,
+    var published: Int,
+
+    @XmlElementWrapper(name = "programs") var program: MutableList<Program> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+data class TermCourseInstanceResponse(
+    var course_instance : MutableList<CourseInstance> = mutableListOf()
+)

@@ -6,17 +6,17 @@ import java.io.StringWriter
 import javax.xml.bind.JAXB
 import kotlin.test.assertEquals
 
-val c = mutableListOf(
+private val c = mutableListOf(
     Course(98434, "English 101", "ENG101", null, 2.00, 3.00, null, 2986, "English"),
     Course(98435, "English 102", "ENG102", null, 2.00, 3.00, null, 2986, "English")
 )
 
-val d = mutableListOf(
+private val d = mutableListOf(
     Degree(id = 1, abbrv = "B.A.", name = "Bachelor of Arts"),
     Degree(id = 2, abbrv = "A.A.", name = "Associate of Arts")
 )
 
-val s = mutableListOf(
+private val s = mutableListOf(
     Specialization(id = 513, abbrv = "ENG", name = "English"),
     Specialization(id = 436, abbrv = "MUS", name = "Music")
 )

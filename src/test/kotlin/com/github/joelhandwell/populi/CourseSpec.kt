@@ -7,7 +7,7 @@ import javax.xml.bind.JAXB
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-val p = mutableListOf(
+private val p = mutableListOf(
     Program(id = 2222, name = "Undergraduate"), Program(id = 3333, name = "Registered Nursing")
 )
 
