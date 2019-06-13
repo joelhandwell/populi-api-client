@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.joelhandwell:populi-api-client:1.0.5'
+    implementation 'com.github.joelhandwell:populi-api-client:1.0.6'
 }
 ```
 
@@ -40,8 +40,8 @@ fun clientWithAccessKey(){
 
 | subject                           | operation type | task                                                                                                                                                       | jaxb impl status         |
 |-----------------------------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
-| AcademicTerms                     | get            | [getAcademicTerms](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getAcademicTerms)                                               |<ul><li> - [ ] </li></ul> |
-| AcademicYears                     | get            | [getAcademicYears](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getAcademicYears)                                               |<ul><li> - [ ] </li></ul> |
+| AcademicTerms                     | get            | [getAcademicTerms](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getAcademicTerms)                                               |<ul><li> - [x] </li></ul> |
+| AcademicYears                     | get            | [getAcademicYears](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getAcademicYears)                                               |<ul><li> - [x] </li></ul> |
 | Address                           | add            | [addAddress](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#addAddress)                                                           |<ul><li> - [ ] </li></ul> |
 | Address                           | delete         | [deleteAddress](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#deleteAddress)                                                     |<ul><li> - [ ] </li></ul> |
 | Address                           | update         | [updateAddress](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#updateAddress)                                                     |<ul><li> - [ ] </li></ul> |

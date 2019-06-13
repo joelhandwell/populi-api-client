@@ -1,5 +1,7 @@
 package com.github.joelhandwell.populi
 
+import java.time.LocalDate
+import java.time.Year
 import javax.xml.bind.annotation.*
 
 @XmlRootElement(name = "account_id")
@@ -96,4 +98,35 @@ data class Program(
 @XmlRootElement(name = "response")
 data class ProgramResponse(
     var program: MutableList<Program> = mutableListOf()
+)
+
+@XmlRootElement(name = "academic_year")
+data class AcademicYear(
+    var yearid: Int,
+    var start_year: Int,
+    var end_year: Int
+)
+
+@XmlRootElement(name = "response")
+data class AcademicYearResponse(
+    var academic_year: MutableList<AcademicYear> = mutableListOf()
+)
+
+@XmlRootElement(name = "academic_term")
+data class AcademicTerm(
+    var termid: Int,
+    var name: String,
+    var fullname: String,
+    var start_date: LocalDate,
+    var end_date: LocalDate,
+    var type: String,
+    var yearid: Int,
+    var start_year: Year,
+    var end_year: Year,
+    var nonstandard: Int
+)
+
+@XmlRootElement(name = "response")
+data class AcademicTermResponse(
+    var academic_term: MutableList<AcademicTerm> = mutableListOf()
 )

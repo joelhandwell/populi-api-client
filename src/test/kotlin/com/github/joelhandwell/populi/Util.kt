@@ -1,5 +1,7 @@
 package com.github.joelhandwell.populi
 
+import kotlin.reflect.KFunction
+
 const val XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
 const val WIREMOCK_PORT = 8080
 const val TEST_API_ACCESS_KEY =

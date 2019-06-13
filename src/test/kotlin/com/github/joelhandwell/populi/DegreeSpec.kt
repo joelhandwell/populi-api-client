@@ -162,6 +162,46 @@ object DegreeSpec : Spek({
     }
 })
 
+const val getDegreesXml = """
+<request>
+    <degree>
+        <id>1</id>
+        <name>Test Degree</name>
+        <abbrv>TD</abbrv>
+        <program_id>11</program_id>
+        <program_name>Test Program Name</program_name>
+        <department_id>111</department_id>
+        <department_name>Test Department</department_name>
+        <status>ACTIVE</status>
+        <graduate>1</graduate>
+        <length>15</length>
+        <length_unit>MONTHS</length_unit>
+        <specializations>
+            <specialization>
+                <id>1</id>
+                <type>MAJOR</type>
+                <name>Test Specialization Name</name>
+                <description>Test specialization description</description>
+                <abbrv>TSD</abbrv>
+                <status>ACTIVE</status>
+                <cip_code>52.0201: Business Administration and Management, General</cip_code>
+            </specialization>
+        </specializations>
+    </degree>
+    <degree>
+        <id>2</id>
+        <specializations>
+            <specialization>
+                <id>2</id>
+            </specialization>
+            <specialization>
+                <id>3</id>
+            </specialization>
+        </specializations>
+    </degree>
+</request>
+"""
+
 fun assertSpecialization(s: Specialization) {
     assertEquals(1, s.id)
     assertEquals("MAJOR", s.type)
