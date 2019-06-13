@@ -74,6 +74,11 @@ object ClientSpec : Spek({
             assertCourses(populi.getCourseCatalog(true)) //better to test with retired courses
         }
 
+        it("send request, receive response and parse it into CourseGroup"){
+            stubForPopuli("getCourseGroups", getCourseGroupsXml)
+            assertCourseGroups(populi.getCourseGroups())
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties").toFile().inputStream()
             val p = Properties()

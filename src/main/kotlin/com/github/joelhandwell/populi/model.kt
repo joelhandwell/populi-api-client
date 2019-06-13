@@ -151,3 +151,14 @@ data class Course(
 data class CourseResponse(
     var course: MutableList<Course> = mutableListOf()
 )
+
+@XmlRootElement(name = "course_group")
+data class CourseGroup(
+    var id: Int, var abbreviation: String, var name: String
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class CourseGroupResponse(
+    @XmlElementWrapper(name = "course_groups") var course_group: MutableList<CourseGroup> = mutableListOf()
+)
