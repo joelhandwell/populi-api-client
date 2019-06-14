@@ -106,7 +106,6 @@ class Populi(
 
     /**
      * Returns courses from your catalog (only active courses are returned by default). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseCatalog)
-     *
      * @param include_retired If set to true, retired courses will be returned as well. Not required.
      */
     fun getCourseCatalog(include_retired: Boolean = false): MutableList<Course> =
@@ -119,7 +118,6 @@ class Populi(
 
     /**
      * Returns information about a course group.[ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseGroupInfo)
-     *
      * @param course_group_id The numeric ID of the course group you're interested in. Required.
      * @param academic_year_id The numeric ID of the academic year you're interested in. Defaults to the current academic year ID. Not required.
      */
@@ -127,7 +125,6 @@ class Populi(
 
     /**
      * Returns course instances for a given term (only active course instances are returned by default). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstance)
-     *
      * @param term_id The numeric ID of the term you're interested in. Required.
      */
     fun getTermCourseInstances(term_id: Int) = sendRequest(this.api.getTermCourseInstances(accessKey, term_id = term_id)).course_instance
@@ -138,7 +135,6 @@ class Populi(
      * If the person has a profile picture, the <image> element will contain base64 encoded binary data. The <image> element won't be returned unless the person has a profile picture set.
      * There is a limit of 1000 results in the response.
      * The "num_results" attribute (in the <response> element) indicates the total number of possible results (regardless of the limit or the page parameter).
-     *
      * @param term_id Numeric ID of the term you're interested in. Defaults to the current academic term_id. Not Required.
      * @param program_id Possible values: ALL (default), NONE, or any numeric program_id. Not Required.
      * @param campus_id Possible values: ALL (default), 0 (None), or any numeric campus_id. Not Required.
@@ -146,6 +142,12 @@ class Populi(
      * @param page We limit the number of results returned (see comments), so which "page" would you like (e.g. page=1, page=2, page=3). Not Required.
      */
     fun getTermStudents(term_id: Int? = null, program_id: Int? = null, campus_id: Int? = null, return_image_data: Boolean = false, page: Int? = null) = sendRequest(this.api.getTermStudents(accessKey, term_id = term_id, program_id = program_id, campus_id = campus_id, return_image_data = if(return_image_data) 1 else 0, page = page))
+
+    /**
+     * Returns term enrollment for a particular academic term.
+     * @param term_id Numeric ID of the academic term. Required.
+     */
+    fun getTermEnrollment(term_id: Int) = sendRequest(this.api.getTermEnrollment(accessKey, term_id = term_id)).enrollment
 }
 
 interface PopuliApi {
@@ -161,6 +163,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseGroupInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseGroupInfo", @Field("course_group_id") course_group_id: Int, @Field("academic_year_id") academic_year_id: Int? = null): Call<CourseGroupInfoResponse>
     @FormUrlEncoded @POST(API_URI) fun getTermCourseInstances(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermCourseInstances", @Field("term_id") term_id: Int): Call<TermCourseInstanceResponse>
     @FormUrlEncoded @POST(API_URI) fun getTermStudents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermStudents", @Field("term_id") term_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("campus_id") campus_id: Int? = null, @Field("return_image_data") return_image_data: Int? = null, @Field("page") page: Int? = null): Call<TermStudentResponse>
+    @FormUrlEncoded @POST(API_URI) fun getTermEnrollment(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermEnrollment", @Field("term_id") term_id: Int): Call<TermEnrollmentResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

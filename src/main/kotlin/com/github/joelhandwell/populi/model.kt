@@ -245,3 +245,23 @@ data class Student(
 data class TermStudentResponse(
     @XmlAttribute(name = "num_results") var num_results: Int, var student: MutableList<Student> = mutableListOf()
 )
+
+@XmlRootElement(name = "enrollment")
+data class Enrollment(
+    var person_id: Int,
+    var academic_term_id: Int,
+    var instance_id: Int,
+    var catalog_course_id: Int,
+    var status: String,
+    var credits: Double,
+    var hours: Double,
+    var academic_term_name: String,
+    var course_abbrv: String,
+    var course_name: String,
+    var section: Int
+)
+
+@XmlRootElement(name = "response")
+data class TermEnrollmentResponse(
+    var enrollment: MutableList<Enrollment> = mutableListOf()
+)
