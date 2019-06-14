@@ -211,3 +211,37 @@ data class CourseInstance(
 data class TermCourseInstanceResponse(
     var course_instance : MutableList<CourseInstance> = mutableListOf()
 )
+
+@XmlRootElement(name = "student")
+data class Student(
+    var person_id: Int,
+    var student_id: String,
+    var first: String,
+    var last: String,
+    var middle_name: String? = null,
+    var preferred_name: String? = null,
+    var username: String? = null,
+    var prefix: String? = null,
+    var suffix: String? = null,
+    var former_name: String? = null,
+    var gender: String,
+    var birth_date: LocalDate,
+    var image: String,
+    var program_id: Int,
+    var program_name: String,
+    var standing: String,
+    var degree: String,
+    var full_time: Int,
+    var units_attempted: Double,
+    var units_granted: Double,
+    var term_gpa: Double,
+    var cum_units_granted: Double,
+    var cum_gpa: Double,
+    var cum_gpa_including_transfer: Double
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class TermStudentResponse(
+    @XmlAttribute(name = "num_results") var num_results: Int, var student: MutableList<Student> = mutableListOf()
+)

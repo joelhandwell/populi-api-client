@@ -84,15 +84,20 @@ object ClientSpec : Spek({
             assertCourseGroups(populi.getCourseGroups())
         }
 
-        it("send request, receive response and parse it into CourseGroupInfo"){
+        it("send request, receive response and parse it into CourseGroupInfo") {
             stubForPopuli("getCourseGroupInfo", getCourseGroupInfoXml)
             assertCourseGroupInfo(populi.getCourseGroupInfo(1111))
             assertCourseGroupInfo(populi.getCourseGroupInfo(1111, 2222))
         }
 
-        it("send request, receive response and parse it into CourseInstance"){
+        it("send request, receive response and parse it into CourseInstance") {
             stubForPopuli("getTermCourseInstances", getTermCourseInstancesXml)
             assertTermCourseInstanceResponses(populi.getTermCourseInstances(1111))
+        }
+
+        it("send request, receive response and parse it into Student") {
+            stubForPopuli("getTermStudents", getTermStudentsXml)
+            assertTermStudentResponse(populi.getTermStudents())
         }
 
         xit("real") {
@@ -113,7 +118,9 @@ object ClientSpec : Spek({
             //println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
 
             //println(real.getAcademicTerms())
-            println(real.getTermCourseInstances(p.getProperty("real.term_id").toInt()))
+            val termId = p.getProperty("real.term_id").toInt()
+            //println(real.getTermCourseInstances(termId))
+            println(real.getTermStudents(term_id = termId))
         }
 
         afterGroup { wireMockServer.stop() }
