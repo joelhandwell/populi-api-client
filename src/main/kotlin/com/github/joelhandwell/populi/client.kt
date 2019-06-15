@@ -167,6 +167,14 @@ class Populi(
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
     fun getCourseInstance(instance_id: Int) = sendRequest(this.api.getCourseInstance(accessKey, instance_id = instance_id))
+
+    /**
+     * Assignment groups are worth a fixed percentage of the course (e.g. Quizzes are worth 10% of each student's final grade), and you can then add as many assignments within the Quizzes group as you like,
+     * or even add new assignments to the group part-way through the term, and be guaranteed that the value of all those assignments together will still equal 10% of the course.
+     * Even if no assignment groups are set up, a default assignment group of "Other" with a <groupid> of 0 will always be returned (and worth 100% of the course). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceAssignmentGroups)
+     * @param instance_id The numeric ID of the course instance you're interested in. Required.
+     */
+    fun getCourseInstanceAssignmentGroups(instance_id: Int) = sendRequest(this.api.getCourseInstanceAssignmentGroups(accessKey, instance_id = instance_id))
 }
 
 interface PopuliApi {
@@ -186,6 +194,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getTuitionSchedules(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTuitionSchedules"): Call<TuitionScheduleResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentTermTuitionSchedules(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentTermTuitionSchedules", @Field("person_id") person_id: Int, @Field("academic_term_id") academic_term_id: Int): Call<StudentTermTuitionScheduleResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstance", @Field("instance_id") instance_id: Int): Call<CourseInstance>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceAssignmentGroups(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceAssignmentGroups", @Field("instance_id") instance_id: Int): Call<AssignmentGroupResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

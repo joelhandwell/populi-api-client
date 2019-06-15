@@ -306,6 +306,21 @@ data class TermCourseInstanceResponse(
     var course_instance: MutableList<CourseInstance> = mutableListOf()
 )
 
+@XmlRootElement(name = "assignment_group")
+data class AssignmentGroup(
+    var groupid: Int,
+    var name: String,
+    var weight_percent: Int,
+    var extra_credit: Int,
+    var drop_lowest: Int
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class AssignmentGroupResponse(
+    var assignment_group: MutableList<AssignmentGroup> = mutableListOf()
+)
+
 @XmlRootElement(name = "student")
 data class Student(
     var person_id: Int,
