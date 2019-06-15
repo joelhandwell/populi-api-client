@@ -35,7 +35,7 @@ object DegreeSpec : Spek({
             val writer = StringWriter()
             JAXB.marshal(d, writer)
 
-            val xml = """
+            /*val xml = """
             <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
             <degree>
                 <id>1</id>
@@ -79,7 +79,7 @@ object DegreeSpec : Spek({
                     </specialization>
                 </specializations>
             </degree>
-            """.trimIndent()
+            """.trimIndent()*/
 
             // skip as Specialization.abbrev have variants.
             // assertEquals(xml.trim(), writer.toString().trim())

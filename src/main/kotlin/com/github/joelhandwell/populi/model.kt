@@ -9,11 +9,11 @@ import javax.xml.bind.annotation.*
 import javax.xml.bind.annotation.adapters.XmlAdapter
 
 @XmlRootElement(name = "account_id")
-class AccountId(var id: Int)
+data class AccountId(var id: Int)
 
 @XmlRootElement(name = "response")
 @XmlAccessorType(XmlAccessType.FIELD)
-class AccessKeyResponse(
+data class AccessKeyResponse(
     var access_key: String, var account_id: AccountId, var account_type: String
 )
 
@@ -273,14 +273,10 @@ data class TermEnrollmentResponse(
 class MonetaryAmountAdapter : XmlAdapter<String, MonetaryAmount>() {
 
     @Throws(Exception::class)
-    override fun marshal(value: MonetaryAmount?): String? {
-        return NumberFormat.getCurrencyInstance().format(value?.number).replace("$", "")
-    }
+    override fun marshal(value: MonetaryAmount): String = NumberFormat.getCurrencyInstance().format(value.number).replace("$", "")
 
     @Throws(Exception::class)
-    override fun unmarshal(s: String): MonetaryAmount {
-        return Money.parse("USD $s")
-    }
+    override fun unmarshal(s: String): MonetaryAmount = Money.parse("USD $s")
 }
 
 @XmlRootElement(name = "tuition_schedule_bracket")
