@@ -2,8 +2,11 @@ package com.github.joelhandwell.populi
 
 import org.javamoney.moneta.Money
 import java.text.NumberFormat
+import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.Year
+import java.time.format.DateTimeFormatter
 import javax.money.MonetaryAmount
 import javax.xml.bind.annotation.*
 import javax.xml.bind.annotation.adapters.XmlAdapter
@@ -181,39 +184,126 @@ data class CourseGroupInfoResponse(
     var specialization: MutableList<Specialization> = mutableListOf()
 )
 
-@XmlRootElement(name = "course_instance")
+@XmlRootElement(name = "meeting_time")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class MeetingTime(
+    var start_time: LocalTime,
+    var end_time: LocalTime,
+    var room: String,
+    var building: String,
+
+    @XmlElementWrapper(name = "weekdays")
+    var day: MutableList<DayOfWeek>
+)
+
+@XmlRootElement(name = "person")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class Faculty(
+    var primary: Int,
+    var personid: Int,
+    var first: String,
+    var last: String,
+    var preferred: String,
+    var displayname: String,
+    var is_teaching_assistant: Int
+)
+
+@XmlRootElement(name = "supply")
+data class Supply(
+    var id: Int,
+    var name: String,
+    var required: Int
+)
+
+@XmlRootElement(name = "author")
+data class Author(
+    var id: Int,
+    var name: String
+)
+
+@XmlRootElement(name = "book")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class Book(
+    var id: Int,
+    var title: String,
+    var required: Int,
+    var isbn: String,
+    var ean: String,
+    var publisher: String,
+    var publish_date: String,
+    var edition: String,
+    var binding: String,
+    var description: String,
+    var amazon_url: String,
+    var image_url_large: String,
+    var image_height_large: Int,
+    var image_width_large: Int,
+    var image_url_medium: String,
+    var image_height_medium: Int,
+    var image_width_medium: Int,
+    var image_url_small: String,
+    var image_height_small: Int,
+    var image_width_small: Int,
+
+    @XmlElementWrapper(name = "authors")
+    var author: MutableList<Author> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class CourseInstance(
-    var instanceid: Int,
-    var courseid: Int,
-    var name: String,
-    var abbrv: String,
-    var section: Int,
-    var primary_faculty_id: Int,
-    var primary_faculty_name: String,
-    var description: String,
-    var department_id: Int,
-    var department_name: String,
-    var credits: Double,
-    var hours: Double,
-    var delivery_method_id: Int,
-    var delivery_method_name: String,
-    var campus_id: Int,
-    var campus_name: String,
-    var start_date: LocalDate,
-    var end_date: LocalDate,
-    var open_to_students_date: LocalDate,
-    var closed_to_students_date: LocalDate,
-    var max_enrolled: Int,
-    var max_auditors: Int,
-    var published: Int,
+    var instanceid: Int, //                                          appears in result of both tasks
+    var name: String, //                                             appears in result of both tasks
+    var abbrv: String, //                                            appears in result of both tasks
+    var section: Int, //                                             appears in result of both tasks
+    var credits: Double, //                                          appears in result of both tasks
+    var hours: Double, //                                            appears in result of both tasks
+    var description: String, //                                      appears in result of both tasks
+    var start_date: LocalDate, //                                    appears in result of both tasks
+    var end_date: LocalDate, //                                      appears in result of both tasks
+    var open_to_students_date: LocalDate, //                         appears in result of both tasks
+    var closed_to_students_date: LocalDate, //                       appears in result of both tasks
+    var max_enrolled: Int, //                                        appears in result of both tasks
+    var max_auditors: Int, //                                        appears in result of both tasks
+    var published: Int, //                                           appears in result of both tasks
 
-    @XmlElementWrapper(name = "programs") var program: MutableList<Program> = mutableListOf()
+    var courseid: Int? = null, //                                    appears in result of getTermCourseInstance(term_id: Int)
+    var primary_faculty_id: Int? = null, //                          appears in result of getTermCourseInstance(term_id: Int)
+    var primary_faculty_name: String? = null, //                     appears in result of getTermCourseInstance(term_id: Int)
+    var department_id: Int? = null, //                               appears in result of getTermCourseInstance(term_id: Int)
+    var department_name: String? = null, //                          appears in result of getTermCourseInstance(term_id: Int)
+    var delivery_method_id: Int? = null, //                          appears in result of getTermCourseInstance(term_id: Int)
+    var delivery_method_name: String? = null, //                     appears in result of getTermCourseInstance(term_id: Int)
+    var campus_id: Int? = null, //                                   appears in result of getTermCourseInstance(term_id: Int)
+    var campus_name: String? = null, //                              appears in result of getTermCourseInstance(term_id: Int)
+
+    @XmlElementWrapper(name = "programs")
+    var program: MutableList<Program> = mutableListOf(), //          appears in result of getTermCourseInstance(term_id: Int)
+
+    var affects_earned_credits: Int? = null, //                      appears in result of getCourseInstance(instance_id: Int)
+    var pass_fail: Int? = null, //                                   appears in result of getCourseInstance(instance_id: Int)
+    var finalized: Int? = null, //                                   appears in result of getCourseInstance(instance_id: Int)
+    var termid: Int? = null, //                                      appears in result of getCourseInstance(instance_id: Int)
+    var term_name: String? = null, //                                appears in result of getCourseInstance(instance_id: Int)
+    var allow_auditor_assignments: Int? = null, //                   appears in result of getCourseInstance(instance_id: Int)
+    var allow_auditor_attendance: Int? = null, //                    appears in result of getCourseInstance(instance_id: Int)
+
+    @XmlElementWrapper(name = "schedule")
+    var meeting_time: MutableList<MeetingTime> = mutableListOf(), // appears in result of getCourseInstance(instance_id: Int)
+
+    @XmlElementWrapper(name = "faculty")
+    var person: MutableList<Faculty> = mutableListOf(), //           appears in result of getCourseInstance(instance_id: Int)
+
+    @XmlElementWrapper(name = "supplies")
+    var supply: MutableList<Supply> = mutableListOf(), //            appears in result of getCourseInstance(instance_id: Int)
+
+    @XmlElementWrapper(name = "books")
+    var book: MutableList<Book> = mutableListOf() //                 appears in result of getCourseInstance(instance_id: Int)
 )
 
 @XmlRootElement(name = "response")
 data class TermCourseInstanceResponse(
-    var course_instance : MutableList<CourseInstance> = mutableListOf()
+    var course_instance: MutableList<CourseInstance> = mutableListOf()
 )
 
 @XmlRootElement(name = "student")
@@ -273,7 +363,8 @@ data class TermEnrollmentResponse(
 class MonetaryAmountAdapter : XmlAdapter<String, MonetaryAmount>() {
 
     @Throws(Exception::class)
-    override fun marshal(value: MonetaryAmount): String = NumberFormat.getCurrencyInstance().format(value.number).replace("$", "")
+    override fun marshal(value: MonetaryAmount): String =
+        NumberFormat.getCurrencyInstance().format(value.number).replace("$", "")
 
     @Throws(Exception::class)
     override fun unmarshal(s: String): MonetaryAmount = Money.parse("USD $s")
@@ -324,3 +415,23 @@ data class StudentTermTuitionScheduleResponse(
     @XmlElementWrapper(name = "tuition_schedules")
     var tuition_schedule: MutableList<StudentTermTuitionSchedule> = mutableListOf()
 )
+
+val localTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mma")
+
+class ClockLocalTimeAdapter : XmlAdapter<String, LocalTime>() {
+
+    @Throws(Exception::class)
+    override fun marshal(value: LocalTime): String = value.format(localTimeFormatter).toLowerCase()
+
+    @Throws(Exception::class)
+    override fun unmarshal(s: String): LocalTime = LocalTime.parse(s.toUpperCase(), localTimeFormatter)
+}
+
+class DayOfWeekAdapter : XmlAdapter<String, DayOfWeek>() {
+
+    @Throws(Exception::class)
+    override fun marshal(value: DayOfWeek): String = value.toString().substring(0..1)
+
+    @Throws(Exception::class)
+    override fun unmarshal(s: String): DayOfWeek = DayOfWeek.values().first { it.toString().startsWith(s) }
+}

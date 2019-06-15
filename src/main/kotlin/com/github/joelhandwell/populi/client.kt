@@ -160,6 +160,13 @@ class Populi(
      * @param academic_term_id The numeric ID of the academic term you're interested in. Required.
      */
     fun getStudentTermTuitionSchedules(person_id: Int, academic_term_id: Int) = sendRequest(this.api.getStudentTermTuitionSchedules(accessKey, person_id = person_id, academic_term_id = academic_term_id)).tuition_schedule
+
+    /**
+     * A course instance is created each time a course from the catalog is offered in a particular term.
+     * If the same catalog course is offered multiple times in the same term, each instance will have a unique section number.[ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstance)
+     * @param instance_id The numeric ID of the course instance you're interested in. Required.
+     */
+    fun getCourseInstance(instance_id: Int) = sendRequest(this.api.getCourseInstance(accessKey, instance_id = instance_id))
 }
 
 interface PopuliApi {
@@ -178,6 +185,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getTermEnrollment(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermEnrollment", @Field("term_id") term_id: Int): Call<TermEnrollmentResponse>
     @FormUrlEncoded @POST(API_URI) fun getTuitionSchedules(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTuitionSchedules"): Call<TuitionScheduleResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentTermTuitionSchedules(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentTermTuitionSchedules", @Field("person_id") person_id: Int, @Field("academic_term_id") academic_term_id: Int): Call<StudentTermTuitionScheduleResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstance", @Field("instance_id") instance_id: Int): Call<CourseInstance>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
