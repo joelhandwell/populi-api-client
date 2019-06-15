@@ -124,7 +124,7 @@ class Populi(
     fun getCourseGroupInfo(course_group_id: Int, academic_year_id: Int? = null) = sendRequest(this.api.getCourseGroupInfo(accessKey, course_group_id = course_group_id, academic_year_id = academic_year_id))
 
     /**
-     * Returns course instances for a given term (only active course instances are returned by default). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstance)
+     * Returns course instances for a given term (only active course instances are returned by default). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermCourseInstances)
      * @param term_id The numeric ID of the term you're interested in. Required.
      */
     fun getTermCourseInstances(term_id: Int) = sendRequest(this.api.getTermCourseInstances(accessKey, term_id = term_id)).course_instance
