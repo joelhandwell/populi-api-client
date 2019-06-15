@@ -100,14 +100,19 @@ object ClientSpec : Spek({
             assertTermStudentResponse(populi.getTermStudents())
         }
 
-        it("send request, receive response and parse it into Enrollment"){
+        it("send request, receive response and parse it into Enrollment") {
             stubForPopuli("getTermEnrollment", getTermEnrollmentXml)
             assertTermEnrollments(populi.getTermEnrollment(1111))
         }
 
-        it("send request, receive response and parse it into TuitionSchedule"){
+        it("send request, receive response and parse it into TuitionSchedule") {
             stubForPopuli("getTuitionSchedules", getTuitionSchedulesXml)
             assertTuitionSchedules(populi.getTuitionSchedules())
+        }
+
+        it("send request, receive response and parse it into StudentTermTuitionSchedule") {
+            stubForPopuli("getStudentTermTuitionSchedules", getStudentTermTuitionSchedulesXml)
+            assertStudentTermTuitionSchedules(populi.getStudentTermTuitionSchedules(1111, 2222))
         }
 
         xit("real") {
@@ -124,15 +129,16 @@ object ClientSpec : Spek({
                 .withDebugFlag(true)
                 .build()
 
-            // test with your real populi account info
-            //println(real.getRaw("getCourseGroups"))
-            //println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
-
-            //println(real.getAcademicTerms())
-            //val termId = p.getProperty("real.term_id").toInt()
-            //println(real.getTermCourseInstances(termId))
-            //println(real.getTermStudents(term_id = termId))
-            //println(real.getTermEnrollment(termId))
+            /*
+            test with your real populi account info
+            println(real.getRaw("getCourseGroups"))
+            println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
+            println(real.getAcademicTerms())
+            val termId = p.getProperty("real.term_id").toInt()
+            println(real.getTermCourseInstances(termId))
+            println(real.getTermStudents(term_id = termId))
+            println(real.getTermEnrollment(termId))
+            */
 
             println(real.getTuitionSchedules())
         }

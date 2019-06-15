@@ -313,3 +313,18 @@ data class TuitionSchedule(
 data class TuitionScheduleResponse(
     var tuition_schedule: MutableList<TuitionSchedule> = mutableListOf()
 )
+
+@XmlRootElement(name = "tuition_schedule")
+data class StudentTermTuitionSchedule(
+    var id: Int,
+    var name: String,
+    var bracket_id: Int,
+    var bracket_name: String
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentTermTuitionScheduleResponse(
+    @XmlElementWrapper(name = "tuition_schedules")
+    var tuition_schedule: MutableList<StudentTermTuitionSchedule> = mutableListOf()
+)

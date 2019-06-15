@@ -144,15 +144,22 @@ class Populi(
     fun getTermStudents(term_id: Int? = null, program_id: Int? = null, campus_id: Int? = null, return_image_data: Boolean = false, page: Int? = null) = sendRequest(this.api.getTermStudents(accessKey, term_id = term_id, program_id = program_id, campus_id = campus_id, return_image_data = if(return_image_data) 1 else 0, page = page))
 
     /**
-     * Returns term enrollment for a particular academic term.
+     * Returns term enrollment for a particular academic term. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermEnrollment)
      * @param term_id Numeric ID of the academic term. Required.
      */
     fun getTermEnrollment(term_id: Int) = sendRequest(this.api.getTermEnrollment(accessKey, term_id = term_id)).enrollment
 
     /**
-     * Returns all information related to tuition schedules and brackets configured for the institution.
+     * Returns all information related to tuition schedules and brackets configured for the institution. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTuitionSchedules)
      */
     fun getTuitionSchedules() = sendRequest(this.api.getTuitionSchedules(accessKey)).tuition_schedule
+
+    /**
+     * Returns a student's term tuition schedules. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getStudentTermTuitionSchedules)
+     * @param person_id The numeric person ID of the student you're interested in. Required.
+     * @param academic_term_id The numeric ID of the academic term you're interested in. Required.
+     */
+    fun getStudentTermTuitionSchedules(person_id: Int, academic_term_id: Int) = sendRequest(this.api.getStudentTermTuitionSchedules(accessKey, person_id = person_id, academic_term_id = academic_term_id)).tuition_schedule
 }
 
 interface PopuliApi {
@@ -170,6 +177,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getTermStudents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermStudents", @Field("term_id") term_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("campus_id") campus_id: Int? = null, @Field("return_image_data") return_image_data: Int? = null, @Field("page") page: Int? = null): Call<TermStudentResponse>
     @FormUrlEncoded @POST(API_URI) fun getTermEnrollment(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermEnrollment", @Field("term_id") term_id: Int): Call<TermEnrollmentResponse>
     @FormUrlEncoded @POST(API_URI) fun getTuitionSchedules(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTuitionSchedules"): Call<TuitionScheduleResponse>
+    @FormUrlEncoded @POST(API_URI) fun getStudentTermTuitionSchedules(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentTermTuitionSchedules", @Field("person_id") person_id: Int, @Field("academic_term_id") academic_term_id: Int): Call<StudentTermTuitionScheduleResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
