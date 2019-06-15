@@ -1,8 +1,12 @@
 package com.github.joelhandwell.populi
 
+import org.javamoney.moneta.Money
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.Year
+import javax.money.MonetaryAmount
 import javax.xml.bind.annotation.*
+import javax.xml.bind.annotation.adapters.XmlAdapter
 
 @XmlRootElement(name = "account_id")
 class AccountId(var id: Int)
@@ -264,4 +268,48 @@ data class Enrollment(
 @XmlRootElement(name = "response")
 data class TermEnrollmentResponse(
     var enrollment: MutableList<Enrollment> = mutableListOf()
+)
+
+class MonetaryAmountAdapter : XmlAdapter<String, MonetaryAmount>() {
+
+    @Throws(Exception::class)
+    override fun marshal(value: MonetaryAmount?): String? {
+        return NumberFormat.getCurrencyInstance().format(value?.number).replace("$", "")
+    }
+
+    @Throws(Exception::class)
+    override fun unmarshal(s: String): MonetaryAmount {
+        return Money.parse("USD $s")
+    }
+}
+
+@XmlRootElement(name = "tuition_schedule_bracket")
+data class TuitionScheduleBracket(
+    var id: Int,
+    var units: String,
+    var min_units: Double,
+    var max_units: Double,
+    var flat_amount: MonetaryAmount,
+    var per_unit_amount: MonetaryAmount,
+    var per_unit_threshold: MonetaryAmount,
+    var in_use: Int,
+    var account_id: Int,
+    var account_name: String,
+    var account_number: Int
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class TuitionSchedule(
+    var id: Int,
+    var name: String,
+    var detail: String,
+
+    @XmlElementWrapper(name = "tuition_schedule_brackets")
+    var tuition_schedule_bracket: MutableList<TuitionScheduleBracket> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+data class TuitionScheduleResponse(
+    var tuition_schedule: MutableList<TuitionSchedule> = mutableListOf()
 )

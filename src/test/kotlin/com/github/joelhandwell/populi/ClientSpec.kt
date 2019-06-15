@@ -105,6 +105,11 @@ object ClientSpec : Spek({
             assertTermEnrollments(populi.getTermEnrollment(1111))
         }
 
+        it("send request, receive response and parse it into TuitionSchedule"){
+            stubForPopuli("getTuitionSchedules", getTuitionSchedulesXml)
+            assertTuitionSchedules(populi.getTuitionSchedules())
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -119,14 +124,17 @@ object ClientSpec : Spek({
                 .withDebugFlag(true)
                 .build()
 
+            // test with your real populi account info
             //println(real.getRaw("getCourseGroups"))
             //println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
 
             //println(real.getAcademicTerms())
-            val termId = p.getProperty("real.term_id").toInt()
+            //val termId = p.getProperty("real.term_id").toInt()
             //println(real.getTermCourseInstances(termId))
             //println(real.getTermStudents(term_id = termId))
-            println(real.getTermEnrollment(termId))
+            //println(real.getTermEnrollment(termId))
+
+            println(real.getTuitionSchedules())
         }
 
         afterGroup { wireMockServer.stop() }
