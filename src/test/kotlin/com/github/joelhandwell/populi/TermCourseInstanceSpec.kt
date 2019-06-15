@@ -65,8 +65,8 @@ private val c2 = CourseInstance(
     p
 )
 
-object CourseInstanceSpec : Spek({
-    describe("CourseInstance") {
+object TermCourseInstanceSpec : Spek({
+    describe("TermCourseInstance") {
         it("marshal to xml") {
             val r = TermCourseInstanceResponse(mutableListOf(c1, c2))
             val sw = StringWriter()
