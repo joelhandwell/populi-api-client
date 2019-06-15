@@ -200,5 +200,5 @@ private fun <T> sendRequest(call: Call<T>): T {
     if (!response.isSuccessful) {
         throw RuntimeException("request not success, error body: ${response.errorBody()}")
     }
-    return response.body() ?: throw RuntimeException("accessKey response body was null")
+    return response.body() ?: throw RuntimeException("response body was null")
 }
