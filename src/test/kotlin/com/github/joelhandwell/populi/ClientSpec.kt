@@ -130,6 +130,11 @@ object ClientSpec : Spek({
             assertAssignments(populi.getCourseInstanceAssignments(1111))
         }
 
+        it("send request, receive response and parse it into File") {
+            stubForPopuli("getCourseInstanceFiles", getCourseInstanceFilesXml)
+            assertCourseInstanceFiles(populi.getCourseInstanceFiles(1111))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -147,22 +152,20 @@ object ClientSpec : Spek({
             //val termId = p.getProperty("real.term_id").toInt()
             val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
 
-            /*
-            test with your real populi account info
-
+            /* test with your real populi account info
             println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
             println(real.getAcademicTerms())
             println(real.getTermCourseInstances(termId))
             println(real.getTermStudents(term_id = termId))
             println(real.getTermEnrollment(termId))
             println(real.getTuitionSchedules())
+            println(real.getTermCourseInstances(termId))
+            println(real.getCourseInstance(courseInstanceId))
+            println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
+            println(real.getRaw("getCourseInstanceAssignments", courseInstanceId))
             */
 
-            //println(real.getTermCourseInstances(termId))
-
-            //println(real.getCourseInstance(courseInstanceId))
-            //println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
-            println(real.getRaw("getCourseInstanceAssignments", courseInstanceId))
+            println(real.getCourseInstanceFiles(courseInstanceId))
         }
 
         afterGroup { wireMockServer.stop() }

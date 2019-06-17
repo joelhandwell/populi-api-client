@@ -376,6 +376,18 @@ data class AssignmentResponse(
     var assignment: MutableList<Assignment> = mutableListOf()
 )
 
+@XmlRootElement(name = "file")
+data class CourseInstanceFile(
+    var file_id: Int,
+    var name: String,
+    var content_type: String
+)
+
+@XmlRootElement(name = "response")
+data class CourseInstanceFileResponse(
+    var file: MutableList<CourseInstanceFile> = mutableListOf()
+)
+
 @XmlRootElement(name = "student")
 data class Student(
     var person_id: Int,
