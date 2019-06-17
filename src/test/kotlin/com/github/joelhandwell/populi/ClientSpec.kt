@@ -115,17 +115,17 @@ object ClientSpec : Spek({
             assertStudentTermTuitionSchedules(populi.getStudentTermTuitionSchedules(1111, 2222))
         }
 
-        it("send request, receive response and parse it into CourseInstance"){
+        it("send request, receive response and parse it into CourseInstance") {
             stubForPopuli("getCourseInstance", getCourseInstanceXml)
             assertCourseInstanceResponse(populi.getCourseInstance(1111))
         }
 
-        it("send request, receive response and parse it into AssignmentGroup"){
+        it("send request, receive response and parse it into AssignmentGroup") {
             stubForPopuli("getCourseInstanceAssignmentGroups", getCourseInstanceAssignmentGroupsXml)
             assertUnmarshals(populi.getCourseInstanceAssignmentGroups(1111), getCourseInstanceAssignmentGroupsXml)
         }
 
-        it("real") {
+        xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
                 .inputStream()
