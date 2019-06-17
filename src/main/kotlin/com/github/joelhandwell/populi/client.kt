@@ -72,7 +72,10 @@ class Populi(
     /**
      * Method to confirm xml from real populi server
      */
-    fun getRaw(task: String): String = this.api.getRaw(accessKey, task).execute().body().toString()
+    fun getRaw(task: String, instance_id: Int? = null): String {
+        val call = if (instance_id == null) this.api.getRaw(accessKey, task) else this.api.getRawWithCourseInstanceId(accessKey, task, instance_id)
+        return call.execute().body().toString()
+    }
 
     /**
      * Returns information about each degree configured at the school. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCountries)
@@ -121,13 +124,15 @@ class Populi(
      * @param course_group_id The numeric ID of the course group you're interested in. Required.
      * @param academic_year_id The numeric ID of the academic year you're interested in. Defaults to the current academic year ID. Not required.
      */
-    fun getCourseGroupInfo(course_group_id: Int, academic_year_id: Int? = null) = sendRequest(this.api.getCourseGroupInfo(accessKey, course_group_id = course_group_id, academic_year_id = academic_year_id))
+    fun getCourseGroupInfo(course_group_id: Int, academic_year_id: Int? = null) =
+        sendRequest(this.api.getCourseGroupInfo(accessKey, course_group_id = course_group_id, academic_year_id = academic_year_id))
 
     /**
      * Returns course instances for a given term (only active course instances are returned by default). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermCourseInstances)
      * @param term_id The numeric ID of the term you're interested in. Required.
      */
-    fun getTermCourseInstances(term_id: Int) = sendRequest(this.api.getTermCourseInstances(accessKey, term_id = term_id)).course_instance
+    fun getTermCourseInstances(term_id: Int) =
+        sendRequest(this.api.getTermCourseInstances(accessKey, term_id = term_id)).course_instance
 
     /**
      * Returns term students. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermStudents)
@@ -141,13 +146,15 @@ class Populi(
      * @param return_image_data Boolean (e.g. 1 or 0). Returning binary image data will result in slower response times. Defaults to 0. Not Required.
      * @param page We limit the number of results returned (see comments), so which "page" would you like (e.g. page=1, page=2, page=3). Not Required.
      */
-    fun getTermStudents(term_id: Int? = null, program_id: Int? = null, campus_id: Int? = null, return_image_data: Boolean = false, page: Int? = null) = sendRequest(this.api.getTermStudents(accessKey, term_id = term_id, program_id = program_id, campus_id = campus_id, return_image_data = if(return_image_data) 1 else 0, page = page))
+    fun getTermStudents(term_id: Int? = null, program_id: Int? = null, campus_id: Int? = null, return_image_data: Boolean = false, page: Int? = null) =
+        sendRequest(this.api.getTermStudents(accessKey, term_id = term_id, program_id = program_id, campus_id = campus_id, return_image_data = if (return_image_data) 1 else 0, page = page))
 
     /**
      * Returns term enrollment for a particular academic term. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTermEnrollment)
      * @param term_id Numeric ID of the academic term. Required.
      */
-    fun getTermEnrollment(term_id: Int) = sendRequest(this.api.getTermEnrollment(accessKey, term_id = term_id)).enrollment
+    fun getTermEnrollment(term_id: Int) =
+        sendRequest(this.api.getTermEnrollment(accessKey, term_id = term_id)).enrollment
 
     /**
      * Returns all information related to tuition schedules and brackets configured for the institution. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTuitionSchedules)
@@ -159,14 +166,16 @@ class Populi(
      * @param person_id The numeric person ID of the student you're interested in. Required.
      * @param academic_term_id The numeric ID of the academic term you're interested in. Required.
      */
-    fun getStudentTermTuitionSchedules(person_id: Int, academic_term_id: Int) = sendRequest(this.api.getStudentTermTuitionSchedules(accessKey, person_id = person_id, academic_term_id = academic_term_id)).tuition_schedule
+    fun getStudentTermTuitionSchedules(person_id: Int, academic_term_id: Int) =
+        sendRequest(this.api.getStudentTermTuitionSchedules(accessKey, person_id = person_id, academic_term_id = academic_term_id)).tuition_schedule
 
     /**
      * A course instance is created each time a course from the catalog is offered in a particular term.
      * If the same catalog course is offered multiple times in the same term, each instance will have a unique section number.[ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstance)
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
-    fun getCourseInstance(instance_id: Int) = sendRequest(this.api.getCourseInstance(accessKey, instance_id = instance_id))
+    fun getCourseInstance(instance_id: Int) =
+        sendRequest(this.api.getCourseInstance(accessKey, instance_id = instance_id))
 
     /**
      * Assignment groups are worth a fixed percentage of the course (e.g. Quizzes are worth 10% of each student's final grade), and you can then add as many assignments within the Quizzes group as you like,
@@ -174,7 +183,8 @@ class Populi(
      * Even if no assignment groups are set up, a default assignment group of "Other" with a <groupid> of 0 will always be returned (and worth 100% of the course). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceAssignmentGroups)
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
-    fun getCourseInstanceAssignmentGroups(instance_id: Int) = sendRequest(this.api.getCourseInstanceAssignmentGroups(accessKey, instance_id = instance_id))
+    fun getCourseInstanceAssignmentGroups(instance_id: Int) =
+        sendRequest(this.api.getCourseInstanceAssignmentGroups(accessKey, instance_id = instance_id))
 }
 
 interface PopuliApi {
@@ -198,6 +208,8 @@ interface PopuliApi {
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
+
+    @FormUrlEncoded @POST(API_URI) fun getRawWithCourseInstanceId(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String, @Field("instance_id") instance_id: Int): Call<String>
 }
 
 private const val API_URI = "api/"

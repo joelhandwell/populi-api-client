@@ -118,9 +118,9 @@ object CourseInstanceSpec : Spek({
             </meeting_time>
             """.trimIndent()
 
-        it("marshal to xml") { assertMarshaled(xml, mt) }
+        it("marshal to xml") { assertMarshals(xml, mt) }
 
-        it("unmarshal from xml") { assertUnmarshaled(mt, xml) }
+        it("unmarshal from xml") { assertUnmarshals(mt, xml) }
     }
 
     describe("Faculty") {
@@ -137,9 +137,9 @@ object CourseInstanceSpec : Spek({
         </person>
         """.trimIndent()
 
-        it("marshal to xml") { assertMarshaled(xml, f1) }
+        it("marshal to xml") { assertMarshals(xml, f1) }
 
-        it("unmarshal from xml") { assertUnmarshaled(f1, xml) }
+        it("unmarshal from xml") { assertUnmarshals(f1, xml) }
     }
 
     describe("Supply") {
@@ -151,9 +151,9 @@ object CourseInstanceSpec : Spek({
         </supply>
         """.trimIndent()
 
-        it("marshal to xml") { assertMarshaled(xml, s) }
+        it("marshal to xml") { assertMarshals(xml, s) }
 
-        it("unmarshal from xml") { assertUnmarshaled(s, xml) }
+        it("unmarshal from xml") { assertUnmarshals(s, xml) }
     }
 
     describe("Author") {
@@ -164,9 +164,9 @@ object CourseInstanceSpec : Spek({
         </author>
         """.trimIndent()
 
-        it("marshal to xml") { assertMarshaled(xml, a) }
+        it("marshal to xml") { assertMarshals(xml, a) }
 
-        it("unmarshal from xml") { assertUnmarshaled(a, xml) }
+        it("unmarshal from xml") { assertUnmarshals(a, xml) }
     }
 
     describe("Book") {
@@ -201,8 +201,8 @@ object CourseInstanceSpec : Spek({
         </book>
         """.trimIndent()
 
-        it("marshal to xml") { assertMarshaled(xml, b) }
-        it("unmarshal from xml") { assertUnmarshaled(b, xml) }
+        it("marshal to xml") { assertMarshals(xml, b) }
+        it("unmarshal from xml") { assertUnmarshals(b, xml) }
     }
 
     describe("CourseInstance") {

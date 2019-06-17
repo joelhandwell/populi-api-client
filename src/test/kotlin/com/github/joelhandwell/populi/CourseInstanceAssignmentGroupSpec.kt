@@ -12,11 +12,11 @@ object CourseInstanceAssignmentGroupSpec : Spek({
 
     describe("CourseInstanceAssignmentGroup") {
         it("marshal to xml") {
-            assertMarshaled(getCourseInstanceAssignmentGroupsXml, response)
+            assertMarshals(getCourseInstanceAssignmentGroupsXml, response)
         }
 
         it("unmarshal from xml") {
-            assertUnmarshaled(response, getCourseInstanceAssignmentGroupsXml)
+            assertUnmarshals(response, getCourseInstanceAssignmentGroupsXml)
         }
     }
 })

@@ -122,10 +122,10 @@ object ClientSpec : Spek({
 
         it("send request, receive response and parse it into AssignmentGroup"){
             stubForPopuli("getCourseInstanceAssignmentGroups", getCourseInstanceAssignmentGroupsXml)
-            assertUnmarshaled(populi.getCourseInstanceAssignmentGroups(1111), getCourseInstanceAssignmentGroupsXml)
+            assertUnmarshals(populi.getCourseInstanceAssignmentGroups(1111), getCourseInstanceAssignmentGroupsXml)
         }
 
-        xit("real") {
+        it("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
                 .inputStream()
@@ -141,7 +141,7 @@ object ClientSpec : Spek({
 
             /*
             test with your real populi account info
-            println(real.getRaw("getCourseGroups"))
+
             println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
             println(real.getAcademicTerms())
             val termId = p.getProperty("real.term_id").toInt()
@@ -153,7 +153,9 @@ object ClientSpec : Spek({
 
             val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
             //println(real.getCourseInstance(courseInstanceId))
-            println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
+            //println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
+
+            println(real.getRaw("getCourseInstanceAssignments", courseInstanceId))
         }
 
         afterGroup { wireMockServer.stop() }
