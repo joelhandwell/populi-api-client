@@ -2,6 +2,7 @@ package com.github.joelhandwell.populi
 
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
+import kotlin.test.assertEquals
 
 private val ag1 = AssignmentGroup(3333, "Participation", 30, 0, 0)
 private val ag2 = AssignmentGroup(4444, "Test", 60, 0, 0)
@@ -20,6 +21,10 @@ object CourseInstanceAssignmentGroupSpec : Spek({
         }
     }
 })
+
+fun assertCourseInstanceAssignmentGroups(courseInstanceAssignmentGroups: MutableList<AssignmentGroup>){
+    assertEquals(mutableListOf(ag1, ag2), courseInstanceAssignmentGroups)
+}
 
 const val getCourseInstanceAssignmentGroupsXml = """
 <response>

@@ -184,7 +184,7 @@ class Populi(
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
     fun getCourseInstanceAssignmentGroups(instance_id: Int) =
-        sendRequest(this.api.getCourseInstanceAssignmentGroups(accessKey, instance_id = instance_id))
+        sendRequest(this.api.getCourseInstanceAssignmentGroups(accessKey, instance_id = instance_id)).assignment_group
 
     /**
      * Returns information about each assignment in a course - including which Assignment Group it belongs to.

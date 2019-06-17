@@ -122,7 +122,7 @@ object ClientSpec : Spek({
 
         it("send request, receive response and parse it into AssignmentGroup") {
             stubForPopuli("getCourseInstanceAssignmentGroups", getCourseInstanceAssignmentGroupsXml)
-            assertUnmarshals(populi.getCourseInstanceAssignmentGroups(1111), getCourseInstanceAssignmentGroupsXml)
+            assertCourseInstanceAssignmentGroups(populi.getCourseInstanceAssignmentGroups(1111))
         }
 
         it("send request, receive response and parse it into Assignment") {
