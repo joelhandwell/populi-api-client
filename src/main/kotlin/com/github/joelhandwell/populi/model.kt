@@ -2,10 +2,7 @@ package com.github.joelhandwell.populi
 
 import org.javamoney.moneta.Money
 import java.text.NumberFormat
-import java.time.DayOfWeek
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.Year
+import java.time.*
 import java.time.format.DateTimeFormatter
 import javax.money.MonetaryAmount
 import javax.xml.bind.annotation.*
@@ -319,6 +316,64 @@ data class AssignmentGroup(
 @XmlAccessorType(XmlAccessType.FIELD)
 data class AssignmentGroupResponse(
     var assignment_group: MutableList<AssignmentGroup> = mutableListOf()
+)
+
+@XmlRootElement(name = "student_info")
+data class StudentInfo(
+    var person_id: Int,
+    var student_id: Int,
+    var first_name: String,
+    var last_name: String,
+    var preferred_name: String,
+    var submitted_assignment_data: Int,
+    var assignment_submitted_at: OffsetDateTime? = null,
+    var grade: Int? = null,
+    var letter_grade: String? = null,
+    var grade_added_at: LocalDateTime? = null,
+    var grade_added_by_id: Int? = null,
+    var grade_updated_at: LocalDateTime? = null,
+    var grade_updated_by_id: Int? = null
+)
+
+@XmlRootElement(name = "assignment")
+data class Assignment(
+    var assignmentid: Int,
+    var name: String,
+    var points: Int,
+    var type: String,
+    var percent_of_course: Double,
+    var groupid: Int,
+    var group_name: String,
+    var extra_credit: Double,
+    var description: String,
+    var discussion_id: Int? = 0,
+    var visible_to_students_before_due: Int,
+    var time_due: OffsetDateTime,
+
+    var start_window: OffsetDateTime? = null,        //TEST
+    var end_window: OffsetDateTime? = null,          //TEST
+    var time_limit: Int? = null,                     //TEST
+    var retake_policy: String? = null,               //TEST
+    var retakes: Int? = null,                        //TEST
+    var proctored: Int? = null,                      //TEST
+    var test_submit_feedback: String? = null,        //TEST
+    var test_end_feedback: String? = null,           //TEST
+
+    var peer_grade: Int? = null,                     //PEER_REVIEW_FILE_UPLOAD
+    var grade_submissions: Int? = null,              //PEER_REVIEW_FILE_UPLOAD
+    var grade_reviews: Int? = null,                  //PEER_REVIEW_FILE_UPLOAD
+    var anonymous_reviews: Int? = null,              //PEER_REVIEW_FILE_UPLOAD
+    var review_visibility: String? = null,           //PEER_REVIEW_FILE_UPLOAD
+    var allow_review_comments: String? = null,       //PEER_REVIEW_FILE_UPLOAD
+    var reviews_due_time: OffsetDateTime? = null,    //PEER_REVIEW_FILE_UPLOAD
+    var reviews_closed_time: OffsetDateTime? = null, //PEER_REVIEW_FILE_UPLOAD
+
+    var student_info: MutableList<StudentInfo> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+data class AssignmentResponse(
+    var assignment: MutableList<Assignment> = mutableListOf()
 )
 
 @XmlRootElement(name = "student")
