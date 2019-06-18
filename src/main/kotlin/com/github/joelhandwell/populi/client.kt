@@ -26,24 +26,19 @@ class Populi(
         private var password: String? = null
         private var accessKey: String? = null
         private var baseUrl: String? = null
-        private var debugFlag: Boolean = false
 
         fun withUsername(username: String) = apply { this.username = username }
         fun withPassword(password: String) = apply { this.password = password }
         fun withAccessKey(accessKey: String) = apply { this.accessKey = accessKey }
         fun withBaseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
-        fun withDebugFlag(debugFlag: Boolean) = apply { this.debugFlag = debugFlag }
 
         fun build(): Populi {
 
             val builder = Retrofit.Builder().baseUrl(baseUrl ?: throw RuntimeException("baseUrl is null"))
                 .addConverterFactory(JaxbConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
 
-            val api = if (debugFlag) {
-                builder.addConverterFactory(ScalarsConverterFactory.create())
-            } else {
-                builder
-            }.build().create(PopuliApi::class.java)
+            val api = builder.build().create(PopuliApi::class.java)
 
             if (accessKey == null) {
                 log.info("fetching accessKey with username and password")
@@ -208,6 +203,9 @@ class Populi(
      */
     fun getCourseInstanceLessons(instance_id: Int) =
         sendRequest(this.api.getCourseInstanceLessons(accessKey, instance_id = instance_id)).lesson
+
+
+    fun getLessonContent(instance_id: Int, lesson_id: Int) = sendRequest(this.api.getLessonContent(accessKey, instance_id = instance_id, lesson_id = lesson_id))
 }
 
 interface PopuliApi {
@@ -231,10 +229,10 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceAssignments(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceAssignments", @Field("instance_id") instance_id: Int): Call<AssignmentResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceFiles(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceFiles", @Field("instance_id") instance_id: Int): Call<CourseInstanceFileResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceLessons(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceLessons", @Field("instance_id") instance_id: Int): Call<CourseInstanceLessonResponse>
+    @FormUrlEncoded @POST(API_URI) fun getLessonContent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLessonContent", @Field("instance_id") instance_id: Int, @Field("lesson_id") lesson_id: Int): Call<String>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
-
     @FormUrlEncoded @POST(API_URI) fun getRawWithCourseInstanceId(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String, @Field("instance_id") instance_id: Int): Call<String>
 }
 

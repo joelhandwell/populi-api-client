@@ -8,6 +8,7 @@ import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.nio.file.Paths
 import java.util.*
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 object ClientSpec : Spek({
@@ -140,6 +141,12 @@ object ClientSpec : Spek({
             assertCourseInstanceLessons(populi.getCourseInstanceLessons(1111))
         }
 
+        it("send request, receive response and parse it into LessonContent") {
+            val html = "<html><body>Lesson Content</body></html>"
+            stubForPopuli("getLessonContent", html)
+            assertEquals(html, populi.getLessonContent(1111, 2222))
+        }
+
         it("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -151,7 +158,6 @@ object ClientSpec : Spek({
                 .withBaseUrl(p.getProperty("real.baseurl"))
                 .withUsername(p.getProperty("real.username"))
                 .withPassword(p.getProperty("real.password"))
-                .withDebugFlag(true)
                 .build()
 
             //val termId = p.getProperty("real.term_id").toInt()
@@ -168,9 +174,12 @@ object ClientSpec : Spek({
             println(real.getCourseInstance(courseInstanceId))
             println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
             println(real.getCourseInstanceFiles(courseInstanceId))
+            println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
             */
 
-            println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
+            val lessonId = p.getProperty("real.lesson_id").toInt()
+            println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
+
         }
 
         afterGroup { wireMockServer.stop() }
