@@ -216,6 +216,14 @@ class Populi(
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
     fun getCourseInstanceMeetings(instance_id: Int) = sendRequest(this.api.getCourseInstanceMeetings(accessKey, instance_id = instance_id)).meeting
+
+    /**
+     * Gets attendance for a course instance meeting. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceMeetingAttendance)
+     * @param instance_id The numeric ID of the course instance you're interested in. Required.
+     * @param meeting_id The numeric ID of the meeting. Required.
+     * -- the ref says it's instanceID and meetingID but assuming the ref is typo
+     */
+    fun getCourseInstanceMeetingAttendance(instance_id: Int, meeting_id: Int) = sendRequest(this.api.getCourseInstanceMeetingAttendance(accessKey, instance_id = instance_id, meeting_id = meeting_id)).attendee
 }
 
 interface PopuliApi {
@@ -241,6 +249,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceLessons(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceLessons", @Field("instance_id") instance_id: Int): Call<CourseInstanceLessonResponse>
     @FormUrlEncoded @POST(API_URI) fun getLessonContent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLessonContent", @Field("instance_id") instance_id: Int, @Field("lesson_id") lesson_id: Int): Call<String>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetings(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetings", @Field("instance_id") instance_id: Int): Call<CourseInstanceMeetingResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetingAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetingAttendance", @Field("instance_id") instance_id: Int, @Field("meeting_id") meeting_id: Int): Call<CourseInstanceMeetingAttendanceResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

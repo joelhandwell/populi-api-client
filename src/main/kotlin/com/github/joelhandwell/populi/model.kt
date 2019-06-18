@@ -437,6 +437,17 @@ data class CourseInstanceMeetingResponse(
     var meeting: MutableList<CourseInstanceMeeting> = mutableListOf()
 )
 
+@XmlRootElement(name = "attendee")
+data class CourseInstanceMeetingAttendance(
+    var personid: Int,
+    var status: String
+)
+
+@XmlRootElement(name = "response")
+data class CourseInstanceMeetingAttendanceResponse(
+    var attendee: MutableList<CourseInstanceMeetingAttendance> = mutableListOf()
+)
+
 @XmlRootElement(name = "student")
 data class Student(
     var person_id: Int,

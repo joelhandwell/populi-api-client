@@ -147,12 +147,17 @@ object ClientSpec : Spek({
             assertEquals(html, populi.getLessonContent(1111, 2222))
         }
 
-        it("send request, receive response and parse it into Meeting"){
+        it("send request, receive response and parse it into Meeting") {
             stubForPopuli("getCourseInstanceMeetings", getCourseInstanceMeetingsXml)
             assertCourseInstanceMeetings(populi.getCourseInstanceMeetings(1111))
         }
 
-        it("real") {
+        it("send request, receive response and parse it into MeetingAttendance") {
+            stubForPopuli("getCourseInstanceMeetingAttendance", getCourseInstanceMeetingAttendanceXml)
+            assertCourseInstanceMeetingAttendances(populi.getCourseInstanceMeetingAttendance(1111, 2222))
+        }
+
+        xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
                 .inputStream()
@@ -180,10 +185,10 @@ object ClientSpec : Spek({
             println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
             println(real.getCourseInstanceFiles(courseInstanceId))
             println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
-            */
-
             val lessonId = p.getProperty("real.lesson_id").toInt()
             println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
+            */
+            println(real.getCourseInstanceMeetings(courseInstanceId))
 
         }
 
