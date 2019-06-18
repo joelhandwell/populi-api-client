@@ -448,6 +448,28 @@ data class CourseInstanceMeetingAttendanceResponse(
     var attendee: MutableList<CourseInstanceMeetingAttendance> = mutableListOf()
 )
 
+@XmlEnum
+enum class CourseInstanceStudentStatus { ENROLLED, AUDITOR, WITHDRAWN, INCOMPLETE }
+
+@XmlRootElement(name = "courseinstance_student")
+data class CourseInstanceStudent(
+    var status: CourseInstanceStudentStatus,
+    var personid: Int,
+    var first: String,
+    var last: String,
+    var preferred: String? = null,
+    var start_date: LocalDate,
+    var grade: Int? = null,
+    var letter_grade: String? = null,
+    var attendance: Int? = null
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class CourseInstanceStudentResponse(
+    val courseinstance_student: MutableList<CourseInstanceStudent> = mutableListOf()
+)
+
 @XmlRootElement(name = "student")
 data class Student(
     var person_id: Int,

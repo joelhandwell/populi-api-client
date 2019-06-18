@@ -224,6 +224,14 @@ class Populi(
      * -- the ref says it's instanceID and meetingID but assuming the ref is typo
      */
     fun getCourseInstanceMeetingAttendance(instance_id: Int, meeting_id: Int) = sendRequest(this.api.getCourseInstanceMeetingAttendance(accessKey, instance_id = instance_id, meeting_id = meeting_id)).attendee
+
+    /**
+     * Returns all students enrolled, auditing, incomoplete, or withdrawn in a course instance. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceStudents)
+     * Possible values for the status element are: ENROLLED, AUDITOR, WITHDRAWN, or INCOMPLETE. Note that there are some additional elements returned if the student is ENROLLED: grade, letter_grade, and attendance (both grade and attendance are percentages: so 97 mean 97%).
+     * The <start_date> element represents the day the student started his or her current status... so if Jerry enrolled in the course on April 1 but then switched to auditing on May 16, his <status> would be AUDITOR and his <start_date> would be May 16.
+     * @param instance_id The numeric ID of the course instance you're interested in. Required.
+     */
+    fun getCourseInstanceStudents(instance_id: Int) = sendRequest(this.api.getCourseInstanceStudents(accessKey, instance_id = instance_id)).courseinstance_student
 }
 
 interface PopuliApi {
@@ -250,6 +258,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getLessonContent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLessonContent", @Field("instance_id") instance_id: Int, @Field("lesson_id") lesson_id: Int): Call<String>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetings(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetings", @Field("instance_id") instance_id: Int): Call<CourseInstanceMeetingResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetingAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetingAttendance", @Field("instance_id") instance_id: Int, @Field("meeting_id") meeting_id: Int): Call<CourseInstanceMeetingAttendanceResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudents", @Field("instance_id") instance_id: Int): Call<CourseInstanceStudentResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
