@@ -421,6 +421,22 @@ data class CourseInstanceLessonResponse(
     var lesson: MutableList<CourseInstanceLesson> = mutableListOf()
 )
 
+@XmlRootElement(name = "meeting")
+data class CourseInstanceMeeting(
+    var meetingid: Int,
+    var roomid: Int,
+    var room_name: String,
+    var start: OffsetDateTime,
+    var end: OffsetDateTime,
+    var counts_toward_attendance_hours: Int,
+    var counts_toward_clinical_hours: Int
+)
+
+@XmlRootElement(name = "response")
+data class CourseInstanceMeetingResponse(
+    var meeting: MutableList<CourseInstanceMeeting> = mutableListOf()
+)
+
 @XmlRootElement(name = "student")
 data class Student(
     var person_id: Int,

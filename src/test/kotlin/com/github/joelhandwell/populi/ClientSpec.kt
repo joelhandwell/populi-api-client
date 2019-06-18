@@ -147,6 +147,11 @@ object ClientSpec : Spek({
             assertEquals(html, populi.getLessonContent(1111, 2222))
         }
 
+        it("send request, receive response and parse it into Meeting"){
+            stubForPopuli("getCourseInstanceMeetings", getCourseInstanceMeetingsXml)
+            assertCourseInstanceMeetings(populi.getCourseInstanceMeetings(1111))
+        }
+
         it("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
