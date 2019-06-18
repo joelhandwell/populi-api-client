@@ -67,8 +67,16 @@ class Populi(
     /**
      * Method to confirm xml from real populi server
      */
-    fun getRaw(task: String, instance_id: Int? = null): String {
-        val call = if (instance_id == null) this.api.getRaw(accessKey, task) else this.api.getRawWithCourseInstanceId(accessKey, task, instance_id)
+    fun getRaw(task: String, instance_id: Int? = null, person_id: Int): String {
+        val call = if (instance_id == null) {
+            this.api.getRaw(accessKey, task)
+        } else {
+            if (person_id == null) {
+                this.api.getRawWithCourseInstanceId(accessKey, task, instance_id = instance_id)
+            } else {
+                this.api.getRawWithCourseInstanceIdPersonId(accessKey, task, instance_id = instance_id, person_id = person_id)
+            }
+        }
         return call.execute().body().toString()
     }
 
@@ -209,13 +217,15 @@ class Populi(
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      * @param lesson_id The numeric ID of the lesson you're interested in. Required.
      */
-    fun getLessonContent(instance_id: Int, lesson_id: Int) = sendRequest(this.api.getLessonContent(accessKey, instance_id = instance_id, lesson_id = lesson_id))
+    fun getLessonContent(instance_id: Int, lesson_id: Int) =
+        sendRequest(this.api.getLessonContent(accessKey, instance_id = instance_id, lesson_id = lesson_id))
 
     /**
      * Returns the meetings attached to a course instance. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceMeetings)
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
-    fun getCourseInstanceMeetings(instance_id: Int) = sendRequest(this.api.getCourseInstanceMeetings(accessKey, instance_id = instance_id)).meeting
+    fun getCourseInstanceMeetings(instance_id: Int) =
+        sendRequest(this.api.getCourseInstanceMeetings(accessKey, instance_id = instance_id)).meeting
 
     /**
      * Gets attendance for a course instance meeting. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceMeetingAttendance)
@@ -223,7 +233,8 @@ class Populi(
      * @param meeting_id The numeric ID of the meeting. Required.
      * -- the ref says it's instanceID and meetingID but assuming the ref is typo
      */
-    fun getCourseInstanceMeetingAttendance(instance_id: Int, meeting_id: Int) = sendRequest(this.api.getCourseInstanceMeetingAttendance(accessKey, instance_id = instance_id, meeting_id = meeting_id)).attendee
+    fun getCourseInstanceMeetingAttendance(instance_id: Int, meeting_id: Int) =
+        sendRequest(this.api.getCourseInstanceMeetingAttendance(accessKey, instance_id = instance_id, meeting_id = meeting_id)).attendee
 
     /**
      * Returns all students enrolled, auditing, incomoplete, or withdrawn in a course instance. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceStudents)
@@ -231,7 +242,16 @@ class Populi(
      * The <start_date> element represents the day the student started his or her current status... so if Jerry enrolled in the course on April 1 but then switched to auditing on May 16, his <status> would be AUDITOR and his <start_date> would be May 16.
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
-    fun getCourseInstanceStudents(instance_id: Int) = sendRequest(this.api.getCourseInstanceStudents(accessKey, instance_id = instance_id)).courseinstance_student
+    fun getCourseInstanceStudents(instance_id: Int) =
+        sendRequest(this.api.getCourseInstanceStudents(accessKey, instance_id = instance_id)).courseinstance_student
+
+    /**
+     * Returns a single student from a course instance. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceStudent)
+     * @param instance_id The numeric ID of the course instance you're interested in. Required.
+     * @param person_id The numeric ID of the student you're interested in. Required.
+     */
+    fun getCourseInstanceStudent(instance_id: Int, person_id: Int) =
+        sendRequest(this.api.getCourseInstanceStudent(accessKey, instance_id = instance_id, person_id = person_id))
 }
 
 interface PopuliApi {
@@ -259,10 +279,12 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetings(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetings", @Field("instance_id") instance_id: Int): Call<CourseInstanceMeetingResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetingAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetingAttendance", @Field("instance_id") instance_id: Int, @Field("meeting_id") meeting_id: Int): Call<CourseInstanceMeetingAttendanceResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudents", @Field("instance_id") instance_id: Int): Call<CourseInstanceStudentResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudent", @Field("instance_id") instance_id: Int, @Field("person_id") person_id: Int): Call<CourseInstanceStudent>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
     @FormUrlEncoded @POST(API_URI) fun getRawWithCourseInstanceId(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String, @Field("instance_id") instance_id: Int): Call<String>
+    @FormUrlEncoded @POST(API_URI) fun getRawWithCourseInstanceIdPersonId(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String, @Field("instance_id") instance_id: Int, @Field("person_id") person_id: Int): Call<String>
 }
 
 private const val API_URI = "api/"

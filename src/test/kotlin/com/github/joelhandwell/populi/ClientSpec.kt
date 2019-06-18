@@ -162,6 +162,11 @@ object ClientSpec : Spek({
             assertCourseInstanceStudents(populi.getCourseInstanceStudents(1111))
         }
 
+        it("send request, receive response and parse it into Students for a CourseInstance"){
+            stubForPopuli("getCourseInstanceStudent", courseInstanceStudentXml)
+            assertCourseInstanceStudent(populi.getCourseInstanceStudent(1111, 2222))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -177,6 +182,7 @@ object ClientSpec : Spek({
 
             //val termId = p.getProperty("real.term_id").toInt()
             val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
+            val personId = p.getProperty("real.person_id").toInt()
 
             /* test with your real populi account info
             println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
@@ -193,9 +199,9 @@ object ClientSpec : Spek({
             val lessonId = p.getProperty("real.lesson_id").toInt()
             println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
             println(real.getCourseInstanceMeetings(courseInstanceId))
-            */
             println(real.getCourseInstanceStudents(courseInstanceId))
-
+            */
+            println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
         }
 
         afterGroup { wireMockServer.stop() }

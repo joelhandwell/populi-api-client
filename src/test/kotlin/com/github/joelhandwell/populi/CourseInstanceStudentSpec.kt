@@ -32,22 +32,9 @@ private val response = CourseInstanceStudentResponse(mutableListOf(s1, s2))
 object CourseInstanceStudentSpec : Spek({
 
     describe("CourseInstanceStudent with no preferred name") {
-        val xml = """
-        <courseinstance_student>
-            <attendance>94</attendance>
-            <first>Christopher</first>
-            <grade>92</grade>
-            <last>Anderson</last>
-            <letter_grade>A-</letter_grade>
-            <personid>4004</personid>
-            <preferred></preferred>
-            <start_date>2010-05-05</start_date>
-            <status>ENROLLED</status>
-        </courseinstance_student>
-        """.trimIndent()
 
-        it("marshal to xml") { assertMarshals(xml, s1) }
-        it("unmarshal from xml") { assertUnmarshals(s1, xml) }
+        it("marshal to xml") { assertMarshals(courseInstanceStudentXml, s1) }
+        it("unmarshal from xml") { assertUnmarshals(s1, courseInstanceStudentXml) }
 
     }
 
@@ -72,9 +59,27 @@ object CourseInstanceStudentSpec : Spek({
     }
 })
 
+fun assertCourseInstanceStudent(courseInstanceStudent: CourseInstanceStudent){
+    assertEquals(s1, courseInstanceStudent)
+}
+
 fun assertCourseInstanceStudents(courseInstanceStudents: MutableList<CourseInstanceStudent>) {
     assertEquals(mutableListOf(s1, s2), courseInstanceStudents)
 }
+
+val courseInstanceStudentXml = """
+<courseinstance_student>
+    <attendance>94</attendance>
+    <first>Christopher</first>
+    <grade>92</grade>
+    <last>Anderson</last>
+    <letter_grade>A-</letter_grade>
+    <personid>4004</personid>
+    <preferred></preferred>
+    <start_date>2010-05-05</start_date>
+    <status>ENROLLED</status>
+</courseinstance_student>
+""".trimIndent()
 
 const val getCourseInstanceStudentsXml = """
 <response>
