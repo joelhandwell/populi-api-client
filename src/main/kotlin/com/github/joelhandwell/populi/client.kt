@@ -195,13 +195,19 @@ class Populi(
     fun getCourseInstanceAssignments(instance_id: Int) =
         sendRequest(this.api.getCourseInstanceAssignments(accessKey, instance_id = instance_id)).assignment
 
-
     /**
      * Returns the files attached to a course instance. See downloadFile. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceFiles)
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
     fun getCourseInstanceFiles(instance_id: Int) =
         sendRequest(this.api.getCourseInstanceFiles(accessKey, instance_id = instance_id)).file
+
+    /**
+     * Returns the lessons attached to a course instance. See getLessonContent to get the HTML content of each lesson. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceLessons)
+     * @param instance_id The numeric ID of the course instance you're interested in. Required.
+     */
+    fun getCourseInstanceLessons(instance_id: Int) =
+        sendRequest(this.api.getCourseInstanceLessons(accessKey, instance_id = instance_id)).lesson
 }
 
 interface PopuliApi {
@@ -224,6 +230,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceAssignmentGroups(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceAssignmentGroups", @Field("instance_id") instance_id: Int): Call<AssignmentGroupResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceAssignments(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceAssignments", @Field("instance_id") instance_id: Int): Call<AssignmentResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceFiles(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceFiles", @Field("instance_id") instance_id: Int): Call<CourseInstanceFileResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceLessons(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceLessons", @Field("instance_id") instance_id: Int): Call<CourseInstanceLessonResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

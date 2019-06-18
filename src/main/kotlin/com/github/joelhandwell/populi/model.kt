@@ -388,6 +388,39 @@ data class CourseInstanceFileResponse(
     var file: MutableList<CourseInstanceFile> = mutableListOf()
 )
 
+val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+class SpaceDelimitedLocalDateTimeAdapter : XmlAdapter<String, LocalDateTime>() {
+
+    @Throws(Exception::class)
+    override fun marshal(value: LocalDateTime): String =
+        value.format(DateTimeFormatter.ISO_DATE_TIME)
+
+    @Throws(Exception::class)
+    override fun unmarshal(s: String): LocalDateTime = if (s.contains('T')) {
+        LocalDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME)
+    } else {
+        LocalDateTime.parse(s, spaceDelimitedLocalDateTimeFormatter)
+    }
+
+}
+
+@XmlRootElement(name = "lesson")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class CourseInstanceLesson(
+    var lessonid: Int,
+    var name: String,
+    var available_at: LocalDateTime,
+    @XmlElement(name = "is_available") var is_available: Int,
+    var num_discussions: Int,
+    var num_new_posts: Int
+)
+
+@XmlRootElement(name = "response")
+data class CourseInstanceLessonResponse(
+    var lesson: MutableList<CourseInstanceLesson> = mutableListOf()
+)
+
 @XmlRootElement(name = "student")
 data class Student(
     var person_id: Int,
