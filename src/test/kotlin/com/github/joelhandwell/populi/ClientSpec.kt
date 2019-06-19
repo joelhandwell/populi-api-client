@@ -74,6 +74,11 @@ object ClientSpec : Spek({
             assertAcademicTerms(populi.getAcademicTerms())
         }
 
+        it("send request, receive response and parse it into current AcademicTerm"){
+            stubForPopuli("getCurrentAcademicTerm", getCurrentAcademicTermXml)
+            assertAcademicTerm(populi.getCurrentAcademicTerm())
+        }
+
         it("send request, receive response and parse it into Course") {
             stubForPopuli("getCourseCatalog", getCourseCatalogXml)
             assertCourses(populi.getCourseCatalog())
@@ -186,8 +191,8 @@ object ClientSpec : Spek({
                 .build()
 
             //val termId = p.getProperty("real.term_id").toInt()
-            val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
-            val personId = p.getProperty("real.person_id").toInt()
+            //val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
+            //val personId = p.getProperty("real.person_id").toInt()
 
             /* test with your real populi account info
             println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
@@ -208,10 +213,11 @@ object ClientSpec : Spek({
             println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
             println(real.getRaw("getCourseInstanceMeetings", courseInstanceId))
             println(real.getCourseInstanceMeetings(courseInstanceId))
+            println(real.getRaw("getCourseInstanceStudentAttendance", courseInstanceId, personId))
             */
 
-            println(real.getRaw("getCourseInstanceStudentAttendance", courseInstanceId, personId))
-
+            //println(real.getRaw("getCurrentAcademicTerm"))
+            println(real.getCurrentAcademicTerm())
         }
 
         afterGroup { wireMockServer.stop() }

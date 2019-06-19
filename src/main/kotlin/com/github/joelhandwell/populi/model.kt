@@ -111,7 +111,7 @@ data class AcademicYearResponse(
     var academic_year: MutableList<AcademicYear> = mutableListOf()
 )
 
-@XmlRootElement(name = "academic_term")
+@XmlRootElement(name = "response")
 data class AcademicTerm(
     var termid: Int,
     var name: String,
