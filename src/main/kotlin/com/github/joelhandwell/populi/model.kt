@@ -470,6 +470,20 @@ data class CourseInstanceStudentResponse(
     val courseinstance_student: MutableList<CourseInstanceStudent> = mutableListOf()
 )
 
+@XmlRootElement(name = "attendee")
+data class CourseInstanceStudentAttendance(
+    var meetingid: Int,
+    var start: LocalDateTime,
+    var end: LocalDateTime,
+    var summary: String,
+    var status: String
+)
+
+@XmlRootElement(name = "response")
+data class CourseInstanceStudentAttendanceResponse(
+    var attendee: MutableList<CourseInstanceStudentAttendance> = mutableListOf()
+)
+
 @XmlRootElement(name = "student")
 data class Student(
     var person_id: Int,

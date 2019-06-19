@@ -67,7 +67,7 @@ class Populi(
     /**
      * Method to confirm xml from real populi server
      */
-    fun getRaw(task: String, instance_id: Int? = null, person_id: Int): String {
+    fun getRaw(task: String, instance_id: Int? = null, person_id: Int? = null): String {
         val call = if (instance_id == null) {
             this.api.getRaw(accessKey, task)
         } else {
@@ -229,12 +229,11 @@ class Populi(
 
     /**
      * Gets attendance for a course instance meeting. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceMeetingAttendance)
-     * @param instance_id The numeric ID of the course instance you're interested in. Required.
-     * @param meeting_id The numeric ID of the meeting. Required.
-     * -- the ref says it's instanceID and meetingID but assuming the ref is typo
+     * @param instanceID The numeric ID of the course instance you're interested in. Required.
+     * @param meetingID The numeric ID of the meeting. Required.
      */
-    fun getCourseInstanceMeetingAttendance(instance_id: Int, meeting_id: Int) =
-        sendRequest(this.api.getCourseInstanceMeetingAttendance(accessKey, instance_id = instance_id, meeting_id = meeting_id)).attendee
+    fun getCourseInstanceMeetingAttendance(instanceID: Int, meetingID: Int) =
+        sendRequest(this.api.getCourseInstanceMeetingAttendance(accessKey, instanceID = instanceID, meetingID = meetingID)).attendee
 
     /**
      * Returns all students enrolled, auditing, incomoplete, or withdrawn in a course instance. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceStudents)
@@ -252,6 +251,14 @@ class Populi(
      */
     fun getCourseInstanceStudent(instance_id: Int, person_id: Int) =
         sendRequest(this.api.getCourseInstanceStudent(accessKey, instance_id = instance_id, person_id = person_id))
+
+    /**
+     * Gets attendance for all course instance meetings for a particular student. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceStudentAttendance)
+     * @param instance_id The numeric ID of the course instance you're interested in. Required.
+     * @param person_id The numeric ID of the student you're interested in. Required.
+     */
+    fun getCourseInstanceStudentAttendance(instance_id: Int, person_id: Int) =
+        sendRequest(this.api.getCourseInstanceStudentAttendance(accessKey, instance_id = instance_id, person_id = person_id)).attendee
 }
 
 interface PopuliApi {
@@ -276,15 +283,17 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceFiles(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceFiles", @Field("instance_id") instance_id: Int): Call<CourseInstanceFileResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceLessons(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceLessons", @Field("instance_id") instance_id: Int): Call<CourseInstanceLessonResponse>
     @FormUrlEncoded @POST(API_URI) fun getLessonContent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLessonContent", @Field("instance_id") instance_id: Int, @Field("lesson_id") lesson_id: Int): Call<String>
-    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetings(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetings", @Field("instance_id") instance_id: Int): Call<CourseInstanceMeetingResponse>
-    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetingAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetingAttendance", @Field("instance_id") instance_id: Int, @Field("meeting_id") meeting_id: Int): Call<CourseInstanceMeetingAttendanceResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetings(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetings", @Field("instanceID") instance_id: Int): Call<CourseInstanceMeetingResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetingAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetingAttendance", @Field("instanceID") instanceID: Int, @Field("meetingID") meetingID: Int): Call<CourseInstanceMeetingAttendanceResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudents", @Field("instance_id") instance_id: Int): Call<CourseInstanceStudentResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudent", @Field("instance_id") instance_id: Int, @Field("person_id") person_id: Int): Call<CourseInstanceStudent>
+    @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudentAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudentAttendance", @Field("instanceID") instance_id: Int, @Field("person_id") person_id: Int): Call<CourseInstanceStudentAttendanceResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
+
     @FormUrlEncoded @POST(API_URI) fun getRawWithCourseInstanceId(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String, @Field("instance_id") instance_id: Int): Call<String>
-    @FormUrlEncoded @POST(API_URI) fun getRawWithCourseInstanceIdPersonId(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String, @Field("instance_id") instance_id: Int, @Field("person_id") person_id: Int): Call<String>
+    @FormUrlEncoded @POST(API_URI) fun getRawWithCourseInstanceIdPersonId(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String, @Field("instanceID") instance_id: Int, @Field("person_id") person_id: Int): Call<String>
 }
 
 private const val API_URI = "api/"

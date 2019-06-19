@@ -157,14 +157,19 @@ object ClientSpec : Spek({
             assertCourseInstanceMeetingAttendances(populi.getCourseInstanceMeetingAttendance(1111, 2222))
         }
 
-        it("send request, receive response and parse it into Students for a CourseInstance"){
+        it("send request, receive response and parse it into Students for a CourseInstance") {
             stubForPopuli("getCourseInstanceStudents", getCourseInstanceStudentsXml)
             assertCourseInstanceStudents(populi.getCourseInstanceStudents(1111))
         }
 
-        it("send request, receive response and parse it into Students for a CourseInstance"){
+        it("send request, receive response and parse it into Students for a CourseInstance") {
             stubForPopuli("getCourseInstanceStudent", courseInstanceStudentXml)
             assertCourseInstanceStudent(populi.getCourseInstanceStudent(1111, 2222))
+        }
+
+        it("send request, receive response and parse it into a Student's Atendances for a CourseInstance") {
+            stubForPopuli("getCourseInstanceStudentAttendance", getCourseInstanceStudentAttendanceXml)
+            assertCourseInstanceStudentAttendances(populi.getCourseInstanceStudentAttendance(1111, 2222))
         }
 
         xit("real") {
@@ -198,10 +203,15 @@ object ClientSpec : Spek({
             println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
             val lessonId = p.getProperty("real.lesson_id").toInt()
             println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
-            println(real.getCourseInstanceMeetings(courseInstanceId))
+
             println(real.getCourseInstanceStudents(courseInstanceId))
-            */
             println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
+            println(real.getRaw("getCourseInstanceMeetings", courseInstanceId))
+            println(real.getCourseInstanceMeetings(courseInstanceId))
+            */
+
+            println(real.getRaw("getCourseInstanceStudentAttendance", courseInstanceId, personId))
+
         }
 
         afterGroup { wireMockServer.stop() }
