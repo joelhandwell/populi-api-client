@@ -1,15 +1,14 @@
 package com.github.joelhandwell.populi
 
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.jaxb.JaxbConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
-import org.slf4j.LoggerFactory
-import retrofit2.Response
-import retrofit2.converter.scalars.ScalarsConverterFactory
 
 inline fun <reified R : Any> R.logger(): Logger =
     LoggerFactory.getLogger(this::class.java.name.substringBefore("\$Companion"))
@@ -35,7 +34,7 @@ class Populi(
         fun build(): Populi {
 
             val builder = Retrofit.Builder().baseUrl(baseUrl ?: throw RuntimeException("baseUrl is null"))
-                .addConverterFactory(JaxbConverterFactory.create())
+                .addConverterFactory(PopuliResponseConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
 
             val api = builder.build().create(PopuliApi::class.java)
@@ -211,6 +210,12 @@ class Populi(
         sendRequest(this.api.getCourseInstanceFiles(accessKey, instance_id = instance_id)).file
 
     /**
+     * Returns links attached to a particular course offering. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseOfferingLinks)
+     * @param course_offering_id The numeric ID of the course offering you're interested in.
+     */
+    fun getCourseOfferingLinks(course_offering_id: Int) = sendRequest(this.api.getCourseOfferingLinks(accessKey, course_offering_id = course_offering_id)).link
+
+    /**
      * Returns the lessons attached to a course instance. See getLessonContent to get the HTML content of each lesson. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceLessons)
      * @param instance_id The numeric ID of the course instance you're interested in. Required.
      */
@@ -287,6 +292,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceAssignmentGroups(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceAssignmentGroups", @Field("instance_id") instance_id: Int): Call<AssignmentGroupResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceAssignments(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceAssignments", @Field("instance_id") instance_id: Int): Call<AssignmentResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceFiles(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceFiles", @Field("instance_id") instance_id: Int): Call<CourseInstanceFileResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCourseOfferingLinks(@Field(FIELD_ACCESS_KEY) accessKey: String,@Field(FIELD_TASK) task: String = "getCourseOfferingLinks", @Field("course_offering_id") course_offering_id: Int): Call<CourseOfferingLinkResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceLessons(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceLessons", @Field("instance_id") instance_id: Int): Call<CourseInstanceLessonResponse>
     @FormUrlEncoded @POST(API_URI) fun getLessonContent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLessonContent", @Field("instance_id") instance_id: Int, @Field("lesson_id") lesson_id: Int): Call<String>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetings(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetings", @Field("instanceID") instance_id: Int): Call<CourseInstanceMeetingResponse>
@@ -308,6 +314,7 @@ private const val FIELD_TASK = "task"
 
 private fun <T> sendRequest(call: Call<T>): T {
     val response: Response<T> = call.execute()
+
     if (!response.isSuccessful) {
         throw RuntimeException("request not success, error body: ${response.errorBody()}")
     }

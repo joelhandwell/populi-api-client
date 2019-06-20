@@ -388,6 +388,20 @@ data class CourseInstanceFileResponse(
     var file: MutableList<CourseInstanceFile> = mutableListOf()
 )
 
+@XmlRootElement(name = "link")
+data class CourseOfferingLink(
+    var id: Int,
+    var name: String,
+    var url: String
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class CourseOfferingLinkResponse(
+    @XmlElementWrapper(name = "links")
+    var link: MutableList<CourseOfferingLink> = mutableListOf()
+)
+
 val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
 class SpaceDelimitedLocalDateTimeAdapter : XmlAdapter<String, LocalDateTime>() {

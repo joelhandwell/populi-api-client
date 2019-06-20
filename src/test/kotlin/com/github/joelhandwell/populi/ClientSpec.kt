@@ -141,6 +141,11 @@ object ClientSpec : Spek({
             assertCourseInstanceFiles(populi.getCourseInstanceFiles(1111))
         }
 
+        it("send request, receive response and parse it into Links for a CourseOffering"){
+            stubForPopuli("getCourseOfferingLinks", getCourseOfferingLinksXml)
+            assertCourseOfferingLinks(populi.getCourseOfferingLinks(1111))
+        }
+
         it("send request, receive response and parse it into Lessons for a CourseInstance") {
             stubForPopuli("getCourseInstanceLessons", getCourseInstanceLessonsXml)
             assertCourseInstanceLessons(populi.getCourseInstanceLessons(1111))
@@ -172,12 +177,12 @@ object ClientSpec : Spek({
             assertCourseInstanceStudent(populi.getCourseInstanceStudent(1111, 2222))
         }
 
-        it("send request, receive response and parse it into a Student's Atendances for a CourseInstance") {
+        it("send request, receive response and parse it into a Student's Attendances for a CourseInstance") {
             stubForPopuli("getCourseInstanceStudentAttendance", getCourseInstanceStudentAttendanceXml)
             assertCourseInstanceStudentAttendances(populi.getCourseInstanceStudentAttendance(1111, 2222))
         }
 
-        xit("real") {
+        it("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
                 .inputStream()
@@ -191,7 +196,7 @@ object ClientSpec : Spek({
                 .build()
 
             //val termId = p.getProperty("real.term_id").toInt()
-            //val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
+            val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
             //val personId = p.getProperty("real.person_id").toInt()
 
             /* test with your real populi account info
@@ -217,7 +222,8 @@ object ClientSpec : Spek({
             */
 
             //println(real.getRaw("getCurrentAcademicTerm"))
-            println(real.getCurrentAcademicTerm())
+            //println(real.getCurrentAcademicTerm())
+            println(real.getCourseOfferingLinks(courseInstanceId))
         }
 
         afterGroup { wireMockServer.stop() }
