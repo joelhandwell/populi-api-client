@@ -1,2 +1,11 @@
-rootProject.name = 'populi-api-client'
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.namespace != null && requested.id.namespace.startsWith("org.jetbrains.kotlin")) {
+                useVersion kotlinVersion
+            }
+        }
+    }
+}
 
+rootProject.name = 'populi-api-client'
