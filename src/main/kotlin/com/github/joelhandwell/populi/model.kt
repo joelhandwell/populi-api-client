@@ -627,3 +627,82 @@ class DayOfWeekAdapter : XmlAdapter<String, DayOfWeek>() {
     @Throws(Exception::class)
     override fun unmarshal(s: String): DayOfWeek = DayOfWeek.values().first { it.toString().startsWith(s) }
 }
+
+@XmlRootElement
+data class DegreeAuditCourse(
+    var catalog_course_id: Int,
+    var abbreviation: String,
+    var name: String,
+    var grade: String? = null,
+    var status: String? = null,
+    var course_offering_id: Int? = null,
+    var transfer_credit_id: Int? = null,
+    var fulfilled_by_abbreviation: String? = null,
+    var fulfilled_by_name: String? = null
+)
+
+@XmlRootElement(name = "course_group")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class DegreeAuditCourseGroup(
+    var id: Int,
+    var name: String,
+    var all_requirements_completed: Int,
+    var requirement_type: String,
+    var requirement_value: Double,
+    var earned_requirements: Double,
+    var transferred_requirements: Double,
+    var general_requirements_completed: Int,
+    var required_gpa: Double,
+    var gpa: Double,
+    var gpa_requirements_completed: Int,
+    var waived_requirements: Double,
+    var exceptions_applied: Int,
+
+    @XmlElementWrapper(name = "completed_courses")
+    var completed_course: MutableList<DegreeAuditCourse> = mutableListOf(),
+
+    @XmlElementWrapper(name = "incomplete_courses")
+    var incomplete_course: MutableList<DegreeAuditCourse> = mutableListOf()
+)
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentAudit(
+    var all_requirements_completed: Int,
+    var cumulative_gpa_required: Double,
+    var cumulative_gpa: Double,
+    var cumulative_gpa_requirement_completed: Int,
+    var overall_gpa_required: Double,
+    var overall_gpa: Double,
+    var overall_gpa_requirement_completed: Int,
+    var cumulative_units_required: Double,
+    var cumulative_units: Double,
+    var cumulative_units_requirement_completed: Int,
+    var resident_units_required: Double,
+    var resident_units: Double,
+    var resident_units_requirement_completed: Int,
+    var cumulative_clinical_hours_required: Double,
+    var cumulative_clinical_hours: Double,
+    var cumulative_clinical_hours_requirement_completed: Int,
+    var resident_clinical_hours_required: Double,
+    var resident_clinical_hours: Double,
+    var resident_clinical_hours_requirement_completed: Int,
+    var cumulative_attendance_hours_required: Double,
+    var cumulative_attendance_hours: Double,
+    var cumulative_attendance_hours_requirement_completed: Int,
+    var resident_attendance_hours_required: Double,
+    var resident_attendance_hours: Double,
+    var resident_attendance_hours_requirement_completed: Int,
+    var in_progress_units: Double,
+    var in_progress_clinical_hours: Double,
+    var in_progress_attendance_hours: Double,
+
+    @XmlElementWrapper(name = "course_groups")
+    var course_group: MutableList<DegreeAuditCourseGroup> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+data class DegreeAuditResponse(
+    var degree: StudentAudit,
+    var specialization: StudentAudit? = null
+)

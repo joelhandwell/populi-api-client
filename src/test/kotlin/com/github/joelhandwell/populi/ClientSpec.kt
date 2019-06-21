@@ -74,7 +74,7 @@ object ClientSpec : Spek({
             assertAcademicTerms(populi.getAcademicTerms())
         }
 
-        it("send request, receive response and parse it into current AcademicTerm"){
+        it("send request, receive response and parse it into current AcademicTerm") {
             stubForPopuli("getCurrentAcademicTerm", getCurrentAcademicTermXml)
             assertAcademicTerm(populi.getCurrentAcademicTerm())
         }
@@ -141,7 +141,7 @@ object ClientSpec : Spek({
             assertCourseInstanceFiles(populi.getCourseInstanceFiles(1111))
         }
 
-        it("send request, receive response and parse it into Links for a CourseOffering"){
+        it("send request, receive response and parse it into Links for a CourseOffering") {
             stubForPopuli("getCourseOfferingLinks", getCourseOfferingLinksXml)
             assertCourseOfferingLinks(populi.getCourseOfferingLinks(1111))
         }
@@ -182,7 +182,12 @@ object ClientSpec : Spek({
             assertCourseInstanceStudentAttendances(populi.getCourseInstanceStudentAttendance(1111, 2222))
         }
 
-        it("real") {
+        it("send request, receive response and parse it into a Student's Degree Audit") {
+            stubForPopuli("getDegreeAudit", getDegreeAuditXml)
+            assertDegreeAudit(populi.getDegreeAudit(1111, 2222, 3333, 4444))
+        }
+
+        xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
                 .inputStream()
@@ -195,35 +200,38 @@ object ClientSpec : Spek({
                 .withPassword(p.getProperty("real.password"))
                 .build()
 
+            //val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
+            val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
-            val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
-            //val personId = p.getProperty("real.person_id").toInt()
+            val personId = p.getProperty("real.person_id").toInt()
+            val degreeId = p.getProperty("real.degree_id").toInt()
 
-            /* test with your real populi account info
-            println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
-            println(real.getAcademicTerms())
-            println(real.getTermCourseInstances(termId))
-            println(real.getTermStudents(term_id = termId))
-            println(real.getTermEnrollment(termId))
-            println(real.getTuitionSchedules())
-            println(real.getTermCourseInstances(termId))
-            println(real.getCourseInstance(courseInstanceId))
-            println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
-            println(real.getCourseInstanceFiles(courseInstanceId))
-            println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
-            val lessonId = p.getProperty("real.lesson_id").toInt()
-            println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
-
-            println(real.getCourseInstanceStudents(courseInstanceId))
-            println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
-            println(real.getRaw("getCourseInstanceMeetings", courseInstanceId))
-            println(real.getCourseInstanceMeetings(courseInstanceId))
-            println(real.getRaw("getCourseInstanceStudentAttendance", courseInstanceId, personId))
-            */
-
+            // test with your real populi account info
+            //println(real.getDegrees())
+            //println(real.getPrograms())
+            //println(real.getAcademicYears())
+            //println(real.getAcademicTerms())
+            //println(real.getTermCourseInstances(termId))
+            //println(real.getTermStudents(term_id = termId))
+            //println(real.getTermEnrollment(termId))
+            //println(real.getTuitionSchedules())
+            //println(real.getCourseGroupInfo(course_group_id = p.getProperty("real.course_group_id").toInt()))
+            //println(real.getTermCourseInstances(termId))
+            //println(real.getCourseInstance(courseInstanceId))
+            //println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
+            //println(real.getCourseInstanceFiles(courseInstanceId))
+            //println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
+            //val lessonId = p.getProperty("real.lesson_id").toInt()
+            //println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
+            //println(real.getCourseInstanceStudents(courseInstanceId))
+            //println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
+            //println(real.getRaw("getCourseInstanceMeetings", courseInstanceId))
+            //println(real.getCourseInstanceMeetings(courseInstanceId))
+            //println(real.getRaw("getCourseInstanceStudentAttendance", courseInstanceId, personId))
             //println(real.getRaw("getCurrentAcademicTerm"))
             //println(real.getCurrentAcademicTerm())
-            println(real.getCourseOfferingLinks(courseInstanceId))
+            //println(real.getCourseOfferingLinks(courseInstanceId))
+            println(real.getDegreeAudit(personId, degreeId, yearId))
         }
 
         afterGroup { wireMockServer.stop() }
