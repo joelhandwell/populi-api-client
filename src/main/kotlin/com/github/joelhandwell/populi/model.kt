@@ -377,6 +377,37 @@ data class AssignmentResponse(
 )
 
 @XmlRootElement(name = "file")
+data class AssignmentFile(
+    var submission_id: Int,
+    var file_id: Int,
+    var name: String,
+    var content_type: String,
+    var added_by_id: Int,
+    var added_by_name: String,
+    var added_time: LocalDateTime
+)
+
+@XmlRootElement(name = "comment")
+data class AssignmentComment(
+    var submission_id: Int,
+    var content: String,
+    var added_by_id: Int,
+    var added_by_name: String,
+    var added_time: LocalDateTime
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentAssignmentSubmission(
+
+    @XmlElementWrapper(name = "files")
+    var file: MutableList<AssignmentFile> = mutableListOf(),
+
+    @XmlElementWrapper(name = "comments")
+    var comment: MutableList<AssignmentComment> = mutableListOf()
+)
+
+@XmlRootElement(name = "file")
 data class CourseInstanceFile(
     var file_id: Int,
     var name: String,

@@ -136,6 +136,11 @@ object ClientSpec : Spek({
             assertAssignments(populi.getCourseInstanceAssignments(1111))
         }
 
+        it("send request, receive response and parse it into Submissions of Assignments for a Student"){
+            stubForPopuli("getStudentAssignmentSubmissions", getStudentAssignmentSubmissionsXml)
+            assertStudentAssignmentSubmissions(populi.getStudentAssignmentSubmissions(1111, 2222))
+        }
+
         it("send request, receive response and parse it into Files for a CourseInstance") {
             stubForPopuli("getCourseInstanceFiles", getCourseInstanceFilesXml)
             assertCourseInstanceFiles(populi.getCourseInstanceFiles(1111))
@@ -201,10 +206,11 @@ object ClientSpec : Spek({
                 .build()
 
             //val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
-            val yearId = p.getProperty("real.year_id").toInt()
+            val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
+            //val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
             val personId = p.getProperty("real.person_id").toInt()
-            val degreeId = p.getProperty("real.degree_id").toInt()
+            //val degreeId = p.getProperty("real.degree_id").toInt()
 
             // test with your real populi account info
             //println(real.getDegrees())
@@ -219,6 +225,8 @@ object ClientSpec : Spek({
             //println(real.getTermCourseInstances(termId))
             //println(real.getCourseInstance(courseInstanceId))
             //println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
+            //println(real.getCourseInstanceAssignments(courseInstanceId))
+            println(real.getStudentAssignmentSubmissions(courseInstanceAssignmentId, personId))
             //println(real.getCourseInstanceFiles(courseInstanceId))
             //println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
             //val lessonId = p.getProperty("real.lesson_id").toInt()
@@ -231,7 +239,7 @@ object ClientSpec : Spek({
             //println(real.getRaw("getCurrentAcademicTerm"))
             //println(real.getCurrentAcademicTerm())
             //println(real.getCourseOfferingLinks(courseInstanceId))
-            println(real.getDegreeAudit(personId, degreeId, yearId))
+            //println(real.getDegreeAudit(personId, degreeId, yearId))
         }
 
         afterGroup { wireMockServer.stop() }
