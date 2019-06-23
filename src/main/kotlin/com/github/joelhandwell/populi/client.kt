@@ -298,6 +298,13 @@ class Populi(
      */
     fun getStudentDiscipline(person_id: Int) =
         sendRequest(this.api.getStudentDiscipline(accessKey, person_id = person_id)).discipline
+
+    /**
+     * Returns the programs, degrees, and specializations for a particular student. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getStudentPrograms)
+     * @param person_id The numeric ID of the person you're interested in. Required.
+     */
+    fun getStudentPrograms(person_id: Int) =
+        sendRequest(this.api.getStudentPrograms(accessKey, person_id = person_id)).program
 }
 
 interface PopuliApi {
@@ -332,6 +339,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudentAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudentAttendance", @Field("instanceID") instance_id: Int, @Field("person_id") person_id: Int): Call<CourseInstanceStudentAttendanceResponse>
     @FormUrlEncoded @POST(API_URI) fun getDegreeAudit(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getDegreeAudit", @Field("person_id") person_id: Int, @Field("degree_id") degree_id: Int, @Field("academic_year_id") academic_year_id: Int, @Field("specialization_id") specialization_id: Int? = null): Call<DegreeAuditResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentDiscipline(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentDiscipline", @Field("person_id") person_id: Int): Call<StudentDisciplineResponse>
+    @FormUrlEncoded @POST(API_URI) fun getStudentPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentPrograms", @Field("person_id") person_id: Int): Call<StudentProgramResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

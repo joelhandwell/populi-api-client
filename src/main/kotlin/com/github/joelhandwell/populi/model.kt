@@ -731,3 +731,58 @@ data class StudentDisciplineResponse(
     var discipline: MutableList<StudentDiscipline> = mutableListOf()
 )
 
+@XmlRootElement(name = "specialization")
+data class StudentSpecialization(
+    var specialization_id: Int,
+    var name: String,
+    var type: String,
+    var status: String,
+    var granted_date: LocalDate? = null
+)
+
+@XmlRootElement(name = "degree")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentDegree(
+    var degree_id: Int,
+    var degree_student_id: Int,
+    var abbrv: String,
+    var name: String,
+    var status: String,
+    var active_date: LocalDate,
+    var inactive_date: LocalDate? = null,
+    var graduation_date: LocalDate? = null,
+    var graduate_degree: Int,
+    var catalog_year_id: Int,
+    var catalog_start_year: Year,
+    var catalog_end_year: Year,
+    var anticipated_completion_date: LocalDate,
+
+    @XmlElementWrapper(name = "specializations")
+    var specialization: MutableList<StudentSpecialization> = mutableListOf()
+)
+
+@XmlRootElement(name = "program")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentProgram(
+    var id: Int,
+    var program_id: Int,
+    var name: String,
+    var started_on: LocalDate,
+    var exit_date: LocalDate? = null,
+    var exit_reason: String? = null,
+    var entrance_term_id: Int,
+    var entrance_term_name: String,
+    var previous_education_level_id: Int,
+    var previous_education_level_name: String,
+
+    @XmlElementWrapper(name = "degrees")
+    var degree: MutableList<StudentDegree> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentProgramResponse(
+
+    @XmlElementWrapper(name = "programs")
+    var program: MutableList<StudentProgram> = mutableListOf()
+)
