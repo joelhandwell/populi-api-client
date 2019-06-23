@@ -7,11 +7,11 @@ import javax.xml.bind.JAXB
 import kotlin.test.assertEquals
 
 object UserSpec : Spek({
-    describe("User") {
+    describe("Person") {
         it("marshal to xml") {
             val userResponse = UserResponse()
             userResponse.person.addAll(
-                mutableListOf(User(40913, "Frank", "Klemgaard", "frankk", 0), User(40914, "John", "White", "johnw", 0))
+                mutableListOf(Person(40913, "Frank", "Klemgaard", "frankk", 0), Person(40914, "John", "White", "johnw", 0))
             )
             val sw = StringWriter()
             JAXB.marshal(userResponse, sw)
@@ -48,7 +48,7 @@ const val getUsersXml = """
 </response>
 """
 
-fun assertUsers(users: MutableList<User>) {
+fun assertUsers(users: MutableList<Person>) {
     assertEquals(2, users.size)
     val john = users.firstOrNull { it.person_id == 40914 } ?: throw AssertionError("john not found")
     assertEquals("John", john.first)

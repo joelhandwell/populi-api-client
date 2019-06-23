@@ -10,7 +10,7 @@ import java.time.ZoneOffset
 import javax.xml.bind.JAXB
 import kotlin.test.assertEquals
 
-private val studentInfo1 = StudentInfo(
+private val studentInfo1 = AssignmentStudentInfo(
     3093,
     2010000043,
     "James",
@@ -26,7 +26,7 @@ private val studentInfo1 = StudentInfo(
     468721
 )
 
-private val studentInfo2 = StudentInfo(
+private val studentInfo2 = AssignmentStudentInfo(
     3094,
     2010000044,
     "Joseph",
@@ -171,7 +171,7 @@ object CourseInstanceAssignmentSpec : Spek({
         }
     }
 
-    describe("StudentInfo") {
+    describe("AssignmentStudentInfo") {
 
         val s1Xml = """
         <student_info>
@@ -195,7 +195,7 @@ object CourseInstanceAssignmentSpec : Spek({
         it("unmarshal from xml") { assertUnmarshals(studentInfo1, s1Xml) }
     }
 
-    describe("StudentInfo without grading") {
+    describe("AssignmentStudentInfo without grading") {
 
         val xml = """
             <student_info>
@@ -208,7 +208,7 @@ object CourseInstanceAssignmentSpec : Spek({
             </student_info>
             """.trimIndent()
 
-        val s = StudentInfo(
+        val s = AssignmentStudentInfo(
             first_name = "James",
             last_name = "McMcintosh",
             person_id = 3093,

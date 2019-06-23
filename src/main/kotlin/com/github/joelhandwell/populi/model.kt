@@ -1,12 +1,8 @@
 package com.github.joelhandwell.populi
 
-import org.javamoney.moneta.Money
-import java.text.NumberFormat
 import java.time.*
-import java.time.format.DateTimeFormatter
 import javax.money.MonetaryAmount
 import javax.xml.bind.annotation.*
-import javax.xml.bind.annotation.adapters.XmlAdapter
 
 @XmlRootElement(name = "account_id")
 data class AccountId(var id: Int)
@@ -58,18 +54,24 @@ data class DegreeResponse(
 )
 
 @XmlRootElement(name = "person")
-data class User(
-    var person_id: Int, var first: String, var last: String, var username: String, var blocked: Int
+data class Person(
+    var person_id: Int,
+    var first: String,
+    var last: String,
+    var username: String? = null,
+    var blocked: Int? = null
 )
 
 @XmlRootElement(name = "response")
 data class UserResponse(
-    var person: MutableList<User> = mutableListOf()
+    var person: MutableList<Person> = mutableListOf()
 )
 
 @XmlRootElement(name = "campus")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Campus(
+
+    @XmlElements(XmlElement(name = "id"), XmlElement(name = "campus_id"))
     var id: Int,
     var name: String,
     var status: String,
@@ -319,7 +321,7 @@ data class AssignmentGroupResponse(
 )
 
 @XmlRootElement(name = "student_info")
-data class StudentInfo(
+data class AssignmentStudentInfo(
     var person_id: Int,
     var student_id: Int,
     var first_name: String,
@@ -368,7 +370,7 @@ data class Assignment(
     var reviews_due_time: OffsetDateTime? = null,    //PEER_REVIEW_FILE_UPLOAD
     var reviews_closed_time: OffsetDateTime? = null, //PEER_REVIEW_FILE_UPLOAD
 
-    var student_info: MutableList<StudentInfo> = mutableListOf()
+    var student_info: MutableList<AssignmentStudentInfo> = mutableListOf()
 )
 
 @XmlRootElement(name = "response")
@@ -513,7 +515,8 @@ data class CourseInstanceStudentAttendanceResponse(
 )
 
 @XmlRootElement(name = "student")
-data class Student(
+@XmlAccessorType(XmlAccessType.FIELD)
+data class TermStudent(
     var person_id: Int,
     var student_id: String,
     var first: String,
@@ -543,7 +546,7 @@ data class Student(
 @XmlRootElement(name = "response")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class TermStudentResponse(
-    @XmlAttribute(name = "num_results") var num_results: Int, var student: MutableList<Student> = mutableListOf()
+    @XmlAttribute(name = "num_results") var num_results: Int, var student: MutableList<TermStudent> = mutableListOf()
 )
 
 @XmlRootElement(name = "enrollment")
@@ -785,4 +788,32 @@ data class StudentProgramResponse(
 
     @XmlElementWrapper(name = "programs")
     var program: MutableList<StudentProgram> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentInfo(
+    var student_id: Int,
+    var first: String,
+    var last: String,
+    var middle_name: String? = null,
+    var preferred_name: String? = null,
+    var prefix: String? = null,
+    var suffix: String? = null,
+    var gender: String,
+    var birth_date: LocalDate,
+    var image: String,
+    var entrance_term_id: Int,
+    var entrance_term_name: String,
+    var exit_date: LocalDate? = null,
+    var exit_reason: String? = null,
+    var leave_of_absence: Int? = null,
+    var leave_of_absence_start_date: LocalDate? = null,
+    var leave_of_absence_anticipated_return_date: LocalDate? = null,
+
+    @XmlElementWrapper(name = "advisors")
+    var advisor: MutableList<Person> = mutableListOf(),
+
+    @XmlElementWrapper(name = "campuses")
+    var campus: MutableList<Campus> = mutableListOf()
 )

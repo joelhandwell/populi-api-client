@@ -8,7 +8,7 @@ import javax.xml.bind.JAXB
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-private val s1 = Student(
+private val s1 = TermStudent(
     3093,
     "2010000043",
     "James",
@@ -35,7 +35,7 @@ private val s1 = Student(
     3.55
 )
 
-private val s2 = Student(
+private val s2 = TermStudent(
     3093,
     "2010000043",
     "James",
@@ -64,8 +64,8 @@ private val s2 = Student(
 
 private val r = TermStudentResponse(265, mutableListOf(s1, s2))
 
-object StudentSpec : Spek({
-    describe("Student") {
+object TermStudentSpec : Spek({
+    describe("TermStudent") {
         it("marshals to xml") {
             val sw = StringWriter()
             JAXB.marshal(r, sw)

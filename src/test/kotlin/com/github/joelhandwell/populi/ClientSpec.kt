@@ -136,7 +136,7 @@ object ClientSpec : Spek({
             assertAssignments(populi.getCourseInstanceAssignments(1111))
         }
 
-        it("send request, receive response and parse it into Submissions of Assignments for a Student"){
+        it("send request, receive response and parse it into Submissions of Assignments for a Student") {
             stubForPopuli("getStudentAssignmentSubmissions", getStudentAssignmentSubmissionsXml)
             assertStudentAssignmentSubmissions(populi.getStudentAssignmentSubmissions(1111, 2222))
         }
@@ -182,7 +182,7 @@ object ClientSpec : Spek({
             assertCourseInstanceStudent(populi.getCourseInstanceStudent(1111, 2222))
         }
 
-        it("send request, receive response and parse it into a Student's Attendances for a CourseInstance") {
+        it("send request, receive response and parse it into a Student's Attendances for a CourseInstance for a Term") {
             stubForPopuli("getCourseInstanceStudentAttendance", getCourseInstanceStudentAttendanceXml)
             assertCourseInstanceStudentAttendances(populi.getCourseInstanceStudentAttendance(1111, 2222))
         }
@@ -192,14 +192,19 @@ object ClientSpec : Spek({
             assertDegreeAudit(populi.getDegreeAudit(1111, 2222, 3333, 4444))
         }
 
-        it("send request, receive response and parse it into a StudentDiscipline"){
+        it("send request, receive response and parse it into a StudentDiscipline") {
             stubForPopuli("getStudentDiscipline", getStudentDisciplineXml)
             assertStudentDisciplines(populi.getStudentDiscipline(1111))
         }
 
-        it("send request, receive response and parse it into Programs of a Student"){
+        it("send request, receive response and parse it into Programs of a Student") {
             stubForPopuli("getStudentPrograms", getStudentProgramsXml)
             assertStudentPrograms(populi.getStudentPrograms(1111))
+        }
+
+        it("send request, receive response and parse it into StudentInfo") {
+            stubForPopuli("getStudentInfo", getStudentInfoXml)
+            assertStudentInfo(populi.getStudentInfo(1111))
         }
 
         xit("real") {
@@ -251,7 +256,8 @@ object ClientSpec : Spek({
             //println(real.getCourseOfferingLinks(courseInstanceId))
             //println(real.getDegreeAudit(personId, degreeId, yearId))
             //println(real.getStudentDiscipline(personId))
-            println(real.getStudentPrograms(personId))
+            //println(real.getStudentPrograms(personId))
+            println(real.getStudentInfo(personId))
         }
 
         afterGroup { wireMockServer.stop() }

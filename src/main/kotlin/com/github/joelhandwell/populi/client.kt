@@ -87,7 +87,7 @@ class Populi(
     /**
      * Returns all users. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getUsers)
      */
-    fun getUsers(): MutableList<User> = sendRequest(this.api.getUsers(accessKey)).person
+    fun getUsers(): MutableList<Person> = sendRequest(this.api.getUsers(accessKey)).person
 
     /**
      * Returns all campuses. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCampuses)
@@ -305,6 +305,18 @@ class Populi(
      */
     fun getStudentPrograms(person_id: Int) =
         sendRequest(this.api.getStudentPrograms(accessKey, person_id = person_id)).program
+
+    /**
+     * Returns student information for a particular person. If the person has a profile picture, the <image> element will contain base64 encoded binary data.
+     * The <image> element won't be returned unless the person has a profile picture set.
+     * An optional <advisors> element is returned for active students.
+     * An optional <campuses> element is returned if the current user has the Staff role and your school has at least one campus set up.
+     * <leave_of_absence_start_date> & <leave_of_absence_anticipated_return_date> will only be returned if the <leave_of_absence> value is "1". [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getStudentInfo)
+     * @param person_id The numeric ID of the person you're interested in. Required.
+     * @param return_image_data Boolean. Returning binary image data will result in slower response times. Defaults to false. Not required.
+     */
+    fun getStudentInfo(person_id: Int, return_image_data: Boolean? = null) =
+        sendRequest(this.api.getStudentInfo(accessKey, person_id = person_id, return_image_data = return_image_data))
 }
 
 interface PopuliApi {
@@ -340,6 +352,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getDegreeAudit(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getDegreeAudit", @Field("person_id") person_id: Int, @Field("degree_id") degree_id: Int, @Field("academic_year_id") academic_year_id: Int, @Field("specialization_id") specialization_id: Int? = null): Call<DegreeAuditResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentDiscipline(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentDiscipline", @Field("person_id") person_id: Int): Call<StudentDisciplineResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentPrograms", @Field("person_id") person_id: Int): Call<StudentProgramResponse>
+    @FormUrlEncoded @POST(API_URI) fun getStudentInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentInfo", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<StudentInfo>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
