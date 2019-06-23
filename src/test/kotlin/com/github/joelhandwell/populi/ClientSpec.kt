@@ -192,6 +192,11 @@ object ClientSpec : Spek({
             assertDegreeAudit(populi.getDegreeAudit(1111, 2222, 3333, 4444))
         }
 
+        it("send request, receive response and parse it into a StudentDiscipline"){
+            stubForPopuli("getStudentDiscipline", getStudentDisciplineXml)
+            assertStudentDisciplines(populi.getStudentDiscipline(1111))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -206,7 +211,7 @@ object ClientSpec : Spek({
                 .build()
 
             //val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
-            val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
+            //val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
             //val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
             val personId = p.getProperty("real.person_id").toInt()
@@ -226,7 +231,7 @@ object ClientSpec : Spek({
             //println(real.getCourseInstance(courseInstanceId))
             //println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
             //println(real.getCourseInstanceAssignments(courseInstanceId))
-            println(real.getStudentAssignmentSubmissions(courseInstanceAssignmentId, personId))
+            //println(real.getStudentAssignmentSubmissions(courseInstanceAssignmentId, personId))
             //println(real.getCourseInstanceFiles(courseInstanceId))
             //println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
             //val lessonId = p.getProperty("real.lesson_id").toInt()
@@ -240,6 +245,7 @@ object ClientSpec : Spek({
             //println(real.getCurrentAcademicTerm())
             //println(real.getCourseOfferingLinks(courseInstanceId))
             //println(real.getDegreeAudit(personId, degreeId, yearId))
+            println(real.getStudentDiscipline(personId))
         }
 
         afterGroup { wireMockServer.stop() }

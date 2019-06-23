@@ -26,9 +26,9 @@ private val lesson2 = CourseInstanceLesson(
 private val response = CourseInstanceLessonResponse(mutableListOf(lesson1, lesson2))
 
 object CourseInstanceLessonsSpec : Spek({
-    describe("SpaceDelimitedLocalDateTimeAdapter") {
+    describe("LocalDateTimeAdapter") {
 
-        val adapter = SpaceDelimitedLocalDateTimeAdapter()
+        val adapter = LocalDateTimeAdapter()
         val dt = LocalDateTime.of(2010, 9, 30, 23, 59, 59)
         val xml = "2010-09-30 23:59:59"
 

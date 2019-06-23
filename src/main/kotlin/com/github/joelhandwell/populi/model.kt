@@ -433,23 +433,6 @@ data class CourseOfferingLinkResponse(
     var link: MutableList<CourseOfferingLink> = mutableListOf()
 )
 
-val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-
-class SpaceDelimitedLocalDateTimeAdapter : XmlAdapter<String, LocalDateTime>() {
-
-    @Throws(Exception::class)
-    override fun marshal(value: LocalDateTime): String =
-        value.format(DateTimeFormatter.ISO_DATE_TIME)
-
-    @Throws(Exception::class)
-    override fun unmarshal(s: String): LocalDateTime = if (s.contains('T')) {
-        LocalDateTime.parse(s, DateTimeFormatter.ISO_DATE_TIME)
-    } else {
-        LocalDateTime.parse(s, spaceDelimitedLocalDateTimeFormatter)
-    }
-
-}
-
 @XmlRootElement(name = "lesson")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class CourseInstanceLesson(
@@ -583,16 +566,6 @@ data class TermEnrollmentResponse(
     var enrollment: MutableList<Enrollment> = mutableListOf()
 )
 
-class MonetaryAmountAdapter : XmlAdapter<String, MonetaryAmount>() {
-
-    @Throws(Exception::class)
-    override fun marshal(value: MonetaryAmount): String =
-        NumberFormat.getCurrencyInstance().format(value.number).replace("$", "")
-
-    @Throws(Exception::class)
-    override fun unmarshal(s: String): MonetaryAmount = Money.parse("USD $s")
-}
-
 @XmlRootElement(name = "tuition_schedule_bracket")
 data class TuitionScheduleBracket(
     var id: Int,
@@ -638,26 +611,6 @@ data class StudentTermTuitionScheduleResponse(
     @XmlElementWrapper(name = "tuition_schedules")
     var tuition_schedule: MutableList<StudentTermTuitionSchedule> = mutableListOf()
 )
-
-val localTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mma")
-
-class ClockLocalTimeAdapter : XmlAdapter<String, LocalTime>() {
-
-    @Throws(Exception::class)
-    override fun marshal(value: LocalTime): String = value.format(localTimeFormatter).toLowerCase()
-
-    @Throws(Exception::class)
-    override fun unmarshal(s: String): LocalTime = LocalTime.parse(s.toUpperCase(), localTimeFormatter)
-}
-
-class DayOfWeekAdapter : XmlAdapter<String, DayOfWeek>() {
-
-    @Throws(Exception::class)
-    override fun marshal(value: DayOfWeek): String = value.toString().substring(0..1)
-
-    @Throws(Exception::class)
-    override fun unmarshal(s: String): DayOfWeek = DayOfWeek.values().first { it.toString().startsWith(s) }
-}
 
 @XmlRootElement
 data class DegreeAuditCourse(
@@ -737,3 +690,44 @@ data class DegreeAuditResponse(
     var degree: StudentAudit,
     var specialization: StudentAudit? = null
 )
+
+@XmlRootElement(name = "file")
+data class StudentDisciplineFile(
+    var id: Long,
+    var name: String,
+    var type: String,
+    var size: Int,
+    var added_at: LocalDateTime,
+    var added_by: Int,
+    var added_by_name: String
+)
+
+@XmlRootElement(name = "discipline")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentDiscipline(
+    var id: Int,
+    var action: String,
+    var start_date: LocalDate,
+    var end_date: LocalDate? = null,
+    var program_id: Int? = null,
+    var program_name: String? = null,
+    var show_on_transcript: Int,
+    var generate_tag: Int,
+    var comment: String? = null,
+    var added_at: LocalDateTime,
+    var added_by: Int,
+    var added_by_name: String,
+    var updated_at: LocalDateTime,
+    var updated_by: Int,
+    var updated_by_name: String,
+
+    @XmlElementWrapper(name = "files")
+    var file: MutableList<StudentDisciplineFile> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class StudentDisciplineResponse(
+    var discipline: MutableList<StudentDiscipline> = mutableListOf()
+)
+

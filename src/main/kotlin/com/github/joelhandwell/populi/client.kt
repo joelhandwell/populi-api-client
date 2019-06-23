@@ -288,6 +288,16 @@ class Populi(
      */
     fun getDegreeAudit(person_id: Int, degree_id: Int, academic_year_id: Int, specialization_id: Int? = null) =
         sendRequest(this.api.getDegreeAudit(accessKey, person_id = person_id, degree_id = degree_id, academic_year_id = academic_year_id, specialization_id = specialization_id))
+
+    /**
+     * Returns student discipline information for a particular person.
+     * The current user must have the Discipline role, the Registrar role, the Academic Admin role, the Academic Auditor role, or be the Advisor of this student to call this task.
+     * File data will only be returned if the current user has the Discipline or Academic Admin role. Files size is in bytes.
+     * See the downloadFile or getFileDownloadURL API tasks to download the files. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getStudentDiscipline)
+     * @param person_id The numeric ID of the person you're interested in. Required.
+     */
+    fun getStudentDiscipline(person_id: Int) =
+        sendRequest(this.api.getStudentDiscipline(accessKey, person_id = person_id)).discipline
 }
 
 interface PopuliApi {
@@ -321,6 +331,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudent", @Field("instance_id") instance_id: Int, @Field("person_id") person_id: Int): Call<CourseInstanceStudent>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudentAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudentAttendance", @Field("instanceID") instance_id: Int, @Field("person_id") person_id: Int): Call<CourseInstanceStudentAttendanceResponse>
     @FormUrlEncoded @POST(API_URI) fun getDegreeAudit(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getDegreeAudit", @Field("person_id") person_id: Int, @Field("degree_id") degree_id: Int, @Field("academic_year_id") academic_year_id: Int, @Field("specialization_id") specialization_id: Int? = null): Call<DegreeAuditResponse>
+    @FormUrlEncoded @POST(API_URI) fun getStudentDiscipline(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentDiscipline", @Field("person_id") person_id: Int): Call<StudentDisciplineResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
