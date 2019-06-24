@@ -317,6 +317,23 @@ class Populi(
      */
     fun getStudentInfo(person_id: Int, return_image_data: Boolean? = null) =
         sendRequest(this.api.getStudentInfo(accessKey, person_id = person_id, return_image_data = return_image_data))
+
+
+    /**
+     * Returns the transcript for a particular student. You must have the Academic Admin or Registrar role to call this task.
+     * If pdf = true, this will return raw binary data rather than XML. The Content-Type HTTP header will indicate MIME type, and the Content-Disposition header will contain the file name.
+     * If pdf = true, then this is a heavy API task. Multiple simultaneous calls to this task are not permitted and will fail with a rate limit error.
+     * "Contra-units" - If your program uses credits the contra-units would be hours, and vice versa. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTranscript)
+     * @param person_id The numeric ID of the person you're interested in. Required.
+     * @param pdf Boolean. If set to true, pdf content will be returned instead of xml. Defaults to false. Not required.
+     * @param layout_id The numeric ID of the custom transcript layout you want to use. If not specified, the built-in default layout will be used. Not required.
+     * @param program_id The numeric ID of the student's program you wish to export a transcript for. When using a custom layout, this parameter is required. Not required.
+     * @param official (Requires the "pdf" parameter to be set to true) Boolean. If set to true, the official transcript pdf content will be returned. Defaults to false. Not required.
+     * @param recipient (Requires the "pdf" parameter to be set to true) String. The recipient who will be receiving this transcript. Not required.
+     * @param include_course_desciptions (Requires the "pdf" parameter to be set to true) Boolean. If set to true, course descriptions will be returned in the pdf content. Note: course descriptions will always be returned in the xml. The parameter has no effect on custom layouts. Defaults to false. Not required.
+     */
+    fun getTranscript(person_id: Int, pdf: Boolean? = null, layout_id: Int? = null, program_id: Int? = null, official: Boolean? = null, recipient: String? = null, include_course_desciptions: Boolean? = null) =
+        sendRequest(this.api.getTranscript(accessKey, person_id = person_id, pdf = pdf, layout_id = layout_id, program_id = program_id, official = official, recipient = recipient, include_course_desciptions = include_course_desciptions))
 }
 
 interface PopuliApi {
@@ -353,6 +370,8 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getStudentDiscipline(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentDiscipline", @Field("person_id") person_id: Int): Call<StudentDisciplineResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentPrograms", @Field("person_id") person_id: Int): Call<StudentProgramResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentInfo", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<StudentInfo>
+
+    @FormUrlEncoded @POST(API_URI) fun getTranscript(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTranscript", @Field("person_id") person_id: Int, @Field("pdf") pdf: Boolean? = null, @Field("layout_id") layout_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("official") official: Boolean? = null, @Field("recipient") recipient: String? = null, @Field("include_course_desciptions") include_course_desciptions: Boolean? = null): Call<Transcript>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

@@ -207,6 +207,11 @@ object ClientSpec : Spek({
             assertStudentInfo(populi.getStudentInfo(1111))
         }
 
+        it("send request, receive response and parse it into Transcript") {
+            stubForPopuli("getTranscript", getTranscriptXml)
+            assertEquals(transcript, populi.getTranscript(1111))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -257,7 +262,8 @@ object ClientSpec : Spek({
             //println(real.getDegreeAudit(personId, degreeId, yearId))
             //println(real.getStudentDiscipline(personId))
             //println(real.getStudentPrograms(personId))
-            println(real.getStudentInfo(personId))
+            //println(real.getStudentInfo(personId))
+            println(real.getTranscript(personId))
         }
 
         afterGroup { wireMockServer.stop() }

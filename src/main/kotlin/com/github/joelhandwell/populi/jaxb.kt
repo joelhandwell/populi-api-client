@@ -14,6 +14,7 @@ val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.
 val clockLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:ma") //Oct 21, 2017 5:11pm
 val localTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mma")
 val usaDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy") //Dec 31, 2017
+val transcriptFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM. d yyyy") //Jan. 5 1985
 
 class LocalDateTimeAdapter : XmlAdapter<String, LocalDateTime>() {
 
@@ -32,10 +33,10 @@ class LocalDateTimeAdapter : XmlAdapter<String, LocalDateTime>() {
 class UsaLocalDateAdapter : XmlAdapter<String, LocalDate>() {
     override fun marshal(value: LocalDate): String = value.format(DateTimeFormatter.ISO_DATE)
 
-    override fun unmarshal(s: String): LocalDate = if (s.contains(',')) {
-        LocalDate.parse(s, usaDateFormatter)
-    } else {
-        LocalDate.parse(s)
+    override fun unmarshal(s: String): LocalDate = when {
+        s.contains(',') -> LocalDate.parse(s, usaDateFormatter)
+        s.contains('.') -> LocalDate.parse(s, transcriptFormatter)
+        else -> LocalDate.parse(s)
     }
 }
 
