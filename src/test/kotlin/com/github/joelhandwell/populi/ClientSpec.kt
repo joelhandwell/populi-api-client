@@ -237,6 +237,11 @@ object ClientSpec : Spek({
             assertEquals(applicationResponse, populi.getApplications())
         }
 
+        it("send request, receive response and parse it into Component of an Application"){
+            stubForPopuli("getApplicationComponents", getApplicationComponentsXml)
+            assertApplicationComponents(populi.getApplicationComponents(1111))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -256,6 +261,8 @@ object ClientSpec : Spek({
             //val termId = p.getProperty("real.term_id").toInt()
             //val personId = p.getProperty("real.person_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
+            //val lessonId = p.getProperty("real.lesson_id").toInt()
+            val applicationId = p.getProperty("real.application_id").toInt()
 
             // test with your real populi account info
             //println(real.getDegrees())
@@ -274,7 +281,6 @@ object ClientSpec : Spek({
             //println(real.getStudentAssignmentSubmissions(courseInstanceAssignmentId, personId))
             //println(real.getCourseInstanceFiles(courseInstanceId))
             //println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
-            //val lessonId = p.getProperty("real.lesson_id").toInt()
             //println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
             //println(real.getCourseInstanceStudents(courseInstanceId))
             //println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
@@ -292,7 +298,8 @@ object ClientSpec : Spek({
             //println(real.getTranscript(personId))
             //println(real.getCommunicationPlans())
             //println(real.getPersonCommunicationPlans(personId))
-            println(real.getApplications())
+            //println(real.getApplications())
+            println(real.getApplicationComponents(applicationId))
         }
 
         afterGroup { wireMockServer.stop() }

@@ -1004,3 +1004,17 @@ data class ApplicationResponse(
 
     var application: MutableList<Application> = mutableListOf()
 )
+
+@XmlRootElement(name = "component")
+data class ApplicationComponent(
+    var id: Int,
+    var name: String,
+    var description: String? = null,
+    var received_date: LocalDate,
+    var status: String
+)
+
+@XmlRootElement(name = "response")
+data class ApplicationComponentResponse(
+    var component: MutableList<ApplicationComponent> = mutableListOf()
+)

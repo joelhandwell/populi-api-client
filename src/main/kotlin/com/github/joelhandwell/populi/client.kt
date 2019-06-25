@@ -380,6 +380,12 @@ class Populi(
     fun getApplications(date_field: String? = null, start_date: String? = null, end_date: String? = null, term_id: Int? = null, program_id: Int? = null, degree_id: Int? = null, specialization_id: Int? = null, offset: Int? = null) =
         sendRequest(this.api.getApplications(accessKey, date_field = date_field, start_date = start_date, end_date = end_date, term_id = term_id, program_id = program_id, degree_id = degree_id, specialization_id = specialization_id, offset = offset))
 
+    /**
+     * Returns all application components for a particular application. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getApplicationComponents)
+     * @param application_id The numeric ID of the application you're interested in. Required.
+     */
+    fun getApplicationComponents(application_id: Int) =
+        sendRequest(this.api.getApplicationComponents(accessKey, application_id = application_id)).component
 }
 
 interface PopuliApi {
@@ -422,6 +428,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCommunicationPlans"): Call<CommunicationPlanResponse>
     @FormUrlEncoded @POST(API_URI) fun getPersonCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonCommunicationPlans", @Field("person_id") person_id: Int): Call<PersonCommunicationPlanResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplications(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplications", @Field("date_field") date_field: String? = null, @Field("start_date") start_date: String? = null, @Field("end_date") end_date: String? = null, @Field("term_id") term_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("degree_id") degree_id: Int? = null, @Field("specialization_id") specialization_id: Int? = null, @Field("offset") offset: Int? = null): Call<ApplicationResponse>
+    @FormUrlEncoded @POST(API_URI) fun getApplicationComponents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationComponents", @Field("application_id") application_id: Int): Call<ApplicationComponentResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
