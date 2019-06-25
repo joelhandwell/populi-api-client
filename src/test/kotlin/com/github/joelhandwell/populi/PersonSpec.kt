@@ -85,6 +85,8 @@ val personInfo = PersonInfo(
     tag = mutableListOf(Tag(1, "Alumni", 1), Tag(2, "Local Student", 0))
 )
 
+val personSSN = PersonSSN(result = "111-11-1111")
+
 object PersonSpec : Spek({
 
     describe("Phone") {
@@ -159,6 +161,13 @@ object PersonSpec : Spek({
         it("marshal to xml") { JAXB.marshal(personInfo, StringWriter()) }
 
         it("unmarshal from xml") { assertUnmarshals(personInfo, getPersonXml) }
+    }
+
+    describe("PersonSNS") {
+
+        it("marshal to xml") { assertMarshals(getPersonSSNXml, personSSN) }
+
+        it("unmarshal from xml") { assertUnmarshals(personSSN, getPersonSSNXml) }
     }
 })
 
@@ -253,4 +262,9 @@ const val getPersonXml = """
 			<system>0</system>
 		</tag>
 	</tags>
+</response>"""
+
+const val getPersonSSNXml = """
+<response>
+    <result>111-11-1111</result>
 </response>"""

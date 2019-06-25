@@ -212,6 +212,11 @@ object ClientSpec : Spek({
             assertEquals(personInfo, populi.getPerson(1111))
         }
 
+        it("send request, receive response and parse it into PersonSSN") {
+            stubForPopuli("getPersonSSN", getPersonSSNXml)
+            assertEquals(personSSN, populi.getPersonSSN(1111))
+        }
+
         it("send request, receive response and parse it into Transcript") {
             stubForPopuli("getTranscript", getTranscriptXml)
             assertEquals(transcript, populi.getTranscript(1111))

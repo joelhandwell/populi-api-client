@@ -329,6 +329,13 @@ class Populi(
         sendRequest(this.api.getPerson(accessKey, person_id = person_id, return_image_data = return_image_data))
 
     /**
+     * Gets the social security number for a particular person.
+     * You must have SSN access permissions to call this task. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPersonSSN)
+     * @param person_id The numeric ID of the person you're interested in. Required.
+     */
+    fun getPersonSSN(person_id: Int) = sendRequest(this.api.getPersonSSN(accessKey, person_id = person_id))
+
+    /**
      * Returns the transcript for a particular student. You must have the Academic Admin or Registrar role to call this task.
      * If pdf = true, this will return raw binary data rather than XML. The Content-Type HTTP header will indicate MIME type, and the Content-Disposition header will contain the file name.
      * If pdf = true, then this is a heavy API task. Multiple simultaneous calls to this task are not permitted and will fail with a rate limit error.
@@ -380,6 +387,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getStudentPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentPrograms", @Field("person_id") person_id: Int): Call<StudentProgramResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentInfo", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<StudentInfo>
     @FormUrlEncoded @POST(API_URI) fun getPerson(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPerson", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<PersonInfo>
+    @FormUrlEncoded @POST(API_URI) fun getPersonSSN(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonSSN", @Field("person_id") person_id: Int): Call<PersonSSN>
 
     @FormUrlEncoded @POST(API_URI) fun getTranscript(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTranscript", @Field("person_id") person_id: Int, @Field("pdf") pdf: Boolean? = null, @Field("layout_id") layout_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("official") official: Boolean? = null, @Field("recipient") recipient: String? = null, @Field("include_course_desciptions") include_course_desciptions: Boolean? = null): Call<Transcript>
 

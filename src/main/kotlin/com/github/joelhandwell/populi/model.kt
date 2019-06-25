@@ -156,6 +156,11 @@ data class PersonInfo(
 )
 
 @XmlRootElement(name = "response")
+data class PersonSSN(
+    var result: String
+)
+
+@XmlRootElement(name = "response")
 data class UserResponse(
     var person: MutableList<Person> = mutableListOf()
 )
