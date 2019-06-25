@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElementWrapper
 import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement(name = "address")
-data class Address(
+data class TranscriptAddress(
     var street: String,
     var city: String,
     var state: String,
@@ -24,7 +24,7 @@ data class TranscriptStudent(
     var birth_date: LocalDate,
     var student_id: Int,
     var enrolled_date: LocalDate? = null,
-    var address: Address
+    var address: TranscriptAddress
 )
 
 @XmlRootElement(name = "honor")

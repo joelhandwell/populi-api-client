@@ -207,6 +207,11 @@ object ClientSpec : Spek({
             assertStudentInfo(populi.getStudentInfo(1111))
         }
 
+        it("send request, receive response and parse it into PersonInfo") {
+            stubForPopuli("getPerson", getPersonXml)
+            assertEquals(personInfo, populi.getPerson(1111))
+        }
+
         it("send request, receive response and parse it into Transcript") {
             stubForPopuli("getTranscript", getTranscriptXml)
             assertEquals(transcript, populi.getTranscript(1111))
@@ -263,7 +268,8 @@ object ClientSpec : Spek({
             //println(real.getStudentDiscipline(personId))
             //println(real.getStudentPrograms(personId))
             //println(real.getStudentInfo(personId))
-            println(real.getTranscript(personId))
+            println(real.getPerson(personId))
+            //println(real.getTranscript(personId))
         }
 
         afterGroup { wireMockServer.stop() }

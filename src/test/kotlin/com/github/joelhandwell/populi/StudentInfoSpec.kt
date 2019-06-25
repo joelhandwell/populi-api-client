@@ -25,7 +25,9 @@ private val student = StudentInfo(
     leave_of_absence = 1,
     leave_of_absence_start_date = LocalDate.parse("2019-01-07"),
     leave_of_absence_anticipated_return_date = LocalDate.parse("2019-07-06"),
-    advisor = mutableListOf(Person(1654987, "Chris", "Jones"), Person(14684357, "Joe", "Bob")),
+    advisor = mutableListOf(
+        Person(1654987, "Chris", "Jones"),
+        Person(14684357, "Joe", "Bob")),
     campus = mutableListOf(
         Campus(
             id = 146873,

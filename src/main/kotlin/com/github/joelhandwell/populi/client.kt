@@ -318,6 +318,15 @@ class Populi(
     fun getStudentInfo(person_id: Int, return_image_data: Boolean? = null) =
         sendRequest(this.api.getStudentInfo(accessKey, person_id = person_id, return_image_data = return_image_data))
 
+    /**
+     * Returns basic profile data about a person: name, age, gender, tags, and contact information (address, phone, email).
+     * If the person has a profile picture, the <image> element will contain base64 encoded binary data.
+     * The <image> element won't be returned unless the person has a profile picture set. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPerson)
+     * @param person_id The numeric ID of the person you're interested in. Required.
+     * @param return_image_data Boolean. Returning binary image data will result in slower response times. Defaults to false. Not required.
+     */
+    fun getPerson(person_id: Int, return_image_data: Boolean? = null) =
+        sendRequest(this.api.getPerson(accessKey, person_id = person_id, return_image_data = return_image_data))
 
     /**
      * Returns the transcript for a particular student. You must have the Academic Admin or Registrar role to call this task.
@@ -370,6 +379,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getStudentDiscipline(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentDiscipline", @Field("person_id") person_id: Int): Call<StudentDisciplineResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentPrograms", @Field("person_id") person_id: Int): Call<StudentProgramResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentInfo", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<StudentInfo>
+    @FormUrlEncoded @POST(API_URI) fun getPerson(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPerson", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<PersonInfo>
 
     @FormUrlEncoded @POST(API_URI) fun getTranscript(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTranscript", @Field("person_id") person_id: Int, @Field("pdf") pdf: Boolean? = null, @Field("layout_id") layout_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("official") official: Boolean? = null, @Field("recipient") recipient: String? = null, @Field("include_course_desciptions") include_course_desciptions: Boolean? = null): Call<Transcript>
 

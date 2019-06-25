@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 private val date = LocalDate.of(1985, 1, 5)
 
-private val address = Address(
+private val address = TranscriptAddress(
     street = "P.O. Box 1994",
     city = "Moscow",
     state = "AR",
@@ -218,7 +218,7 @@ val transcript = Transcript(
 
 object TranscriptSpec : Spek({
 
-    describe("Address") {
+    describe("TranscriptAddress") {
         val xml = """
         <address>
             <city>Moscow</city>

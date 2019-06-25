@@ -53,6 +53,59 @@ data class DegreeResponse(
     var degree: MutableList<Degree> = mutableListOf()
 )
 
+@XmlRootElement(name = "citizenship")
+data class Citizenship(
+    var id: Int,
+    var abbr: String
+)
+
+@XmlRootElement(name = "race")
+data class Race(
+    var id: Int,
+    var name: String
+)
+
+@XmlRootElement(name = "address")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class Address(
+    var addressid: Int,
+    var type: String,
+    var street: String,
+    var city: String,
+    var state: String? = null,
+    var country: String? = null,
+    var zip: String,
+
+    @XmlElement(name = "is_primary") var is_primary: Int
+)
+
+@XmlRootElement(name = "phone")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class Phone(
+    var phoneid: Int,
+    var type: String,
+    var number: String,
+
+    @XmlElement(name = "is_primary") var is_primary: Int
+)
+
+@XmlRootElement(name = "email")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class Email(
+    var emailid: Int,
+    var type: String,
+    var address: String,
+
+    @XmlElement(name = "is_primary") var is_primary: Int
+)
+
+@XmlRootElement(name = "tag")
+data class Tag(
+    var id: Int,
+    var name: String,
+    var system: Int
+)
+
 @XmlRootElement(name = "person")
 data class Person(
     var person_id: Int,
@@ -60,6 +113,46 @@ data class Person(
     var last: String,
     var username: String? = null,
     var blocked: Int? = null
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class PersonInfo(
+    var first: String,
+    var last: String,
+    var middle_name: String? = null,
+    var preferred_name: String? = null,
+    var prefix: String? = null,
+    var suffix: String? = null,
+    var former_name: String? = null,
+    var gender: String,
+    var birth_date: LocalDate,
+
+    // ignore this as citizenship is conflicting name
+    //@XmlElement(name = "citizenship")
+    //var citizenship_single: String,
+
+    @XmlElementWrapper(name = "citizenships")
+    var citizenship: MutableList<Citizenship> = mutableListOf(),
+
+    var resident_alien: Int,
+    var home_city: String,
+    var home_state: String,
+    var home_country: String,
+    var license_plate: String,
+    var is_active_user: Int,
+
+    @XmlElementWrapper(name = "races")
+    var race: MutableList<Race> = mutableListOf(),
+
+    var hispanic_latino: String,
+    var image: String,
+    var address: MutableList<Address> = mutableListOf(),
+    var phone: MutableList<Phone> = mutableListOf(),
+    var email: MutableList<Email> = mutableListOf(),
+
+    @XmlElementWrapper(name = "tags")
+    var tag: MutableList<Tag> = mutableListOf()
 )
 
 @XmlRootElement(name = "response")
