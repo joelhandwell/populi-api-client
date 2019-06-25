@@ -1018,3 +1018,48 @@ data class ApplicationComponent(
 data class ApplicationComponentResponse(
     var component: MutableList<ApplicationComponent> = mutableListOf()
 )
+
+@XmlRootElement(name = "program")
+data class ApplicationTemplateProgram(
+    var id: Int,
+    var name: String
+)
+
+@XmlRootElement(name = "academic_term")
+data class ApplicationTemplateTerm(
+    var id: Int,
+    var name: String
+)
+
+@XmlRootElement(name = "enrollment_option")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class ApplicationTemplateEnrollmentOption(
+
+    @XmlValue
+    var option: String
+)
+
+@XmlRootElement(name = "application_template")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class ApplicationTemplate(
+    var id: Int,
+    var name: String,
+    var show_online: Int,
+    var fee_amount: MonetaryAmount? = null,
+    var fee_payment: String,
+    var allow_undecided: Int,
+
+    @XmlElementWrapper(name = "programs")
+    var program: MutableList<ApplicationTemplateProgram>? = null,
+
+    @XmlElementWrapper(name = "academic_terms")
+    var academic_term: MutableList<ApplicationTemplateTerm>? = null,
+
+    @XmlElementWrapper(name = "enrollment_options")
+    var enrollment_option: MutableList<ApplicationTemplateEnrollmentOption>? = null
+)
+
+@XmlRootElement(name = "response")
+data class ApplicationTemplateResponse(
+    var application_template: MutableList<ApplicationTemplate>
+)

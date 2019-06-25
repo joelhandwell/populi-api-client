@@ -386,6 +386,14 @@ class Populi(
      */
     fun getApplicationComponents(application_id: Int) =
         sendRequest(this.api.getApplicationComponents(accessKey, application_id = application_id)).component
+
+    /**
+     * Returns all application templates. You must have the Admissions role to call this task.
+     * If the application template is set up with programs, academic terms, or enrollment the available options will be returned in <programs>, <academic_terms> and <enrollment_options> elements. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getApplicationTemplates)
+     * @param show_online_only Boolean. If true only application templates that are set to show online will be returned. Defaults to false. Not required.
+     */
+    fun getApplicationTemplates(show_online_only: Boolean? = null) =
+        sendRequest(this.api.getApplicationTemplates(accessKey, show_online_only = show_online_only)).application_template
 }
 
 interface PopuliApi {
@@ -429,6 +437,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getPersonCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonCommunicationPlans", @Field("person_id") person_id: Int): Call<PersonCommunicationPlanResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplications(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplications", @Field("date_field") date_field: String? = null, @Field("start_date") start_date: String? = null, @Field("end_date") end_date: String? = null, @Field("term_id") term_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("degree_id") degree_id: Int? = null, @Field("specialization_id") specialization_id: Int? = null, @Field("offset") offset: Int? = null): Call<ApplicationResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplicationComponents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationComponents", @Field("application_id") application_id: Int): Call<ApplicationComponentResponse>
+    @FormUrlEncoded @POST(API_URI) fun getApplicationTemplates(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationTemplates", @Field("show_online_only") show_online_only: Boolean? = null): Call<ApplicationTemplateResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
