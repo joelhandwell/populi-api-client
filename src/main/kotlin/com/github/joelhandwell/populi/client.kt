@@ -355,6 +355,13 @@ class Populi(
      * Returns all available communication plans. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCommunicationPlans)
      */
     fun getCommunicationPlans() = sendRequest(this.api.getCommunicationPlans(accessKey)).communication_plan
+
+    /**
+     * Returns all active communication plans attached to a person. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPersonCommunicationPlans)
+     * @param person_id The numeric ID of the person you're interested in. Required.
+     */
+    fun getPersonCommunicationPlans(person_id: Int) =
+        sendRequest(this.api.getPersonCommunicationPlans(accessKey, person_id = person_id)).communication_plan_instance
 }
 
 interface PopuliApi {
@@ -395,6 +402,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getPersonSSN(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonSSN", @Field("person_id") person_id: Int): Call<PersonSSN>
     @FormUrlEncoded @POST(API_URI) fun getTranscript(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTranscript", @Field("person_id") person_id: Int, @Field("pdf") pdf: Boolean? = null, @Field("layout_id") layout_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("official") official: Boolean? = null, @Field("recipient") recipient: String? = null, @Field("include_course_desciptions") include_course_desciptions: Boolean? = null): Call<Transcript>
     @FormUrlEncoded @POST(API_URI) fun getCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCommunicationPlans"): Call<CommunicationPlanResponse>
+    @FormUrlEncoded @POST(API_URI) fun getPersonCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonCommunicationPlans", @Field("person_id") person_id: Int): Call<PersonCommunicationPlanResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

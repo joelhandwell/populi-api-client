@@ -928,3 +928,18 @@ data class CommunicationPlan(
 data class CommunicationPlanResponse(
     var communication_plan: MutableList<CommunicationPlan> = mutableListOf()
 )
+
+@XmlRootElement(name = "communication_plan_instance")
+data class CommunicationPlanInstance(
+    var id: Int,
+    var communication_plan_id: Int,
+    var communication_plan_name: String,
+    var sender_id: Int,
+    var added_by: Int,
+    var added_at: LocalDateTime
+)
+
+@XmlRootElement(name = "response")
+data class PersonCommunicationPlanResponse(
+    var communication_plan_instance: MutableList<CommunicationPlanInstance> = mutableListOf()
+)
