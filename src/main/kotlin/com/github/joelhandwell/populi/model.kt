@@ -644,7 +644,11 @@ data class TermStudent(
 @XmlRootElement(name = "response")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class TermStudentResponse(
-    @XmlAttribute(name = "num_results") var num_results: Int, var student: MutableList<TermStudent> = mutableListOf()
+
+    @XmlAttribute(name = "num_results")
+    var num_results: Int,
+
+    var student: MutableList<TermStudent> = mutableListOf()
 )
 
 @XmlRootElement(name = "enrollment")
@@ -942,4 +946,61 @@ data class CommunicationPlanInstance(
 @XmlRootElement(name = "response")
 data class PersonCommunicationPlanResponse(
     var communication_plan_instance: MutableList<CommunicationPlanInstance> = mutableListOf()
+)
+
+@XmlRootElement(name = "application")
+data class Application(
+    var id: Int,
+    var lead_id: Int,
+    var person_id: Int,
+    var first_name: String,
+    var preferred_name: String? = null,
+    var middle_name: String? = null,
+    var last_name: String,
+    var gender: String,
+    var email: String,
+    var application_template_id: Int,
+    var application_template_name: String,
+    var representative_id: Int,
+    var program_id: Int,
+    var program_name: String,
+    var degree_seeking: Int,
+    var degree_id: Int,
+    var degree_abbreviation: String,
+    var degree_name: String,
+    var specialization_id: Int,
+    var specialization_abbreviation: String,
+    var specialization_name: String,
+    var academic_term_id: Int,
+    var academic_term_name: String,
+    var expected_enrollment: String,
+    var full_time: Int,
+    var started_on: LocalDate,
+    var submitted_at: LocalDate? = null,
+    var decision_on: LocalDate? = null,
+    var withdrawn_on: LocalDate? = null,
+    var submitted_type: String,
+    var provisional: Int,
+    var provisional_comment: String? = null,
+    var fee_status: String,
+    var fee_id: Int,
+    var fee_amount: MonetaryAmount,
+    var fee_payment: String,
+    var sales_receipt_id: Int,
+    var transaction_id: Int,
+    var applicant_activity_at: LocalDateTime,
+    var num_days_since_last_activity: Int,
+    var staff_activity_at: LocalDateTime,
+    var percent_completed: Int,
+    var status: String
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class ApplicationResponse(
+
+    @XmlAttribute(name = "num_results")
+    var num_results: Int,
+
+    var application: MutableList<Application> = mutableListOf()
 )

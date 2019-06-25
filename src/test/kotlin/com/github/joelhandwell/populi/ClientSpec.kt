@@ -232,6 +232,11 @@ object ClientSpec : Spek({
             assertEquals(mutableListOf(communicationPlanInstance), populi.getPersonCommunicationPlans(1111))
         }
 
+        it("send request, receive response and parse it into Application"){
+            stubForPopuli("getApplications", getApplicationsXml)
+            assertEquals(applicationResponse, populi.getApplications())
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -249,7 +254,7 @@ object ClientSpec : Spek({
             //val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
             //val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
-            val personId = p.getProperty("real.person_id").toInt()
+            //val personId = p.getProperty("real.person_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
 
             // test with your real populi account info
@@ -286,7 +291,8 @@ object ClientSpec : Spek({
             //println(real.getPerson(personId))
             //println(real.getTranscript(personId))
             //println(real.getCommunicationPlans())
-            println(real.getPersonCommunicationPlans(personId))
+            //println(real.getPersonCommunicationPlans(personId))
+            println(real.getApplications())
         }
 
         afterGroup { wireMockServer.stop() }

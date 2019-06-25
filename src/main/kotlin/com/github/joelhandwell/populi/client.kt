@@ -362,6 +362,24 @@ class Populi(
      */
     fun getPersonCommunicationPlans(person_id: Int) =
         sendRequest(this.api.getPersonCommunicationPlans(accessKey, person_id = person_id)).communication_plan_instance
+
+    /**
+     * Returns applications based on the filter conditions.You must have the Admissions role to call this task.
+     * The "start_date" and "end_date" parameters are required when filtering by the "date_field" parameter.
+     * There is a limit of 200 results in the response.
+     * The "num_results" attribute in the <response> element indicates the total number of results regardless of the limit or offset. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getApplications)
+     * @param date_field The name of the date field you want to filter by (e.g. APPLIED, DECISION, SUBMITTED, or WITHDRAWN). Not required.
+     * @param start_date The start date used to filter the "date_field" parameter. Not required.
+     * @param end_date The end date used to filter the "date_field" parameter. Not required.
+     * @param term_id The numeric ID of the academic term you're interested in. Not required.
+     * @param program_id The numeric ID of the program you're interested in. Not required.
+     * @param degree_id The numeric ID of the degree you're interested in. Not required.
+     * @param specialization_id The numeric ID of the specialization you're interested in. Not required.
+     * @param offset The numeric value you want to offset the results by. Not required.
+     */
+    fun getApplications(date_field: String? = null, start_date: String? = null, end_date: String? = null, term_id: Int? = null, program_id: Int? = null, degree_id: Int? = null, specialization_id: Int? = null, offset: Int? = null) =
+        sendRequest(this.api.getApplications(accessKey, date_field = date_field, start_date = start_date, end_date = end_date, term_id = term_id, program_id = program_id, degree_id = degree_id, specialization_id = specialization_id, offset = offset))
+
 }
 
 interface PopuliApi {
@@ -403,6 +421,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getTranscript(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTranscript", @Field("person_id") person_id: Int, @Field("pdf") pdf: Boolean? = null, @Field("layout_id") layout_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("official") official: Boolean? = null, @Field("recipient") recipient: String? = null, @Field("include_course_desciptions") include_course_desciptions: Boolean? = null): Call<Transcript>
     @FormUrlEncoded @POST(API_URI) fun getCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCommunicationPlans"): Call<CommunicationPlanResponse>
     @FormUrlEncoded @POST(API_URI) fun getPersonCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonCommunicationPlans", @Field("person_id") person_id: Int): Call<PersonCommunicationPlanResponse>
+    @FormUrlEncoded @POST(API_URI) fun getApplications(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplications", @Field("date_field") date_field: String? = null, @Field("start_date") start_date: String? = null, @Field("end_date") end_date: String? = null, @Field("term_id") term_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("degree_id") degree_id: Int? = null, @Field("specialization_id") specialization_id: Int? = null, @Field("offset") offset: Int? = null): Call<ApplicationResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
