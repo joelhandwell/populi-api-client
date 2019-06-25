@@ -350,6 +350,11 @@ class Populi(
      */
     fun getTranscript(person_id: Int, pdf: Boolean? = null, layout_id: Int? = null, program_id: Int? = null, official: Boolean? = null, recipient: String? = null, include_course_desciptions: Boolean? = null) =
         sendRequest(this.api.getTranscript(accessKey, person_id = person_id, pdf = pdf, layout_id = layout_id, program_id = program_id, official = official, recipient = recipient, include_course_desciptions = include_course_desciptions))
+
+    /**
+     * Returns all available communication plans. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCommunicationPlans)
+     */
+    fun getCommunicationPlans() = sendRequest(this.api.getCommunicationPlans(accessKey)).communication_plan
 }
 
 interface PopuliApi {
@@ -388,8 +393,8 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getStudentInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentInfo", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<StudentInfo>
     @FormUrlEncoded @POST(API_URI) fun getPerson(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPerson", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<PersonInfo>
     @FormUrlEncoded @POST(API_URI) fun getPersonSSN(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonSSN", @Field("person_id") person_id: Int): Call<PersonSSN>
-
     @FormUrlEncoded @POST(API_URI) fun getTranscript(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTranscript", @Field("person_id") person_id: Int, @Field("pdf") pdf: Boolean? = null, @Field("layout_id") layout_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("official") official: Boolean? = null, @Field("recipient") recipient: String? = null, @Field("include_course_desciptions") include_course_desciptions: Boolean? = null): Call<Transcript>
+    @FormUrlEncoded @POST(API_URI) fun getCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCommunicationPlans"): Call<CommunicationPlanResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

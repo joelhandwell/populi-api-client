@@ -915,3 +915,16 @@ data class StudentInfo(
     @XmlElementWrapper(name = "campuses")
     var campus: MutableList<Campus> = mutableListOf()
 )
+
+@XmlRootElement(name = "communication_plan")
+data class CommunicationPlan(
+    var id: Int,
+    var name: String,
+    var added_by: Int,
+    var added_at: LocalDateTime
+)
+
+@XmlRootElement(name = "response")
+data class CommunicationPlanResponse(
+    var communication_plan: MutableList<CommunicationPlan> = mutableListOf()
+)
