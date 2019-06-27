@@ -382,10 +382,21 @@ class Populi(
 
     /**
      * Returns an application. You must have the Admissions role or be the owner of the application to call this task. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getApplication)
-     * @param application_id Numeric ID of the application you're interested in.
+     * @param application_id Numeric ID of the application you're interested in. Required.
      */
     fun getApplication(application_id: Int) =
         sendRequest(this.api.getApplication(accessKey, application_id = application_id)).application
+
+    enum class ApplicationFieldCountry { USA, CAN }
+
+    /**
+     * Returns the options for an application field. Only application fields with a data_type of CHOICE or MULTIPLE_ANSWER will return options. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getApplicationFieldOptions)
+     * @param application_field_id Numeric ID of the application field you're interested in. Required.
+     * @param country [ApplicationFieldCountry] Not required, but if you're requesting options for a field with the data_format STATE_PROVINCE you must include this.
+     * @param degree_id Numeric ID of a degree. Not required, but if you're requesting options for a field with the data_format SPECIALIZATION you must include this.
+     */
+    fun getApplicationFieldOptions(application_field_id: Int, country: ApplicationFieldCountry? = null, degree_id: Int? = null) =
+        sendRequest(this.api.getApplicationFieldOptions(accessKey, application_field_id = application_field_id, country = country.toString(), degree_id = degree_id)).option
 
     /**
      * Returns all application components for a particular application. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getApplicationComponents)
@@ -444,6 +455,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getPersonCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonCommunicationPlans", @Field("person_id") person_id: Int): Call<PersonCommunicationPlanResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplications(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplications", @Field("date_field") date_field: String? = null, @Field("start_date") start_date: String? = null, @Field("end_date") end_date: String? = null, @Field("term_id") term_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("degree_id") degree_id: Int? = null, @Field("specialization_id") specialization_id: Int? = null, @Field("offset") offset: Int? = null): Call<ApplicationResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplication(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplication", @Field("application_id") application_id: Int): Call<ApplicationDetailResponse>
+    @FormUrlEncoded @POST(API_URI) fun getApplicationFieldOptions(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationFieldOptions", @Field("application_field_id") application_field_id: Int, @Field("country") country: String? = null, @Field("degree_id") degree_id: Int? = null): Call<ApplicationFieldOptionResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplicationComponents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationComponents", @Field("application_id") application_id: Int): Call<ApplicationComponentResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplicationTemplates(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationTemplates", @Field("show_online_only") show_online_only: Boolean? = null): Call<ApplicationTemplateResponse>
 

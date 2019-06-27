@@ -29,7 +29,7 @@ data class ApplicationText(
 )
 
 @XmlRootElement(name = "option")
-data class ApplicationAnswerOption(
+data class ApplicationFieldOption(
     var id: Int,
     var name: String
 )
@@ -58,7 +58,7 @@ data class ApplicationAnswer(
 
     //options
     @XmlElementWrapper(name = "options")
-    var option: MutableList<ApplicationAnswerOption>? = null,
+    var option: MutableList<ApplicationFieldOption>? = null,
 
     //races
     var hispanic_latino: Int? = null,
@@ -214,4 +214,12 @@ data class ApplicationResponse(
 @XmlRootElement(name = "response")
 data class ApplicationDetailResponse(
     var application: Application
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class ApplicationFieldOptionResponse(
+
+    @XmlElementWrapper(name = "application_field_options")
+    var option: MutableList<ApplicationFieldOption> = mutableListOf()
 )

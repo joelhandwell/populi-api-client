@@ -68,8 +68,8 @@ private val optionsField = ApplicationField(
     order_id = 5,
     answer = ApplicationAnswer(
         option = mutableListOf(
-            ApplicationAnswerOption(527, "Football"),
-            ApplicationAnswerOption(528, "Baseball")
+            ApplicationFieldOption(527, "Football"),
+            ApplicationFieldOption(528, "Baseball")
         )
     )
 )
