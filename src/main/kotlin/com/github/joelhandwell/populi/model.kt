@@ -65,6 +65,20 @@ data class Race(
     var name: String
 )
 
+@XmlRootElement(name = "country")
+data class Country(
+    var abbreviation: String,
+    var name: String
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class CountryResponse(
+
+    @XmlElementWrapper(name = "countries")
+    var country: MutableList<Country> = mutableListOf()
+)
+
 @XmlRootElement(name = "address")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Address(

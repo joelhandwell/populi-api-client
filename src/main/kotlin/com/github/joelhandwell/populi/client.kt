@@ -90,6 +90,11 @@ class Populi(
     fun getUsers(): MutableList<Person> = sendRequest(this.api.getUsers(accessKey)).person
 
     /**
+     * Returns a list of countries and their respective abbreviations. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCountries)
+     */
+    fun getCountries(): MutableList<Country> = sendRequest(this.api.getCountries(accessKey)).country
+
+    /**
      * Returns all campuses. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCampuses)
      */
     fun getCampuses(): MutableList<Campus> = sendRequest(this.api.getCampuses(accessKey)).campus
@@ -418,6 +423,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun requestAccessKey(@Field("username") username: String, @Field("password") password: String): Call<AccessKeyResponse>
     @FormUrlEncoded @POST(API_URI) fun getDegrees(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getDegrees"): Call<DegreeResponse>
     @FormUrlEncoded @POST(API_URI) fun getUsers(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUsers"): Call<UserResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCountries(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCountries"): Call<CountryResponse>
     @FormUrlEncoded @POST(API_URI) fun getCampuses(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCampuses"): Call<CampusResponse>
     @FormUrlEncoded @POST(API_URI) fun getPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPrograms"): Call<ProgramResponse>
     @FormUrlEncoded @POST(API_URI) fun getAcademicYears(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getAcademicYears"): Call<AcademicYearResponse>

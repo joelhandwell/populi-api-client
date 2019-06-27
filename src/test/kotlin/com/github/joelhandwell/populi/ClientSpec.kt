@@ -54,6 +54,11 @@ object ClientSpec : Spek({
             assertUsers(populi.getUsers())
         }
 
+        it("send request, receive response and parse it into Country"){
+            stubForPopuli("getCountries", getCountriesXml)
+            assertCountries(populi.getCountries())
+        }
+
         it("send request, receive response and parse it into Campuses") {
             stubForPopuli("getCampuses", getCampusesXml)
             assertCampuses(populi.getCampuses())
@@ -278,9 +283,10 @@ object ClientSpec : Spek({
             //val degreeId = p.getProperty("real.degree_id").toInt()
             //val lessonId = p.getProperty("real.lesson_id").toInt()
             //val applicationId = p.getProperty("real.application_id").toInt()
-            val applicationFieldId = p.getProperty("real.application_field_id").toInt()
+            //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
 
             // test with your real populi account info
+            println(real.getCountries())
             //println(real.getDegrees())
             //println(real.getPrograms())
             //println(real.getAcademicYears())
@@ -316,7 +322,7 @@ object ClientSpec : Spek({
             //println(real.getPersonCommunicationPlans(personId))
             //println(real.getApplications())
             //println(real.getApplication(applicationId))
-            println(real.getApplicationFieldOptions(applicationFieldId))
+            //println(real.getApplicationFieldOptions(applicationFieldId))
             //println(real.getApplicationComponents(applicationId))
             //println(real.getApplicationTemplates())
         }
