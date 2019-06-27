@@ -1,6 +1,8 @@
 package com.github.joelhandwell.populi
 
 import org.javamoney.moneta.Money
+import org.w3c.dom.Element
+import java.io.StringWriter
 import java.text.NumberFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -8,6 +10,8 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import javax.money.MonetaryAmount
+import javax.xml.bind.JAXB
+import javax.xml.bind.JAXBContext
 import javax.xml.bind.annotation.adapters.XmlAdapter
 
 val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -66,4 +70,23 @@ class MonetaryAmountAdapter : XmlAdapter<String, MonetaryAmount>() {
 
     @Throws(Exception::class)
     override fun unmarshal(s: String): MonetaryAmount = Money.parse("USD $s")
+}
+
+class ApplicationAnswerAdapter : XmlAdapter<Any, ApplicationAnswer>() {
+
+    override fun marshal(v: ApplicationAnswer): Any {
+        return StringWriter().apply { JAXB.marshal(v, this) }.toString()
+    }
+
+    override fun unmarshal(v: Any): ApplicationAnswer {
+        val context: JAXBContext = JAXBContext.newInstance(ApplicationAnswer::class.java)
+        val unmarshaller = context.createUnmarshaller()
+
+        val e = v as Element
+
+        return when {
+            e.childNodes.length == 1 -> ApplicationAnswer(ssn = e.firstChild.textContent)
+            else -> unmarshaller.unmarshal(e) as ApplicationAnswer
+        }
+    }
 }

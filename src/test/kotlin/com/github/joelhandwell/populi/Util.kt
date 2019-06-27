@@ -17,6 +17,14 @@ const val XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"ye
 fun assertMarshals(expectedXml: String, actualObject: Any) {
     assertEquals(XML_HEADER + expectedXml.trim(), StringWriter().apply { JAXB.marshal(actualObject, this) }.toString().trim())
 }
+
+/**
+ * convenience function to check if the given object marshals without error
+ */
+fun assertMarshals(actualObject: Any){
+    JAXB.marshal(actualObject, StringWriter())
+}
+
 /**
  * Convenience function to reduce repeated code
  */
