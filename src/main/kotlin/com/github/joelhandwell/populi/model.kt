@@ -174,21 +174,75 @@ data class PersonSSN(
     var result: String
 )
 
+/**
+ * @see [Populi.getAllCustomFields]
+ */
+enum class CustomFieldInputType {
+    /**
+     * e.g. 2010-09-09
+     */
+    DATE,
+
+    /**
+     * e.g. 2010-09-09 19:00:45
+     */
+    DATE_TIME,
+
+    /**
+     * e.g. 10.88
+     */
+    DECIMAL,
+
+    /**
+     * Allows multiple values to be selected from a list
+     */
+    CHECKBOX,
+
+    /**
+     * a numeric file_id (e.g. 11111)
+     */
+    FILE,
+
+    /**
+     * e.g. 101
+     */
+    INTEGER,
+
+    /**
+     * Select one from a list of a few options
+     */
+    RADIO,
+
+    /**
+     * Select one from a list of many options
+     */
+    SELECT,
+
+    /**
+     * Lots of text
+     */
+    TEXT_AREA,
+
+    /**
+     * Little bit of text
+     */
+    TEXT }
+
 @XmlRootElement(name = "custom_field")
 data class CustomField(
     var id: Int,
     var name: String,
     var type: String,
-    var input_type: String,
-    var value: String,
-    var option_index: Int? = null
+    var input_type: CustomFieldInputType,
+    var value: String? = null,
+    var option_index: Int? = null,
+    var description: String? = null
 )
 
 @XmlRootElement(name = "response")
 data class CustomFieldResponse(
     var custom_field: MutableList<CustomField> = mutableListOf()
 )
-
 
 @XmlRootElement(name = "response")
 data class UserResponse(
@@ -606,7 +660,6 @@ data class CourseInstanceMeetingAttendanceResponse(
     var attendee: MutableList<CourseInstanceMeetingAttendance> = mutableListOf()
 )
 
-@XmlEnum
 enum class CourseInstanceStudentStatus { ENROLLED, AUDITOR, WITHDRAWN, INCOMPLETE }
 
 @XmlRootElement(name = "courseinstance_student")
