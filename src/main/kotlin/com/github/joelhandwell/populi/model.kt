@@ -174,6 +174,22 @@ data class PersonSSN(
     var result: String
 )
 
+@XmlRootElement(name = "custom_field")
+data class CustomField(
+    var id: Int,
+    var name: String,
+    var type: String,
+    var input_type: String,
+    var value: String,
+    var option_index: Int? = null
+)
+
+@XmlRootElement(name = "response")
+data class CustomFieldResponse(
+    var custom_field: MutableList<CustomField> = mutableListOf()
+)
+
+
 @XmlRootElement(name = "response")
 data class UserResponse(
     var person: MutableList<Person> = mutableListOf()

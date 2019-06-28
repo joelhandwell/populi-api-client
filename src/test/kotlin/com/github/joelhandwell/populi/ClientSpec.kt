@@ -9,6 +9,7 @@ import org.spekframework.spek2.style.specification.describe
 import java.nio.file.Paths
 import java.util.*
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 
 object ClientSpec : Spek({
@@ -54,7 +55,7 @@ object ClientSpec : Spek({
             assertUsers(populi.getUsers())
         }
 
-        it("send request, receive response and parse it into Country"){
+        it("send request, receive response and parse it into Country") {
             stubForPopuli("getCountries", getCountriesXml)
             assertCountries(populi.getCountries())
         }
@@ -222,6 +223,17 @@ object ClientSpec : Spek({
             assertEquals(personSSN, populi.getPersonSSN(1111))
         }
 
+        it("send request, throws error when tying to get CustomField without specifying neither person_id nor organization_id") {
+            assertFailsWith<IllegalArgumentException>(message = "either person_id or organization_id must be set") {
+                populi.getCustomFields()
+            }
+        }
+
+        it("send request, receive response and parse it into CustomField"){
+            stubForPopuli("getCustomFields", getCustomFieldsXml)
+            assertEquals(customFields, populi.getCustomFields(person_id = 1111))
+        }
+
         it("send request, receive response and parse it into Transcript") {
             stubForPopuli("getTranscript", getTranscriptXml)
             assertEquals(transcript, populi.getTranscript(1111))
@@ -279,14 +291,14 @@ object ClientSpec : Spek({
             //val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
             //val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
-            //val personId = p.getProperty("real.person_id").toInt()
+            val personId = p.getProperty("real.person_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
             //val lessonId = p.getProperty("real.lesson_id").toInt()
             //val applicationId = p.getProperty("real.application_id").toInt()
             //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
 
             // test with your real populi account info
-            println(real.getCountries())
+            //println(real.getCountries())
             //println(real.getDegrees())
             //println(real.getPrograms())
             //println(real.getAcademicYears())
@@ -317,6 +329,7 @@ object ClientSpec : Spek({
             //println(real.getStudentPrograms(personId))
             //println(real.getStudentInfo(personId))
             //println(real.getPerson(personId))
+            println(real.getCustomFields(person_id = personId))
             //println(real.getTranscript(personId))
             //println(real.getCommunicationPlans())
             //println(real.getPersonCommunicationPlans(personId))
