@@ -487,6 +487,12 @@ class Populi(
      */
     fun getPersonLeads(person_id: Int) =
         sendRequest(this.api.getPersonLeads(accessKey, person_id = person_id)).lead
+
+    /**
+     * Returns all the lead sources you've set up in the Admissions module. You must have the Admissions role to call this task.
+     * Useful for looking up numeric IDs for passing into [setLeadInfo]. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getLeadSources)
+     */
+    fun getLeadSources() = sendRequest(this.api.getLeadSources(accessKey)).lead_source
 }
 
 interface PopuliApi {
@@ -540,6 +546,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getApplicationComponents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationComponents", @Field("application_id") application_id: Int): Call<ApplicationComponentResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplicationTemplates(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationTemplates", @Field("show_online_only") show_online_only: Boolean? = null): Call<ApplicationTemplateResponse>
     @FormUrlEncoded @POST(API_URI) fun getPersonLeads(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonLeads", @Field("person_id") person_id: Int): Call<LeadResponse>
+    @FormUrlEncoded @POST(API_URI) fun getLeadSources(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLeadSources"): Call<LeadSourceResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

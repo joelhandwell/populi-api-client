@@ -296,9 +296,14 @@ object ClientSpec : Spek({
             assertApplicationTemplates(populi.getApplicationTemplates())
         }
 
-        it("send request, receive response and parse it into Lead attached to a specific Person"){
+        it("send request, receive response and parse it into Lead attached to a specific Person") {
             stubForPopuli("getPersonLeads", getPersonLeadsXml)
             assertEquals(leads, populi.getPersonLeads(1111))
+        }
+
+        it("send request, receive response and parse it into LeadSource") {
+            stubForPopuli("getLeadSources", getLeadSourcesXml)
+            assertEquals(leadSources, populi.getLeadSources())
         }
 
         xit("real") {
@@ -318,7 +323,7 @@ object ClientSpec : Spek({
             //val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
             //val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
-            val personId = p.getProperty("real.person_id").toInt()
+            //val personId = p.getProperty("real.person_id").toInt()
             //val customFieldId = p.getProperty("real.custom_field_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
             //val lessonId = p.getProperty("real.lesson_id").toInt()
@@ -370,7 +375,8 @@ object ClientSpec : Spek({
             //println(real.getApplicationFieldOptions(applicationFieldId))
             //println(real.getApplicationComponents(applicationId))
             //println(real.getApplicationTemplates())
-            println(real.getPersonLeads(personId))
+            //println(real.getPersonLeads(personId))
+            println(real.getLeadSources())
         }
 
         afterGroup { wireMockServer.stop() }

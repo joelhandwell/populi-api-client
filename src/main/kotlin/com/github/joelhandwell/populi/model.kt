@@ -1113,3 +1113,15 @@ data class LeadResponse(
     @XmlElementWrapper(name = "leads")
     var lead: MutableList<Lead> = mutableListOf()
 )
+
+@XmlRootElement(name = "lead_source")
+data class LeadSource(
+    var id: Int,
+    var name: String,
+    var type: String
+)
+
+@XmlRootElement(name = "response")
+data class LeadSourceResponse(
+    var lead_source: MutableList<LeadSource> = mutableListOf()
+)
