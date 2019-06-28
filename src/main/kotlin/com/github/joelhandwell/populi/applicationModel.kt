@@ -206,7 +206,7 @@ data class Application(
 data class ApplicationResponse(
 
     @XmlAttribute(name = "num_results")
-    var num_results: Int,
+    var num_results: Int? = null,
 
     var application: MutableList<Application> = mutableListOf()
 )

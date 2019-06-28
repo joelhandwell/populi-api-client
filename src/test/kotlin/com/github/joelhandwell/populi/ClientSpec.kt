@@ -2,7 +2,7 @@ package com.github.joelhandwell.populi
 
 import ch.qos.logback.classic.Level
 import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.client.WireMock.*
 import org.slf4j.LoggerFactory
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
@@ -24,9 +24,11 @@ object ClientSpec : Spek({
         beforeGroup { wireMockServer.start() }
 
         it("creates api client with username and password") {
-            WireMock.stubFor(
-                WireMock.post("/api/").withRequestBody(WireMock.containing("username=john&password=pass")).willReturn(
-                    WireMock.aResponse().withBodyFile("accessKeyRequest.xml")
+            stubFor(
+                post("/api/").withRequestBody(
+                    containing("username=john&password=pass")
+                ).willReturn(
+                    aResponse().withBodyFile("accessKeyRequest.xml")
                 )
             )
 
@@ -269,6 +271,11 @@ object ClientSpec : Spek({
             assertEquals(applicationResponse, populi.getApplications())
         }
 
+        it("send request, receive response and parse it into Application associated with a specific Person") {
+            stubForPopuli("getPersonApplications", getPersonApplicationsXml)
+            assertEquals(personApplications, populi.getPersonApplications(1111))
+        }
+
         it("send request, receive response and parse it into Application Detail") {
             stubForPopuli("getApplication", getApplicationXml)
             assertEquals(applicationDetail, populi.getApplication(1111))
@@ -306,7 +313,7 @@ object ClientSpec : Spek({
             //val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
             //val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
-            //val personId = p.getProperty("real.person_id").toInt()
+            val personId = p.getProperty("real.person_id").toInt()
             //val customFieldId = p.getProperty("real.custom_field_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
             //val lessonId = p.getProperty("real.lesson_id").toInt()
@@ -314,7 +321,7 @@ object ClientSpec : Spek({
             //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
 
             // test with your real populi account info
-            println(real.getEducationLevels())
+            //println(real.getEducationLevels())
             //println(real.getCountries())
             //println(real.getDegrees())
             //println(real.getPrograms())
@@ -353,6 +360,7 @@ object ClientSpec : Spek({
             //println(real.getCommunicationPlans())
             //println(real.getPersonCommunicationPlans(personId))
             //println(real.getApplications())
+            println(real.getPersonApplications(personId))
             //println(real.getApplication(applicationId))
             //println(real.getApplicationFieldOptions(applicationFieldId))
             //println(real.getApplicationComponents(applicationId))
@@ -364,9 +372,11 @@ object ClientSpec : Spek({
 })
 
 fun stubForPopuli(task: String, xml: String) {
-    WireMock.stubFor(
-        WireMock.post("/api/").withRequestBody(WireMock.containing("access_key=$TEST_API_ACCESS_KEY&task=$task")).willReturn(
-            WireMock.aResponse().withBody(xml)
+    stubFor(
+        post("/api/").withRequestBody(
+            containing("access_key=$TEST_API_ACCESS_KEY&task=$task")
+        ).willReturn(
+            aResponse().withBody(xml)
         )
     )
 }
