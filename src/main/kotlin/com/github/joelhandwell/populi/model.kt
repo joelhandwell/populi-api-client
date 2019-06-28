@@ -244,6 +244,17 @@ data class CustomFieldResponse(
     var custom_field: MutableList<CustomField> = mutableListOf()
 )
 
+@XmlRootElement(name = "option")
+data class CustomFieldOption(
+    var index: Int,
+    var name: String
+)
+
+@XmlRootElement(name = "response")
+data class CustomFieldOptionResponse(
+    var option: MutableList<CustomFieldOption>
+)
+
 @XmlRootElement(name = "response")
 data class UserResponse(
     var person: MutableList<Person> = mutableListOf()

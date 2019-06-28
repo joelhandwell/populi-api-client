@@ -229,14 +229,19 @@ object ClientSpec : Spek({
             }
         }
 
-        it("send request, receive response and parse it into CustomField for a specific Person"){
+        it("send request, receive response and parse it into CustomField for a specific Person") {
             stubForPopuli("getCustomFields", getCustomFieldsXml)
             assertEquals(customFields, populi.getCustomFields(person_id = 1111))
         }
 
-        it("send request, receive response and parse it into CustomField"){
+        it("send request, receive response and parse it into CustomField") {
             stubForPopuli("getAllCustomFields", getAllCustomFieldsXml)
             assertEquals(customFieldsWithDescription, populi.getAllCustomFields())
+        }
+
+        it("send request, receive response and parse it into CustomFieldOption") {
+            stubForPopuli("getCustomFieldOptions", getCustomFieldOptionsXml)
+            assertEquals(customFieldOptions, populi.getCustomFieldOptions(1111))
         }
 
         it("send request, receive response and parse it into Transcript") {
@@ -297,6 +302,7 @@ object ClientSpec : Spek({
             //val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
             //val personId = p.getProperty("real.person_id").toInt()
+            val customFieldId = p.getProperty("real.custom_field_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
             //val lessonId = p.getProperty("real.lesson_id").toInt()
             //val applicationId = p.getProperty("real.application_id").toInt()
@@ -335,7 +341,8 @@ object ClientSpec : Spek({
             //println(real.getStudentInfo(personId))
             //println(real.getPerson(personId))
             //println(real.getCustomFields(person_id = personId))
-            println(real.getAllCustomFields())
+            //println(real.getAllCustomFields())
+            println(real.getCustomFieldOptions(customFieldId))
             //println(real.getTranscript(personId))
             //println(real.getCommunicationPlans())
             //println(real.getPersonCommunicationPlans(personId))

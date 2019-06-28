@@ -380,6 +380,15 @@ class Populi(
         sendRequest(this.api.getAllCustomFields(accessKey, type = type.toString())).custom_field
 
     /**
+     * Returns available options for RADIO, CHECKBOX, and SELECT input type custom fields.
+     * You must have the Staff role to call this task.
+     * The <index> of an option is not a unique ID - two different custom fields might each have an option with an index of 4. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCustomFieldOptions)
+     * @param custom_field_id The numeric ID of the custom field you're interested in. Required.
+     */
+    fun getCustomFieldOptions(custom_field_id: Int) =
+        sendRequest(this.api.getCustomFieldOptions(accessKey, custom_field_id = custom_field_id)).option
+
+    /**
      * Returns the transcript for a particular student. You must have the Academic Admin or Registrar role to call this task.
      * If pdf = true, this will return raw binary data rather than XML. The Content-Type HTTP header will indicate MIME type, and the Content-Disposition header will contain the file name.
      * If pdf = true, then this is a heavy API task. Multiple simultaneous calls to this task are not permitted and will fail with a rate limit error.
@@ -497,6 +506,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getPersonSSN(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonSSN", @Field("person_id") person_id: Int): Call<PersonSSN>
     @FormUrlEncoded @POST(API_URI) fun getCustomFields(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCustomFields", @Field("person_id") person_id: Int? = null, @Field("organization_id") organization_id: Int? = null, @Field("type") type: String): Call<CustomFieldResponse>
     @FormUrlEncoded @POST(API_URI) fun getAllCustomFields(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getAllCustomFields", @Field("type") type: String): Call<CustomFieldResponse>
+    @FormUrlEncoded @POST(API_URI) fun getCustomFieldOptions(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCustomFieldOptions", @Field("custom_field_id") custom_field_id: Int): Call<CustomFieldOptionResponse>
     @FormUrlEncoded @POST(API_URI) fun getTranscript(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTranscript", @Field("person_id") person_id: Int, @Field("pdf") pdf: Boolean? = null, @Field("layout_id") layout_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("official") official: Boolean? = null, @Field("recipient") recipient: String? = null, @Field("include_course_desciptions") include_course_desciptions: Boolean? = null): Call<Transcript>
     @FormUrlEncoded @POST(API_URI) fun getCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCommunicationPlans"): Call<CommunicationPlanResponse>
     @FormUrlEncoded @POST(API_URI) fun getPersonCommunicationPlans(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonCommunicationPlans", @Field("person_id") person_id: Int): Call<PersonCommunicationPlanResponse>
