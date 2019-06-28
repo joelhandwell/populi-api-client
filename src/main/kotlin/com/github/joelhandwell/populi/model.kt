@@ -53,6 +53,17 @@ data class DegreeResponse(
     var degree: MutableList<Degree> = mutableListOf()
 )
 
+@XmlRootElement(name = "education_level")
+data class EducationLevel(
+    var id: Int,
+    var name: String
+)
+
+@XmlRootElement(name = "response")
+data class EducationLevelResponse(
+    var education_level: MutableList<EducationLevel>
+)
+
 @XmlRootElement(name = "citizenship")
 data class Citizenship(
     var id: Int,
@@ -226,7 +237,8 @@ enum class CustomFieldInputType {
     /**
      * Little bit of text
      */
-    TEXT }
+    TEXT
+}
 
 @XmlRootElement(name = "custom_field")
 data class CustomField(

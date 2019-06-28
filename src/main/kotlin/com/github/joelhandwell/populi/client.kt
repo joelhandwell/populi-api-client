@@ -83,7 +83,15 @@ class Populi(
     /**
      * Returns information about each degree configured at the school. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCountries)
      */
-    fun getDegrees(): MutableList<Degree>? = sendRequest(this.api.getDegrees(accessKey)).degree
+    fun getDegrees(): MutableList<Degree> = sendRequest(this.api.getDegrees(accessKey)).degree
+
+    /**
+     * Returns all education levels (e.g. High School Diploma, Some College, etc).
+     * You must have the Admissions role to call this task.
+     * Useful for looking up numeric IDs for passing into [setLeadInfo]. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getEducationLevels)
+     */
+    fun getEducationLevels(): MutableList<EducationLevel> =
+        sendRequest(this.api.getEducationLevels(accessKey)).education_level
 
     /**
      * Returns all users. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getUsers)
@@ -470,6 +478,7 @@ class Populi(
 interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun requestAccessKey(@Field("username") username: String, @Field("password") password: String): Call<AccessKeyResponse>
     @FormUrlEncoded @POST(API_URI) fun getDegrees(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getDegrees"): Call<DegreeResponse>
+    @FormUrlEncoded @POST(API_URI) fun getEducationLevels(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getEducationLevels"): Call<EducationLevelResponse>
     @FormUrlEncoded @POST(API_URI) fun getUsers(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUsers"): Call<UserResponse>
     @FormUrlEncoded @POST(API_URI) fun getCountries(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCountries"): Call<CountryResponse>
     @FormUrlEncoded @POST(API_URI) fun getCampuses(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCampuses"): Call<CampusResponse>

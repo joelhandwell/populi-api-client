@@ -50,6 +50,11 @@ object ClientSpec : Spek({
             assertDegrees(degrees)
         }
 
+        it("send request, receive response and parse it into EducationLevel") {
+            stubForPopuli("getEducationLevels", getEducationLevelsXml)
+            assertEquals(educationLevels, populi.getEducationLevels())
+        }
+
         it("send request, receive response and parse it into Users") {
             stubForPopuli("getUsers", getUsersXml)
             assertUsers(populi.getUsers())
@@ -302,13 +307,14 @@ object ClientSpec : Spek({
             //val yearId = p.getProperty("real.year_id").toInt()
             //val termId = p.getProperty("real.term_id").toInt()
             //val personId = p.getProperty("real.person_id").toInt()
-            val customFieldId = p.getProperty("real.custom_field_id").toInt()
+            //val customFieldId = p.getProperty("real.custom_field_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
             //val lessonId = p.getProperty("real.lesson_id").toInt()
             //val applicationId = p.getProperty("real.application_id").toInt()
             //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
 
             // test with your real populi account info
+            println(real.getEducationLevels())
             //println(real.getCountries())
             //println(real.getDegrees())
             //println(real.getPrograms())
@@ -342,7 +348,7 @@ object ClientSpec : Spek({
             //println(real.getPerson(personId))
             //println(real.getCustomFields(person_id = personId))
             //println(real.getAllCustomFields())
-            println(real.getCustomFieldOptions(customFieldId))
+            //println(real.getCustomFieldOptions(customFieldId))
             //println(real.getTranscript(personId))
             //println(real.getCommunicationPlans())
             //println(real.getPersonCommunicationPlans(personId))
