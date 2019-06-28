@@ -480,6 +480,13 @@ class Populi(
      */
     fun getApplicationTemplates(show_online_only: Boolean? = null) =
         sendRequest(this.api.getApplicationTemplates(accessKey, show_online_only = show_online_only)).application_template
+
+    /**
+     * Returns all leads attached to a person. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPersonLeads)
+     * @param person_id The numeric ID of the person you're interested in. Required.
+     */
+    fun getPersonLeads(person_id: Int) =
+        sendRequest(this.api.getPersonLeads(accessKey, person_id = person_id)).lead
 }
 
 interface PopuliApi {
@@ -532,6 +539,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getApplicationFieldOptions(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationFieldOptions", @Field("application_field_id") application_field_id: Int, @Field("country") country: String? = null, @Field("degree_id") degree_id: Int? = null): Call<ApplicationFieldOptionResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplicationComponents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationComponents", @Field("application_id") application_id: Int): Call<ApplicationComponentResponse>
     @FormUrlEncoded @POST(API_URI) fun getApplicationTemplates(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationTemplates", @Field("show_online_only") show_online_only: Boolean? = null): Call<ApplicationTemplateResponse>
+    @FormUrlEncoded @POST(API_URI) fun getPersonLeads(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonLeads", @Field("person_id") person_id: Int): Call<LeadResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

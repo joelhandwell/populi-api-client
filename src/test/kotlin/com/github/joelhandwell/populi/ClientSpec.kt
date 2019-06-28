@@ -296,6 +296,11 @@ object ClientSpec : Spek({
             assertApplicationTemplates(populi.getApplicationTemplates())
         }
 
+        it("send request, receive response and parse it into Lead attached to a specific Person"){
+            stubForPopuli("getPersonLeads", getPersonLeadsXml)
+            assertEquals(leads, populi.getPersonLeads(1111))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -360,11 +365,12 @@ object ClientSpec : Spek({
             //println(real.getCommunicationPlans())
             //println(real.getPersonCommunicationPlans(personId))
             //println(real.getApplications())
-            println(real.getPersonApplications(personId))
+            //println(real.getPersonApplications(personId))
             //println(real.getApplication(applicationId))
             //println(real.getApplicationFieldOptions(applicationFieldId))
             //println(real.getApplicationComponents(applicationId))
             //println(real.getApplicationTemplates())
+            println(real.getPersonLeads(personId))
         }
 
         afterGroup { wireMockServer.stop() }

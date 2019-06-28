@@ -1053,3 +1053,63 @@ data class CommunicationPlanInstance(
 data class PersonCommunicationPlanResponse(
     var communication_plan_instance: MutableList<CommunicationPlanInstance> = mutableListOf()
 )
+
+@XmlRootElement(name = "inquiry")
+data class PersonLeadInquiry(
+    var id: Int
+)
+
+@XmlRootElement(name = "application")
+data class PersonLeadApplication(
+    var id: Int
+)
+
+@XmlRootElement(name = "lead")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class Lead(
+    var id: Int,
+    var first_name: String,
+    var preferred_name: String? = null,
+    var middle_name: String? = null,
+    var last_name: String,
+    var active: Int,
+    var most_recent: Int,
+    var added_on: LocalDate,
+    var representative_id: Int,
+    var representative_first_name: String,
+    var representative_preferred_name: String? = null,
+    var representative_middle_name: String? = null,
+    var representative_last_name: String,
+    var status: String,
+    var program_id: Int,
+    var program_name: String,
+    var degree_id: Int,
+    var degree_name: String,
+    var specialization_id: Int,
+    var specialization_name: String,
+    var academic_term_id: Int,
+    var academic_term_name: String,
+    var source_id: Int,
+    var source_name: String,
+    var source_comment: String,
+    var education_level_id: Int,
+    var education_level_name: String,
+    var declined_reason_id: Int,
+    var declined_reason_name: String,
+    var declined_reason_comment: String? = null,
+    var high_school_grad_date: LocalDate,
+
+    @XmlElementWrapper(name = "inquiries")
+    var inquiry: MutableList<PersonLeadInquiry> = mutableListOf(),
+
+    @XmlElementWrapper(name = "applications")
+    var application: MutableList<PersonLeadApplication> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class LeadResponse(
+
+    @XmlElementWrapper(name = "leads")
+    var lead: MutableList<Lead> = mutableListOf()
+)
