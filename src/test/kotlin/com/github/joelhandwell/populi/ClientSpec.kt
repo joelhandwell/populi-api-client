@@ -306,6 +306,11 @@ object ClientSpec : Spek({
             assertEquals(leadSources, populi.getLeadSources())
         }
 
+        it("send request, receive response and parse it into Inquiry"){
+            stubForPopuli("getInquiry", getInquiryXml)
+            assertEquals(inquiries, populi.getInquiry(1111))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -329,6 +334,7 @@ object ClientSpec : Spek({
             //val lessonId = p.getProperty("real.lesson_id").toInt()
             //val applicationId = p.getProperty("real.application_id").toInt()
             //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
+            val inquiryId = p.getProperty("real.inquiry_id").toInt()
 
             // test with your real populi account info
             //println(real.getEducationLevels())
@@ -376,7 +382,8 @@ object ClientSpec : Spek({
             //println(real.getApplicationComponents(applicationId))
             //println(real.getApplicationTemplates())
             //println(real.getPersonLeads(personId))
-            println(real.getLeadSources())
+            //println(real.getLeadSources())
+            println(real.getInquiry(inquiryId))
         }
 
         afterGroup { wireMockServer.stop() }

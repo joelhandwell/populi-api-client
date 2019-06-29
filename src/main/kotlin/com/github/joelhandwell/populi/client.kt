@@ -493,6 +493,12 @@ class Populi(
      * Useful for looking up numeric IDs for passing into [setLeadInfo]. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getLeadSources)
      */
     fun getLeadSources() = sendRequest(this.api.getLeadSources(accessKey)).lead_source
+
+    /**
+     * Returns a particular admissions inquiry. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getInquiry)
+     * @param inquiry_id The numeric ID of the inquiry. Required.
+     */
+    fun getInquiry(inquiry_id: Int) = sendRequest(this.api.getInquiry(accessKey, inquiry_id = inquiry_id)).inquiry
 }
 
 interface PopuliApi {
@@ -547,6 +553,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getApplicationTemplates(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getApplicationTemplates", @Field("show_online_only") show_online_only: Boolean? = null): Call<ApplicationTemplateResponse>
     @FormUrlEncoded @POST(API_URI) fun getPersonLeads(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonLeads", @Field("person_id") person_id: Int): Call<LeadResponse>
     @FormUrlEncoded @POST(API_URI) fun getLeadSources(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLeadSources"): Call<LeadSourceResponse>
+    @FormUrlEncoded @POST(API_URI) fun getInquiry(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getInquiry", @Field("inquiry_id") inquiry_id: Int): Call<InquiryResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

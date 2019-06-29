@@ -1125,3 +1125,37 @@ data class LeadSource(
 data class LeadSourceResponse(
     var lead_source: MutableList<LeadSource> = mutableListOf()
 )
+
+@XmlRootElement(name = "inquiry")
+data class Inquiry(
+    var id: Int,
+    var person_id: Int,
+    var lead_id: Int,
+    var first_name: String,
+    var middle_name: String? = null,
+    var last_name: String,
+    var email: String,
+    var phone: String,
+    var address_id: Int,
+    var subject: String,
+    var content: String,
+    var program_id: Int,
+    var degree_id: Int? = null,
+    var specialization_id: Int? = null,
+    var academic_term_id: Int,
+    var counselor_id: Int,
+    var auto_assigned_to: Int? = null,
+    var status: String,
+    var lead_source_id: Int,
+    var localization_id: Int? = null,
+    var added_on: LocalDate,
+    var added_by: Int,
+    var added_at: LocalDateTime,
+    var deleted_by: Int? = null,
+    var deleted_at: LocalDateTime? = null
+)
+
+@XmlRootElement(name = "response")
+data class InquiryResponse(
+    var inquiry: MutableList<Inquiry> = mutableListOf()
+)
