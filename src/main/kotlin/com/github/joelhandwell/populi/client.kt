@@ -370,6 +370,24 @@ class Populi(
      */
     fun getRoles(person_id: Int? = null) = sendRequest(this.api.getRoles(accessKey, person_id = person_id)).role
 
+    /**
+     * Possible values: ACTIVE (default), INACTIVE, and ALL. @see [getRoleMembers]
+     */
+    enum class RoleStatus { ACTIVE, INACTIVE, ALL }
+
+    /**
+     * Returns members of a particular role. You must have the Staff role to call this task. There is a limit of 1000 results in the response.
+     * The "num_results" attribute (in the <response> element) indicates the total number of possible results (regardless of the limit or the page parameter).[ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getRoleMembers)
+     * @param roleID Numeric ID of the role. Not required (but either roleID OR roleName MUST be set)
+     * @param roleName Name of the role. Not required (but either roleID OR roleName MUST be set)
+     * @param status @see [RoleStatus]. Not required.
+     * @param page We limit the number of results returned (see comments), so which "page" would you like (e.g. page=1, page=2, page=3).
+     */
+    fun getRoleMembers(roleID: Int? = null, roleName: String? = null, status: RoleStatus = RoleStatus.ACTIVE, page: Int? = null): RoleMemberResponse {
+        if (roleID == null && roleName == null) throw IllegalArgumentException("either roleID or roleName must be set")
+        return sendRequest(this.api.getRoleMembers(accessKey, roleID = roleID, roleName = roleName, status = status.toString(), page = page))
+    }
+
     enum class CustomFieldType { ALL, PERSON, STUDENT, TERM_STUDENT, ADMISSIONS, CAMPUS_LIFE, FINANCIAL, FINANCIAL_AID, ORGANIZATION }
 
     /**
@@ -564,6 +582,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getPerson(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPerson", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<PersonInfo>
     @FormUrlEncoded @POST(API_URI) fun getPersonSSN(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonSSN", @Field("person_id") person_id: Int): Call<PersonSSN>
     @FormUrlEncoded @POST(API_URI) fun getRoles(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getRoles", @Field("person_id") person_id: Int? = null): Call<RoleResponse>
+    @FormUrlEncoded @POST(API_URI) fun getRoleMembers(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getRoleMembers", @Field("roleID") roleID: Int? = null, @Field("roleName") roleName: String? = null, @Field("status") status: String? = null, @Field("page") page: Int? = null): Call<RoleMemberResponse>
     @FormUrlEncoded @POST(API_URI) fun getCustomFields(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCustomFields", @Field("person_id") person_id: Int? = null, @Field("organization_id") organization_id: Int? = null, @Field("type") type: String): Call<CustomFieldResponse>
     @FormUrlEncoded @POST(API_URI) fun getAllCustomFields(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getAllCustomFields", @Field("type") type: String): Call<CustomFieldResponse>
     @FormUrlEncoded @POST(API_URI) fun getCustomFieldOptions(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCustomFieldOptions", @Field("custom_field_id") custom_field_id: Int): Call<CustomFieldOptionResponse>

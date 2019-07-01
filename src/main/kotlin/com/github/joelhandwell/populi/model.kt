@@ -233,6 +233,25 @@ data class RoleResponse(
     var role: MutableList<Role> = mutableListOf()
 )
 
+@XmlRootElement(name = "person")
+data class RolePerson(
+    var personID: Int,
+    var first: String,
+    var last: String,
+    var inactive: Int,
+    var username: String
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class RoleMemberResponse(
+
+    @XmlAttribute(name = "num_results")
+    var num_results: Int,
+
+    var person: MutableList<RolePerson> = mutableListOf()
+)
+
 /**
  * @see [Populi.getAllCustomFields]
  */

@@ -250,6 +250,17 @@ object ClientSpec : Spek({
             assertEquals(roles, populi.getRoles())
         }
 
+        it("send request, throws error when tying to get Members of a Role without specifying neither roleID nor roleName"){
+            assertFailsWith<IllegalArgumentException>(message = "either roleID or roleName must be set"){
+                populi.getRoleMembers()
+            }
+        }
+
+        it("send request, receive response and parse it into Members of a Role"){
+            stubForPopuli("getRoleMembers", getRoleMembersXml)
+            assertEquals(roleMemberResponse, populi.getRoleMembers(roleID = 1111))
+        }
+
         it("send request, throws error when tying to get CustomField without specifying neither person_id nor organization_id") {
             assertFailsWith<IllegalArgumentException>(message = "either person_id or organization_id must be set") {
                 populi.getCustomFields()
@@ -362,7 +373,8 @@ object ClientSpec : Spek({
             //println(real.getRaces())
             //println(real.getStates())
             //println(real.getProvinces())
-            println(real.getRoles())
+            //println(real.getRoles())
+            println(real.getRoleMembers(roleName = "Faculty"))
             //println(real.getRaw("getRoles"))
             //println(real.getDegrees())
             //println(real.getPrograms())
