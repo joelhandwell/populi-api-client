@@ -245,6 +245,11 @@ object ClientSpec : Spek({
             assertEquals(personSSN, populi.getPersonSSN(1111))
         }
 
+        it("send request, receive response and parse it into Roles of a Person"){
+            stubForPopuli("getRoles", getRolesXml)
+            assertEquals(roles, populi.getRoles())
+        }
+
         it("send request, throws error when tying to get CustomField without specifying neither person_id nor organization_id") {
             assertFailsWith<IllegalArgumentException>(message = "either person_id or organization_id must be set") {
                 populi.getCustomFields()
@@ -356,7 +361,9 @@ object ClientSpec : Spek({
             //println(real.getCountries())
             //println(real.getRaces())
             //println(real.getStates())
-            println(real.getProvinces())
+            //println(real.getProvinces())
+            println(real.getRoles())
+            //println(real.getRaw("getRoles"))
             //println(real.getDegrees())
             //println(real.getPrograms())
             //println(real.getAcademicYears())

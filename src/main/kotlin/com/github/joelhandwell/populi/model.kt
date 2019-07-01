@@ -221,6 +221,18 @@ data class PersonSSN(
     var result: String
 )
 
+@XmlRootElement(name = "role")
+data class Role(
+    var id: Int,
+    var name: String,
+    var inactive: Int
+)
+
+@XmlRootElement(name = "response")
+data class RoleResponse(
+    var role: MutableList<Role> = mutableListOf()
+)
+
 /**
  * @see [Populi.getAllCustomFields]
  */

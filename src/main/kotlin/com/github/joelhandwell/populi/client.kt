@@ -364,6 +364,12 @@ class Populi(
      */
     fun getPersonSSN(person_id: Int) = sendRequest(this.api.getPersonSSN(accessKey, person_id = person_id))
 
+    /**
+     * Returns all active roles for a particular person (or the current users if no person_id is specified). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getRoles)
+     * @param person_id The numeric ID of the person whose roles you wish to retrieve.  If not specified, the roles for the logged-in user will be returned. Not required.
+     */
+    fun getRoles(person_id: Int? = null) = sendRequest(this.api.getRoles(accessKey, person_id = person_id)).role
+
     enum class CustomFieldType { ALL, PERSON, STUDENT, TERM_STUDENT, ADMISSIONS, CAMPUS_LIFE, FINANCIAL, FINANCIAL_AID, ORGANIZATION }
 
     /**
@@ -557,6 +563,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getStudentInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentInfo", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<StudentInfo>
     @FormUrlEncoded @POST(API_URI) fun getPerson(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPerson", @Field("person_id") person_id: Int, @Field("return_image_data") return_image_data: Boolean? = null): Call<PersonInfo>
     @FormUrlEncoded @POST(API_URI) fun getPersonSSN(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonSSN", @Field("person_id") person_id: Int): Call<PersonSSN>
+    @FormUrlEncoded @POST(API_URI) fun getRoles(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getRoles", @Field("person_id") person_id: Int? = null): Call<RoleResponse>
     @FormUrlEncoded @POST(API_URI) fun getCustomFields(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCustomFields", @Field("person_id") person_id: Int? = null, @Field("organization_id") organization_id: Int? = null, @Field("type") type: String): Call<CustomFieldResponse>
     @FormUrlEncoded @POST(API_URI) fun getAllCustomFields(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getAllCustomFields", @Field("type") type: String): Call<CustomFieldResponse>
     @FormUrlEncoded @POST(API_URI) fun getCustomFieldOptions(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCustomFieldOptions", @Field("custom_field_id") custom_field_id: Int): Call<CustomFieldOptionResponse>
