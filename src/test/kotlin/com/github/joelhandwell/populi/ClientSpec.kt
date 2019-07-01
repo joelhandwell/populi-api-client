@@ -72,6 +72,11 @@ object ClientSpec : Spek({
             assertEquals(states, populi.getStates())
         }
 
+        it("send request, receive response and parse it into Province"){
+            stubForPopuli("getProvinces", getProvincesXml)
+            assertEquals(provinces, populi.getProvinces())
+        }
+
         it("send request, receive response and parse it into Race"){
             stubForPopuli("getRaces", getRacesXml)
             assertEquals(races, populi.getRaces())
@@ -350,7 +355,8 @@ object ClientSpec : Spek({
             //println(real.getEducationLevels())
             //println(real.getCountries())
             //println(real.getRaces())
-            println(real.getStates())
+            //println(real.getStates())
+            println(real.getProvinces())
             //println(real.getDegrees())
             //println(real.getPrograms())
             //println(real.getAcademicYears())

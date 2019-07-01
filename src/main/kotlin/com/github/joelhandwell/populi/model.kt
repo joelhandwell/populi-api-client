@@ -112,6 +112,20 @@ data class StateResponse(
     var state: MutableList<State> = mutableListOf()
 )
 
+@XmlRootElement(name = "province")
+data class Province(
+    var abbreviation: String,
+    var name: String
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class ProvinceResponse(
+
+    @XmlElementWrapper(name = "provinces")
+    var province: MutableList<Province> = mutableListOf()
+)
+
 @XmlRootElement(name = "address")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Address(
