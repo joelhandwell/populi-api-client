@@ -222,10 +222,21 @@ data class PersonSSN(
 )
 
 @XmlRootElement(name = "role")
-data class Role(
+data class PersonRole(
     var id: Int,
     var name: String,
     var inactive: Int
+)
+
+@XmlRootElement(name = "response")
+data class PersonRoleResponse(
+    var role: MutableList<PersonRole> = mutableListOf()
+)
+
+@XmlRootElement(name = "role")
+data class Role(
+    var id: Int,
+    var name: String
 )
 
 @XmlRootElement(name = "response")

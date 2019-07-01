@@ -245,18 +245,23 @@ object ClientSpec : Spek({
             assertEquals(personSSN, populi.getPersonSSN(1111))
         }
 
-        it("send request, receive response and parse it into Roles of a Person"){
-            stubForPopuli("getRoles", getRolesXml)
-            assertEquals(roles, populi.getRoles())
+        it("send request, receive response and parse it into all available Roles"){
+            stubForPopuli("getAvailableRoles", getAvailableRolesXml)
+            assertEquals(roles, populi.getAvailableRoles())
         }
 
-        it("send request, throws error when tying to get Members of a Role without specifying neither roleID nor roleName"){
+        it("send request, receive response and parse it into Roles of a Person"){
+            stubForPopuli("getRoles", getRolesXml)
+            assertEquals(personRoles, populi.getRoles())
+        }
+
+        it("send request, throws error when tying to get Members of a PersonRole without specifying neither roleID nor roleName"){
             assertFailsWith<IllegalArgumentException>(message = "either roleID or roleName must be set"){
                 populi.getRoleMembers()
             }
         }
 
-        it("send request, receive response and parse it into Members of a Role"){
+        it("send request, receive response and parse it into Members of a PersonRole"){
             stubForPopuli("getRoleMembers", getRoleMembersXml)
             assertEquals(roleMemberResponse, populi.getRoleMembers(roleID = 1111))
         }
@@ -373,9 +378,10 @@ object ClientSpec : Spek({
             //println(real.getRaces())
             //println(real.getStates())
             //println(real.getProvinces())
+            println(real.getAvailableRoles())
             //println(real.getRoles())
-            println(real.getRoleMembers(roleName = "Faculty"))
-            //println(real.getRaw("getRoles"))
+            //println(real.getRoleMembers(roleName = "Faculty"))
+            //println(real.getRaw("getPersonRoles"))
             //println(real.getDegrees())
             //println(real.getPrograms())
             //println(real.getAcademicYears())

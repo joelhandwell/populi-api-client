@@ -3,16 +3,16 @@ package com.github.joelhandwell.populi
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
-val roles = mutableListOf(
-    Role(2, "Admissions", 0),
-    Role(18, "Bookstore", 1)
+val personRoles = mutableListOf(
+    PersonRole(2, "Admissions", 0),
+    PersonRole(18, "Bookstore", 1)
 )
 
-private val response = RoleResponse(roles)
+private val response = PersonRoleResponse(personRoles)
 
 object PersonRoleSpec : Spek({
 
-    describe("Role") {
+    describe("PersonRole") {
 
         it("marshal to xml") { assertMarshals(response) }
 
