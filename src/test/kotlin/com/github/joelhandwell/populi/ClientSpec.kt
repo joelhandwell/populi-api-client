@@ -67,6 +67,11 @@ object ClientSpec : Spek({
             assertCountries(populi.getCountries())
         }
 
+        it("send request, receive response and parse it into Race"){
+            stubForPopuli("getRaces", getRacesXml)
+            assertEquals(races, populi.getRaces())
+        }
+
         it("send request, receive response and parse it into Campuses") {
             stubForPopuli("getCampuses", getCampusesXml)
             assertCampuses(populi.getCampuses())
@@ -334,11 +339,12 @@ object ClientSpec : Spek({
             //val lessonId = p.getProperty("real.lesson_id").toInt()
             //val applicationId = p.getProperty("real.application_id").toInt()
             //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
-            val inquiryId = p.getProperty("real.inquiry_id").toInt()
+            //val inquiryId = p.getProperty("real.inquiry_id").toInt()
 
             // test with your real populi account info
             //println(real.getEducationLevels())
             //println(real.getCountries())
+            println(real.getRaces())
             //println(real.getDegrees())
             //println(real.getPrograms())
             //println(real.getAcademicYears())
@@ -383,7 +389,7 @@ object ClientSpec : Spek({
             //println(real.getApplicationTemplates())
             //println(real.getPersonLeads(personId))
             //println(real.getLeadSources())
-            println(real.getInquiry(inquiryId))
+            //println(real.getInquiry(inquiryId))
         }
 
         afterGroup { wireMockServer.stop() }
