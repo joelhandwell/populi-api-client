@@ -104,6 +104,11 @@ class Populi(
     fun getCountries(): MutableList<Country> = sendRequest(this.api.getCountries(accessKey)).country
 
     /**
+     * Returns a list of states and their respective abbreviations. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getStates)
+     */
+    fun getStates(): MutableList<State> = sendRequest(this.api.getStates(accessKey)).state
+
+    /**
      * Returns a list of race ids and their respective names. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getRaces)
      */
     fun getRaces(): MutableList<Race> = sendRequest(this.api.getRaces(accessKey)).race
@@ -512,6 +517,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getEducationLevels(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getEducationLevels"): Call<EducationLevelResponse>
     @FormUrlEncoded @POST(API_URI) fun getUsers(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUsers"): Call<UserResponse>
     @FormUrlEncoded @POST(API_URI) fun getCountries(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCountries"): Call<CountryResponse>
+    @FormUrlEncoded @POST(API_URI) fun getStates(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStates"): Call<StateResponse>
     @FormUrlEncoded @POST(API_URI) fun getRaces(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getRaces"): Call<RaceResponse>
     @FormUrlEncoded @POST(API_URI) fun getCampuses(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCampuses"): Call<CampusResponse>
     @FormUrlEncoded @POST(API_URI) fun getPrograms(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPrograms"): Call<ProgramResponse>
