@@ -174,6 +174,11 @@ object ClientSpec : Spek({
             assertCourseInstanceFiles(populi.getCourseInstanceFiles(1111))
         }
 
+        it("send request, receive response and parse it into Url to download File"){
+            stubForPopuli("getFileDownloadURL", getFileDownloadURLXml)
+            assertEquals(fileDownloadURL.url, populi.getFileDownloadURL(1111))
+        }
+
         it("send request, receive response and parse it into Links for a CourseOffering") {
             stubForPopuli("getCourseOfferingLinks", getCourseOfferingLinksXml)
             assertCourseOfferingLinks(populi.getCourseOfferingLinks(1111))
@@ -371,6 +376,7 @@ object ClientSpec : Spek({
             //val applicationId = p.getProperty("real.application_id").toInt()
             //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
             //val inquiryId = p.getProperty("real.inquiry_id").toInt()
+            val fileId = p.getProperty("real.file_id").toInt()
 
             // test with your real populi account info
             //println(real.getEducationLevels())
@@ -378,7 +384,7 @@ object ClientSpec : Spek({
             //println(real.getRaces())
             //println(real.getStates())
             //println(real.getProvinces())
-            println(real.getAvailableRoles())
+            //println(real.getAvailableRoles())
             //println(real.getRoles())
             //println(real.getRoleMembers(roleName = "Faculty"))
             //println(real.getRaw("getPersonRoles"))
@@ -397,6 +403,7 @@ object ClientSpec : Spek({
             //println(real.getCourseInstanceAssignments(courseInstanceId))
             //println(real.getStudentAssignmentSubmissions(courseInstanceAssignmentId, personId))
             //println(real.getCourseInstanceFiles(courseInstanceId))
+            println(real.getFileDownloadURL(fileId))
             //println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
             //println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
             //println(real.getCourseInstanceStudents(courseInstanceId))

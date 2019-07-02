@@ -15,7 +15,7 @@ const val XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"ye
  * @param expectedXml expect String.trimIndent() has been already applied
  */
 fun assertMarshals(expectedXml: String, actualObject: Any) {
-    assertEquals(XML_HEADER + expectedXml.trim(), StringWriter().apply { JAXB.marshal(actualObject, this) }.toString().trim())
+    assertEquals(XML_HEADER + sanitizeXml(expectedXml).trim(), StringWriter().apply { JAXB.marshal(actualObject, this) }.toString().trim())
 }
 
 /**
@@ -29,5 +29,5 @@ fun assertMarshals(actualObject: Any){
  * Convenience function to reduce repeated code
  */
 fun assertUnmarshals(expectedObject: Any, actualXml: String) {
-    assertEquals(expectedObject, JAXB.unmarshal(actualXml.reader(), expectedObject::class.java))
+    assertEquals(expectedObject, JAXB.unmarshal(sanitizeXml(actualXml).reader(), expectedObject::class.java))
 }

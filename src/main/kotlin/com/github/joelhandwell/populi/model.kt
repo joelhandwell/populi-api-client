@@ -704,6 +704,11 @@ data class CourseInstanceFileResponse(
     var file: MutableList<CourseInstanceFile> = mutableListOf()
 )
 
+@XmlRootElement(name = "response")
+data class FileDownloadURL(
+    var url: String
+)
+
 @XmlRootElement(name = "link")
 data class CourseOfferingLink(
     var id: Int,

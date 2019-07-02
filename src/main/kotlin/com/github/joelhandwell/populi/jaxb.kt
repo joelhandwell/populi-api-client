@@ -13,6 +13,52 @@ import javax.money.MonetaryAmount
 import javax.xml.bind.JAXB
 import javax.xml.bind.JAXBContext
 import javax.xml.bind.annotation.adapters.XmlAdapter
+import okhttp3.ResponseBody
+import org.slf4j.LoggerFactory
+import retrofit2.Converter
+import retrofit2.Retrofit
+import java.io.IOException
+import java.io.StringReader
+import java.lang.reflect.Type
+import javax.xml.bind.annotation.XmlRootElement
+
+internal class PopuliResponseConverter<T>(val type: Class<T>) : Converter<ResponseBody, T> {
+    val logger = LoggerFactory.getLogger(PopuliResponseConverter::class.java)
+
+    @Throws(IOException::class)
+    override fun convert(value: ResponseBody): T? {
+        val bodyString = value.string()
+
+        val header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><error><code>"
+        if (bodyString.startsWith(header)) {
+            throw RuntimeException(bodyString)
+        } else {
+            logger.debug(bodyString)
+        }
+
+        val sanitizedBodyString = sanitizeXml(bodyString)
+
+        return JAXB.unmarshal(StringReader(sanitizedBodyString), type)
+    }
+}
+
+class PopuliResponseConverterFactory : Converter.Factory() {
+
+    override fun responseBodyConverter(
+        type: Type?, annotations: Array<Annotation>?, retrofit: Retrofit?
+    ): Converter<ResponseBody, *>? {
+        return if (type is Class<*> && type.isAnnotationPresent(XmlRootElement::class.java)) {
+            PopuliResponseConverter(type)
+        } else null
+    }
+
+    companion object {
+
+        fun create(): PopuliResponseConverterFactory {
+            return PopuliResponseConverterFactory()
+        }
+    }
+}
 
 val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 val clockLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:ma") //Oct 21, 2017 5:11pm
@@ -89,4 +135,8 @@ class ApplicationAnswerAdapter : XmlAdapter<Any, ApplicationAnswer>() {
             else -> unmarshaller.unmarshal(e) as ApplicationAnswer
         }
     }
+}
+
+fun sanitizeXml(xml: String): String {
+    return xml.replace("&([^;&]+(?!(?:\\w|;)))".toRegex(), "&amp;$1")
 }
