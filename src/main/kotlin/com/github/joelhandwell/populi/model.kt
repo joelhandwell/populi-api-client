@@ -176,9 +176,14 @@ data class TagResponse(
 )
 
 @XmlRootElement(name = "person")
+@XmlAccessorType(XmlAccessType.FIELD)
 data class Person(
     var person_id: Int,
+
+    @XmlElements(XmlElement(name = "first"), XmlElement(name = "first_name"))
     var first: String,
+
+    @XmlElements(XmlElement(name = "last"), XmlElement(name = "last_name"))
     var last: String,
     var username: String? = null,
     var blocked: Int? = null
@@ -354,7 +359,11 @@ data class CustomFieldOptionResponse(
 )
 
 @XmlRootElement(name = "response")
-data class UserResponse(
+@XmlAccessorType(XmlAccessType.FIELD)
+data class PersonResponse(
+    @XmlAttribute(name = "num_results")
+    var num_results: Int? = null,
+
     var person: MutableList<Person> = mutableListOf()
 )
 

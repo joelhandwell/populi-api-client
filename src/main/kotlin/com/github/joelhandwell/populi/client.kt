@@ -571,13 +571,26 @@ class Populi(
      * Returns a list of available tags. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTags)
      */
     fun getTags(): MutableList<Tag> = sendRequest(this.api.getTags(accessKey)).tag
+
+    /**
+     * Returns people tagged with a particular tag. You must have the Staff role to call this task.
+     * There is a limit of 1000 results in the response.
+     * The "num_results" attribute (in the <response> element) indicates the total number of possible results (regardless of the limit or the page parameter). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTaggedPeople)
+     * @param tagID Numeric ID of the tag. Not required. (but either tagId OR tagName MUST be set)
+     * @param tagName Name of the tag. Not required. (but either tagId OR tagName MUST be set)
+     * @param page We limit the number of results returned (see comments), so which "page" would you like (e.g. page=1, page=2, page=3). Not required.
+     */
+    fun getTaggedPeople(tagID: Int? = null, tagName: String? = null, page: Int? = null): PersonResponse {
+        if(tagID == null && tagName == null) throw IllegalArgumentException("either tagID or tagName must be set")
+        return sendRequest(this.api.getTaggedPeople(accessKey, tagID = tagID, tagName = tagName, page = page))
+    }
 }
 
 interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun requestAccessKey(@Field("username") username: String, @Field("password") password: String): Call<AccessKeyResponse>
     @FormUrlEncoded @POST(API_URI) fun getDegrees(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getDegrees"): Call<DegreeResponse>
     @FormUrlEncoded @POST(API_URI) fun getEducationLevels(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getEducationLevels"): Call<EducationLevelResponse>
-    @FormUrlEncoded @POST(API_URI) fun getUsers(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUsers"): Call<UserResponse>
+    @FormUrlEncoded @POST(API_URI) fun getUsers(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUsers"): Call<PersonResponse>
     @FormUrlEncoded @POST(API_URI) fun getCountries(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCountries"): Call<CountryResponse>
     @FormUrlEncoded @POST(API_URI) fun getStates(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStates"): Call<StateResponse>
     @FormUrlEncoded @POST(API_URI) fun getProvinces(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getProvinces"): Call<ProvinceResponse>
@@ -635,6 +648,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getLeadSources(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLeadSources"): Call<LeadSourceResponse>
     @FormUrlEncoded @POST(API_URI) fun getInquiry(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getInquiry", @Field("inquiry_id") inquiry_id: Int): Call<InquiryResponse>
     @FormUrlEncoded @POST(API_URI) fun getTags(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTags"): Call<TagResponse>
+    @FormUrlEncoded @POST(API_URI) fun getTaggedPeople(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTaggedPeople", @Field("tagID") tagID: Int? = null, @Field("tagName") tagName: String? = null, @Field("page") page: Int? = null): Call<PersonResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

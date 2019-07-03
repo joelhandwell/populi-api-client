@@ -362,6 +362,17 @@ object ClientSpec : Spek({
             assertEquals(tags, populi.getTags())
         }
 
+        it("send request, throws error when tying to get Person with specific Tag without specifying tagID nor tagName") {
+            assertFailsWith<IllegalArgumentException>(message = "either tagID or tagName must be set") {
+                populi.getTaggedPeople()
+            }
+        }
+
+        it("send request, receive response and parse it into Person with specific Tag "){
+            stubForPopuli("getTaggedPeople", getTaggedPeopleXml)
+            assertEquals(taggedPersonResponse, populi.getTaggedPeople(tagID = 1111))
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -387,6 +398,7 @@ object ClientSpec : Spek({
             //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
             //val inquiryId = p.getProperty("real.inquiry_id").toInt()
             //val fileId = p.getProperty("real.file_id").toInt()
+            val tagId = p.getProperty("real.tag_id").toInt()
 
             // test with your real populi account info
             //println(real.getEducationLevels())
@@ -445,7 +457,8 @@ object ClientSpec : Spek({
             //println(real.getPersonLeads(personId))
             //println(real.getLeadSources())
             //println(real.getInquiry(inquiryId))
-            println(real.getTags())
+            //println(real.getTags())
+            println(real.getTaggedPeople(tagID = tagId))
         }
 
         afterGroup { wireMockServer.stop() }
