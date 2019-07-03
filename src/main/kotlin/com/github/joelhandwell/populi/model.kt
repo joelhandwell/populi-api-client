@@ -768,6 +768,25 @@ data class CourseInstanceMeetingAttendanceResponse(
 
 enum class CourseInstanceStudentStatus { ENROLLED, AUDITOR, WITHDRAWN, INCOMPLETE }
 
+@XmlRootElement(name = "my_course")
+data class MyCourse(
+    var instanceid: Int,
+    var name: String,
+    var abbrv: String,
+    var section: Int,
+    var credits: Double,
+    var hours: Double,
+    var role: String,
+    var enrollment_status: CourseInstanceStudentStatus? = null,
+    var grade: Double? = null,
+    var letter_grade: String? = null
+)
+
+@XmlRootElement(name = "response")
+data class MyCourseResponse(
+    var my_course: MutableList<MyCourse> = mutableListOf()
+)
+
 @XmlRootElement(name = "courseinstance_student")
 data class CourseInstanceStudent(
     var status: CourseInstanceStudentStatus,

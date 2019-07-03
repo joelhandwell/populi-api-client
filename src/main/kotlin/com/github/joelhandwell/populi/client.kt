@@ -292,6 +292,20 @@ class Populi(
         sendRequest(this.api.getCourseInstanceMeetingAttendance(accessKey, instanceID = instanceID, meetingID = meetingID)).attendee
 
     /**
+     * Returns all courses taken or taught for the current user for a particular term (or all terms currently in progress).
+     * The <enrollment_status> element is only returned if the course is being taken by the user as a student - possible values are ENROLLED, AUDITOR, WITHDRAWN, or INCOMPLETE.
+     * Two additional elemments (<grade> and <letter_grade>) are returned within each <my_course> element if all the following conditions are met:
+     * <role>=STUDENT
+     * <enrollment_status>=ENROLLED
+     * the student has been assigned at least one grade in the course the student is allowed to see his or her progress
+     * (the setting on the course instance must allow this, and there must be no locks applied on the student's profile) [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getMyCourses)
+     * @param person_id The numeric ID of the person you're interested in.  To call this task for anyone other than yourself, you must have the Registrar or Academic Admin role. If not set, uses the person_id of the currently logged-in user. Not required.
+     * @param term_id The numeric ID of the term you're interested in. If not specified, all terms currently in progress will be checked.
+     */
+    fun getMyCourses(person_id: Int? = null, term_id: Int? = null) =
+        sendRequest(this.api.getMyCourses(accessKey, person_id = person_id, term_id = term_id)).my_course
+
+    /**
      * Returns all students enrolled, auditing, incomoplete, or withdrawn in a course instance. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getCourseInstanceStudents)
      * Possible values for the status element are: ENROLLED, AUDITOR, WITHDRAWN, or INCOMPLETE. Note that there are some additional elements returned if the student is ENROLLED: grade, letter_grade, and attendance (both grade and attendance are percentages: so 97 mean 97%).
      * The <start_date> element represents the day the student started his or her current status... so if Jerry enrolled in the course on April 1 but then switched to auditing on May 16, his <status> would be AUDITOR and his <start_date> would be May 16.
@@ -587,6 +601,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getLessonContent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLessonContent", @Field("instance_id") instance_id: Int, @Field("lesson_id") lesson_id: Int): Call<String>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetings(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetings", @Field("instanceID") instance_id: Int): Call<CourseInstanceMeetingResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceMeetingAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceMeetingAttendance", @Field("instanceID") instanceID: Int, @Field("meetingID") meetingID: Int): Call<CourseInstanceMeetingAttendanceResponse>
+    @FormUrlEncoded @POST(API_URI) fun getMyCourses(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getMyCourses", @Field("person_id") person_id: Int? = null, @Field("term_id") term_id: Int? = null): Call<MyCourseResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudents", @Field("instance_id") instance_id: Int): Call<CourseInstanceStudentResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudent", @Field("instance_id") instance_id: Int, @Field("person_id") person_id: Int): Call<CourseInstanceStudent>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstanceStudentAttendance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstanceStudentAttendance", @Field("instanceID") instance_id: Int, @Field("person_id") person_id: Int): Call<CourseInstanceStudentAttendanceResponse>

@@ -205,6 +205,11 @@ object ClientSpec : Spek({
             assertCourseInstanceMeetingAttendances(populi.getCourseInstanceMeetingAttendance(1111, 2222))
         }
 
+        it("send request, receive response and parse it into CourseInstance of a specific Person"){
+            stubForPopuli("getMyCourses", getMyCoursesXml)
+            assertEquals(myCourses, populi.getMyCourses())
+        }
+
         it("send request, receive response and parse it into Students for a CourseInstance") {
             stubForPopuli("getCourseInstanceStudents", getCourseInstanceStudentsXml)
             assertCourseInstanceStudents(populi.getCourseInstanceStudents(1111))
@@ -368,15 +373,15 @@ object ClientSpec : Spek({
             //val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
             //val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
             //val yearId = p.getProperty("real.year_id").toInt()
-            //val termId = p.getProperty("real.term_id").toInt()
-            //val personId = p.getProperty("real.person_id").toInt()
+            val termId = p.getProperty("real.term_id").toInt()
+            val personId = p.getProperty("real.person_id").toInt()
             //val customFieldId = p.getProperty("real.custom_field_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
             //val lessonId = p.getProperty("real.lesson_id").toInt()
             //val applicationId = p.getProperty("real.application_id").toInt()
             //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
             //val inquiryId = p.getProperty("real.inquiry_id").toInt()
-            val fileId = p.getProperty("real.file_id").toInt()
+            //val fileId = p.getProperty("real.file_id").toInt()
 
             // test with your real populi account info
             //println(real.getEducationLevels())
@@ -403,9 +408,10 @@ object ClientSpec : Spek({
             //println(real.getCourseInstanceAssignments(courseInstanceId))
             //println(real.getStudentAssignmentSubmissions(courseInstanceAssignmentId, personId))
             //println(real.getCourseInstanceFiles(courseInstanceId))
-            println(real.getFileDownloadURL(fileId))
+            //println(real.getFileDownloadURL(fileId))
             //println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
             //println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
+            println(real.getMyCourses(person_id = personId, term_id = termId))
             //println(real.getCourseInstanceStudents(courseInstanceId))
             //println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
             //println(real.getRaw("getCourseInstanceMeetings", courseInstanceId))
