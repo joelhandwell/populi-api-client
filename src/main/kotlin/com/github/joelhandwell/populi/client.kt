@@ -566,6 +566,11 @@ class Populi(
      * @param inquiry_id The numeric ID of the inquiry. Required.
      */
     fun getInquiry(inquiry_id: Int) = sendRequest(this.api.getInquiry(accessKey, inquiry_id = inquiry_id)).inquiry
+
+    /**
+     * Returns a list of available tags. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTags)
+     */
+    fun getTags(): MutableList<Tag> = sendRequest(this.api.getTags(accessKey)).tag
 }
 
 interface PopuliApi {
@@ -629,6 +634,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getPersonLeads(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPersonLeads", @Field("person_id") person_id: Int): Call<LeadResponse>
     @FormUrlEncoded @POST(API_URI) fun getLeadSources(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getLeadSources"): Call<LeadSourceResponse>
     @FormUrlEncoded @POST(API_URI) fun getInquiry(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getInquiry", @Field("inquiry_id") inquiry_id: Int): Call<InquiryResponse>
+    @FormUrlEncoded @POST(API_URI) fun getTags(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTags"): Call<TagResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

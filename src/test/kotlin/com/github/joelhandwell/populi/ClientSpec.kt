@@ -357,6 +357,11 @@ object ClientSpec : Spek({
             assertEquals(inquiries, populi.getInquiry(1111))
         }
 
+        it("send request, receive response and parse it into Tag"){
+            stubForPopuli("getTags", getTagsXml)
+            assertEquals(tags, populi.getTags())
+        }
+
         xit("real") {
             val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
                 .toFile()
@@ -373,8 +378,8 @@ object ClientSpec : Spek({
             //val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
             //val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
             //val yearId = p.getProperty("real.year_id").toInt()
-            val termId = p.getProperty("real.term_id").toInt()
-            val personId = p.getProperty("real.person_id").toInt()
+            //val termId = p.getProperty("real.term_id").toInt()
+            //val personId = p.getProperty("real.person_id").toInt()
             //val customFieldId = p.getProperty("real.custom_field_id").toInt()
             //val degreeId = p.getProperty("real.degree_id").toInt()
             //val lessonId = p.getProperty("real.lesson_id").toInt()
@@ -411,7 +416,7 @@ object ClientSpec : Spek({
             //println(real.getFileDownloadURL(fileId))
             //println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
             //println(real.getLessonContent(courseInstanceId, lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
-            println(real.getMyCourses(person_id = personId, term_id = termId))
+            //println(real.getMyCourses(person_id = personId, term_id = termId))
             //println(real.getCourseInstanceStudents(courseInstanceId))
             //println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
             //println(real.getRaw("getCourseInstanceMeetings", courseInstanceId))
@@ -440,6 +445,7 @@ object ClientSpec : Spek({
             //println(real.getPersonLeads(personId))
             //println(real.getLeadSources())
             //println(real.getInquiry(inquiryId))
+            println(real.getTags())
         }
 
         afterGroup { wireMockServer.stop() }

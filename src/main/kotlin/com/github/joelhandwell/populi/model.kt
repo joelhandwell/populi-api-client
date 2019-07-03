@@ -167,6 +167,14 @@ data class Tag(
     var system: Int
 )
 
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class TagResponse(
+
+    @XmlElementWrapper(name = "tags")
+    var tag: MutableList<Tag> = mutableListOf()
+)
+
 @XmlRootElement(name = "person")
 data class Person(
     var person_id: Int,
