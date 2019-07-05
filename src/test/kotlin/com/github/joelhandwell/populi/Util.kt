@@ -2,6 +2,8 @@ package com.github.joelhandwell.populi
 
 import com.github.tomakehurst.wiremock.client.WireMock
 import java.io.StringWriter
+import java.nio.file.Paths
+import java.util.*
 import javax.xml.bind.JAXB
 import kotlin.test.assertEquals
 
@@ -39,6 +41,44 @@ fun assertUnmarshals(expectedObject: Any, actualXml: String) {
 fun mockClient(): Populi = Populi.Builder()
     .withBaseUrl("http://localhost:$WIREMOCK_PORT/")
     .withAccessKey(TEST_API_ACCESS_KEY)
+    .build()
+
+object LocalProperty {
+
+    val p = Properties()
+
+    init {
+        val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
+            .toFile()
+            .inputStream()
+
+        p.load(input)
+    }
+
+    val baseUrl = p.getProperty("real.baseurl")!!
+    val username = p.getProperty("real.username")!!
+    val password = p.getProperty("real.password")!!
+
+    val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
+    val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
+    val yearId = p.getProperty("real.year_id").toInt()
+    val termId = p.getProperty("real.term_id").toInt()
+    val personId = p.getProperty("real.person_id").toInt()
+    val customFieldId = p.getProperty("real.custom_field_id").toInt()
+    val degreeId = p.getProperty("real.degree_id").toInt()
+    val lessonId = p.getProperty("real.lesson_id").toInt()
+    val applicationId = p.getProperty("real.application_id").toInt()
+    val applicationFieldId = p.getProperty("real.application_field_id").toInt()
+    val inquiryId = p.getProperty("real.inquiry_id").toInt()
+    val fileId = p.getProperty("real.file_id").toInt()
+    val tagId = p.getProperty("real.tag_id").toInt()
+
+}
+
+fun realClient(): Populi = Populi.Builder()
+    .withBaseUrl(LocalProperty.baseUrl)
+    .withUsername(LocalProperty.username)
+    .withPassword(LocalProperty.password)
     .build()
 
 /**

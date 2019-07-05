@@ -3,6 +3,7 @@ package com.github.joelhandwell.populi
 import com.github.tomakehurst.wiremock.WireMockServer
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
+import org.spekframework.spek2.style.specification.xdescribe
 import kotlin.test.assertEquals
 
 object ApplicationClientSpec : Spek({
@@ -12,7 +13,7 @@ object ApplicationClientSpec : Spek({
 
     beforeGroup { server.start() }
 
-    describe("Populi Client work on Application"){
+    describe("Populi Client work on Application") {
 
         it("send request, receive response and parse it into Application") {
             stubForPopuli("getApplications", getApplicationsXml)
@@ -46,4 +47,14 @@ object ApplicationClientSpec : Spek({
     }
 
     afterGroup { server.stop() }
+
+    xdescribe("Populi Client with real info") {
+        val real = realClient()
+        println(real.getApplications())
+        println(real.getApplicationTemplates())
+        println(real.getPersonApplications(LocalProperty.personId))
+        println(real.getApplication(LocalProperty.applicationId))
+        println(real.getApplicationFieldOptions(LocalProperty.applicationFieldId))
+        println(real.getApplicationComponents(LocalProperty.applicationId))
+    }
 })

@@ -6,8 +6,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.*
 import org.slf4j.LoggerFactory
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
-import java.nio.file.Paths
-import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
@@ -64,17 +62,17 @@ object ClientSpec : Spek({
             assertCountries(populi.getCountries())
         }
 
-        it("send request, receive response and parse it into State"){
+        it("send request, receive response and parse it into State") {
             stubForPopuli("getStates", getStatesXml)
             assertEquals(states, populi.getStates())
         }
 
-        it("send request, receive response and parse it into Province"){
+        it("send request, receive response and parse it into Province") {
             stubForPopuli("getProvinces", getProvincesXml)
             assertEquals(provinces, populi.getProvinces())
         }
 
-        it("send request, receive response and parse it into Race"){
+        it("send request, receive response and parse it into Race") {
             stubForPopuli("getRaces", getRacesXml)
             assertEquals(races, populi.getRaces())
         }
@@ -171,7 +169,7 @@ object ClientSpec : Spek({
             assertCourseInstanceFiles(populi.getCourseInstanceFiles(1111))
         }
 
-        it("send request, receive response and parse it into Url to download File"){
+        it("send request, receive response and parse it into Url to download File") {
             stubForPopuli("getFileDownloadURL", getFileDownloadURLXml)
             assertEquals(fileDownloadURL.url, populi.getFileDownloadURL(1111))
         }
@@ -202,7 +200,7 @@ object ClientSpec : Spek({
             assertCourseInstanceMeetingAttendances(populi.getCourseInstanceMeetingAttendance(1111, 2222))
         }
 
-        it("send request, receive response and parse it into CourseInstance of a specific Person"){
+        it("send request, receive response and parse it into CourseInstance of a specific Person") {
             stubForPopuli("getMyCourses", getMyCoursesXml)
             assertEquals(myCourses, populi.getMyCourses())
         }
@@ -252,23 +250,23 @@ object ClientSpec : Spek({
             assertEquals(personSSN, populi.getPersonSSN(1111))
         }
 
-        it("send request, receive response and parse it into all available Roles"){
+        it("send request, receive response and parse it into all available Roles") {
             stubForPopuli("getAvailableRoles", getAvailableRolesXml)
             assertEquals(roles, populi.getAvailableRoles())
         }
 
-        it("send request, receive response and parse it into Roles of a Person"){
+        it("send request, receive response and parse it into Roles of a Person") {
             stubForPopuli("getRoles", getRolesXml)
             assertEquals(personRoles, populi.getRoles())
         }
 
-        it("send request, throws error when tying to get Members of a PersonRole without specifying neither roleID nor roleName"){
-            assertFailsWith<IllegalArgumentException>(message = "either roleID or roleName must be set"){
+        it("send request, throws error when tying to get Members of a PersonRole without specifying neither roleID nor roleName") {
+            assertFailsWith<IllegalArgumentException>(message = "either roleID or roleName must be set") {
                 populi.getRoleMembers()
             }
         }
 
-        it("send request, receive response and parse it into Members of a PersonRole"){
+        it("send request, receive response and parse it into Members of a PersonRole") {
             stubForPopuli("getRoleMembers", getRoleMembersXml)
             assertEquals(roleMemberResponse, populi.getRoleMembers(roleID = 1111))
         }
@@ -319,12 +317,12 @@ object ClientSpec : Spek({
             assertEquals(leadSources, populi.getLeadSources())
         }
 
-        it("send request, receive response and parse it into Inquiry"){
+        it("send request, receive response and parse it into Inquiry") {
             stubForPopuli("getInquiry", getInquiryXml)
             assertEquals(inquiries, populi.getInquiry(1111))
         }
 
-        it("send request, receive response and parse it into Tag"){
+        it("send request, receive response and parse it into Tag") {
             stubForPopuli("getTags", getTagsXml)
             assertEquals(tags, populi.getTags())
         }
@@ -335,37 +333,13 @@ object ClientSpec : Spek({
             }
         }
 
-        it("send request, receive response and parse it into Person with specific Tag "){
+        it("send request, receive response and parse it into Person with specific Tag ") {
             stubForPopuli("getTaggedPeople", getTaggedPeopleXml)
             assertEquals(taggedPersonResponse, populi.getTaggedPeople(tagID = 1111))
         }
 
         xit("real") {
-            val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
-                .toFile()
-                .inputStream()
-            val p = Properties()
-            p.load(input)
-
-            val real = Populi.Builder()
-                .withBaseUrl(p.getProperty("real.baseurl"))
-                .withUsername(p.getProperty("real.username"))
-                .withPassword(p.getProperty("real.password"))
-                .build()
-
-            //val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
-            //val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
-            //val yearId = p.getProperty("real.year_id").toInt()
-            //val termId = p.getProperty("real.term_id").toInt()
-            //val personId = p.getProperty("real.person_id").toInt()
-            //val customFieldId = p.getProperty("real.custom_field_id").toInt()
-            //val degreeId = p.getProperty("real.degree_id").toInt()
-            //val lessonId = p.getProperty("real.lesson_id").toInt()
-            //val applicationId = p.getProperty("real.application_id").toInt()
-            //val applicationFieldId = p.getProperty("real.application_field_id").toInt()
-            //val inquiryId = p.getProperty("real.inquiry_id").toInt()
-            //val fileId = p.getProperty("real.file_id").toInt()
-            val tagId = p.getProperty("real.tag_id").toInt()
+            val real = realClient()
 
             // test with your real populi account info
             //println(real.getEducationLevels())
@@ -415,17 +389,11 @@ object ClientSpec : Spek({
             //println(real.getTranscript(personId))
             //println(real.getCommunicationPlans())
             //println(real.getPersonCommunicationPlans(personId))
-            //println(real.getApplications())
-            //println(real.getPersonApplications(personId))
-            //println(real.getApplication(applicationId))
-            //println(real.getApplicationFieldOptions(applicationFieldId))
-            //println(real.getApplicationComponents(applicationId))
-            //println(real.getApplicationTemplates())
             //println(real.getPersonLeads(personId))
             //println(real.getLeadSources())
             //println(real.getInquiry(inquiryId))
             //println(real.getTags())
-            println(real.getTaggedPeople(tagID = tagId))
+            println(real.getTaggedPeople(tagID = LocalProperty.tagId))
         }
 
         afterGroup { server.stop() }
