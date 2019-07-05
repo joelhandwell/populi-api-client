@@ -16,12 +16,9 @@ object ClientSpec : Spek({
 
     describe("Client") {
         (LoggerFactory.getLogger("org.eclipse.jetty") as ch.qos.logback.classic.Logger).level = Level.INFO
-        val wireMockServer = WireMockServer()
-        val populi = Populi.Builder()
-            .withBaseUrl("http://localhost:$WIREMOCK_PORT/")
-            .withAccessKey(TEST_API_ACCESS_KEY)
-            .build()
-        beforeGroup { wireMockServer.start() }
+        val server = WireMockServer()
+        val populi = mockClient()
+        beforeGroup { server.start() }
 
         it("creates api client with username and password") {
             stubFor(
@@ -312,36 +309,6 @@ object ClientSpec : Spek({
             assertEquals(mutableListOf(communicationPlanInstance), populi.getPersonCommunicationPlans(1111))
         }
 
-        it("send request, receive response and parse it into Application") {
-            stubForPopuli("getApplications", getApplicationsXml)
-            assertEquals(applicationResponse, populi.getApplications())
-        }
-
-        it("send request, receive response and parse it into Application associated with a specific Person") {
-            stubForPopuli("getPersonApplications", getPersonApplicationsXml)
-            assertEquals(personApplications, populi.getPersonApplications(1111))
-        }
-
-        it("send request, receive response and parse it into Application Detail") {
-            stubForPopuli("getApplication", getApplicationXml)
-            assertEquals(applicationDetail, populi.getApplication(1111))
-        }
-
-        it("send request, receive response and parse it into ApplicationFieldOption") {
-            stubForPopuli("getApplicationFieldOptions", getApplicationFieldOptionsXml)
-            assertEquals(applicationFieldOptions, populi.getApplicationFieldOptions(1111))
-        }
-
-        it("send request, receive response and parse it into Component of an Application") {
-            stubForPopuli("getApplicationComponents", getApplicationComponentsXml)
-            assertApplicationComponents(populi.getApplicationComponents(1111))
-        }
-
-        it("send request, receive response and parse it into ApplicationTemplate") {
-            stubForPopuli("getApplicationTemplates", getApplicationTemplatesXml)
-            assertApplicationTemplates(populi.getApplicationTemplates())
-        }
-
         it("send request, receive response and parse it into Lead attached to a specific Person") {
             stubForPopuli("getPersonLeads", getPersonLeadsXml)
             assertEquals(leads, populi.getPersonLeads(1111))
@@ -461,16 +428,6 @@ object ClientSpec : Spek({
             println(real.getTaggedPeople(tagID = tagId))
         }
 
-        afterGroup { wireMockServer.stop() }
+        afterGroup { server.stop() }
     }
 })
-
-fun stubForPopuli(task: String, xml: String) {
-    stubFor(
-        post("/api/").withRequestBody(
-            containing("access_key=$TEST_API_ACCESS_KEY&task=$task")
-        ).willReturn(
-            aResponse().withBody(xml)
-        )
-    )
-}

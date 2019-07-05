@@ -1,5 +1,6 @@
 package com.github.joelhandwell.populi
 
+import com.github.tomakehurst.wiremock.client.WireMock
 import java.io.StringWriter
 import javax.xml.bind.JAXB
 import kotlin.test.assertEquals
@@ -21,7 +22,7 @@ fun assertMarshals(expectedXml: String, actualObject: Any) {
 /**
  * convenience function to check if the given object marshals without error
  */
-fun assertMarshals(actualObject: Any){
+fun assertMarshals(actualObject: Any) {
     JAXB.marshal(actualObject, StringWriter())
 }
 
@@ -30,4 +31,25 @@ fun assertMarshals(actualObject: Any){
  */
 fun assertUnmarshals(expectedObject: Any, actualXml: String) {
     assertEquals(expectedObject, JAXB.unmarshal(sanitizeXml(actualXml).reader(), expectedObject::class.java))
+}
+
+/**
+ * Convenience function to generate mock populi api client
+ */
+fun mockClient(): Populi = Populi.Builder()
+    .withBaseUrl("http://localhost:$WIREMOCK_PORT/")
+    .withAccessKey(TEST_API_ACCESS_KEY)
+    .build()
+
+/**
+ * Convenience function to prepare WireMockServer to respond for a request with a xml
+ */
+fun stubForPopuli(task: String, xml: String) {
+    WireMock.stubFor(
+        WireMock.post("/api/").withRequestBody(
+            WireMock.containing("access_key=$TEST_API_ACCESS_KEY&task=$task")
+        ).willReturn(
+            WireMock.aResponse().withBody(xml)
+        )
+    )
 }
