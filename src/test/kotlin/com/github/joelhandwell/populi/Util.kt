@@ -58,7 +58,7 @@ object LocalProperty {
     val baseUrl = p.getProperty("real.baseurl")!!
     val username = p.getProperty("real.username")!!
     val password = p.getProperty("real.password")!!
-
+    val course_group_id = p.getProperty("real.course_group_id").toInt()
     val courseInstanceId = p.getProperty("real.course_instance_id").toInt()
     val courseInstanceAssignmentId = p.getProperty("real.course_instance_assignment_id").toInt()
     val yearId = p.getProperty("real.year_id").toInt()

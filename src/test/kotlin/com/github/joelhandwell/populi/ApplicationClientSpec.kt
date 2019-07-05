@@ -48,7 +48,7 @@ object ApplicationClientSpec : Spek({
 
     afterGroup { server.stop() }
 
-    xdescribe("Populi Client with real info") {
+    xdescribe("Populi Client with real info on Application") {
         val real = realClient()
         println(real.getApplications())
         println(real.getApplicationTemplates())
