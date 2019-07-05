@@ -45,7 +45,7 @@ fun mockClient(): Populi = Populi.Builder()
 
 object LocalProperty {
 
-    val p = Properties()
+    private val p = Properties()
 
     init {
         val input = Paths.get("${System.getProperty("user.dir")}\\local.properties")
@@ -72,7 +72,6 @@ object LocalProperty {
     val inquiryId = p.getProperty("real.inquiry_id").toInt()
     val fileId = p.getProperty("real.file_id").toInt()
     val tagId = p.getProperty("real.tag_id").toInt()
-
 }
 
 fun realClient(): Populi = Populi.Builder()
