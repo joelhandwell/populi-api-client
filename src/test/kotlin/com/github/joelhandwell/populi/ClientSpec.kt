@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.*
 import org.slf4j.LoggerFactory
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
+import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
@@ -245,6 +246,15 @@ object ClientSpec : Spek({
             assertEquals(taggedPersonResponse, populi.getTaggedPeople(tagID = 1111))
         }
 
+        it("send request, receive response and parse it into Events with specific owners"){
+            stubForPopuli("getEvents", getEventsXml)
+            val calendars = mutableListOf(
+                EventCalendar(CalendarOwnerType.PERSON, 1234),
+                EventCalendar(CalendarOwnerType.INSTANCE, 5678)
+            )
+            assertEquals(events, populi.getEvents(LocalDate.of(2019, 7, 9), LocalDate.of(2019, 7, 10), calendars))
+        }
+
         xit("real") {
             val real = realClient()
 
@@ -278,7 +288,8 @@ object ClientSpec : Spek({
             //println(real.getLeadSources())
             //println(real.getInquiry(inquiryId))
             //println(real.getTags())
-            println(real.getTaggedPeople(tagID = LocalProperty.tagId))
+            //println(real.getTaggedPeople(tagID = LocalProperty.tagId))
+            println(real.getEvents(calendars = mutableListOf(EventCalendar(CalendarOwnerType.INSTANCE, LocalProperty.courseInstanceId))))
         }
 
         afterGroup { server.stop() }

@@ -10,6 +10,8 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import com.github.joelhandwell.populi.Populi.CustomFieldType.*
+import retrofit2.http.FieldMap
+import java.time.LocalDate
 
 inline fun <reified R : Any> R.logger(): Logger =
     LoggerFactory.getLogger(this::class.java.name.substringBefore("\$Companion"))
@@ -581,9 +583,33 @@ class Populi(
      * @param page We limit the number of results returned (see comments), so which "page" would you like (e.g. page=1, page=2, page=3). Not required.
      */
     fun getTaggedPeople(tagID: Int? = null, tagName: String? = null, page: Int? = null): PersonResponse {
-        if(tagID == null && tagName == null) throw IllegalArgumentException("either tagID or tagName must be set")
+        if (tagID == null && tagName == null) throw IllegalArgumentException("either tagID or tagName must be set")
         return sendRequest(this.api.getTaggedPeople(accessKey, tagID = tagID, tagName = tagName, page = page))
     }
+
+    /**
+     * Returns calendar events. The "calendars" optional parameter is specified as [MutableList] of [EventCalendar].
+     * Possible 'ownertype' values are [CalendarOwnerType]
+     * The "recurrence" attribute will only be present in the response if it's a recurring event
+     * The "color" attribute is the particular calendar's color. So all of it's events and it's label will be presented in that color for distinguishing purposes. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getEvents)
+     */
+    fun getEvents(startDate: LocalDate? = null, endDate: LocalDate? = null, calendars: MutableList<EventCalendar>? = null): MutableList<Event> =
+        sendRequest(this.api.getEvents(mapOf(FIELD_ACCESS_KEY to accessKey, FIELD_TASK to "getEvents").plus(getEventsFieldMap(startDate, endDate, calendars)))).event
+}
+
+fun getEventsFieldMap(startDate: LocalDate? = null, endDate: LocalDate? = null, calendars: MutableList<EventCalendar>? = null): Map<String, String> {
+    val fieldMap = mutableMapOf<String, String>()
+
+    if (startDate != null) fieldMap["startDate"] = startDate.toString()
+    if (endDate != null) fieldMap["endDate"] = endDate.toString()
+    if (!calendars.isNullOrEmpty()) fieldMap.putAll(calendars.mapIndexed { index, eventCalendar ->
+        mapOf(
+            "calendars[$index][ownertype]" to eventCalendar.ownertype.toString(),
+            "calendars[$index][ownerid]" to eventCalendar.ownerid.toString()
+        )
+    }.flatMap { it.toList() })
+
+    return fieldMap.toMap()
 }
 
 interface PopuliApi {
@@ -649,6 +675,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getInquiry(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getInquiry", @Field("inquiry_id") inquiry_id: Int): Call<InquiryResponse>
     @FormUrlEncoded @POST(API_URI) fun getTags(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTags"): Call<TagResponse>
     @FormUrlEncoded @POST(API_URI) fun getTaggedPeople(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTaggedPeople", @Field("tagID") tagID: Int? = null, @Field("tagName") tagName: String? = null, @Field("page") page: Int? = null): Call<PersonResponse>
+    @FormUrlEncoded @POST(API_URI) fun getEvents(@FieldMap fields: Map<String, String>): Call<EventResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

@@ -43,6 +43,9 @@ fun mockClient(): Populi = Populi.Builder()
     .withAccessKey(TEST_API_ACCESS_KEY)
     .build()
 
+/**
+ * Represents local.property file at project root which should be ignored from VCS
+ */
 object LocalProperty {
 
     private val p = Properties()
@@ -74,6 +77,9 @@ object LocalProperty {
     val tagId = p.getProperty("real.tag_id").toInt()
 }
 
+/**
+ * Convenience function to generate real populi api client based on [LocalProperty]
+ */
 fun realClient(): Populi = Populi.Builder()
     .withBaseUrl(LocalProperty.baseUrl)
     .withUsername(LocalProperty.username)

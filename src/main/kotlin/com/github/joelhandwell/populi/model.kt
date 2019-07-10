@@ -1278,3 +1278,41 @@ data class Inquiry(
 data class InquiryResponse(
     var inquiry: MutableList<Inquiry> = mutableListOf()
 )
+
+@XmlRootElement(name = "color")
+data class EventColor(
+    var red: Int,
+    var green: Int,
+    var blue: Int
+)
+
+@XmlRootElement(name = "event")
+data class Event(
+    var eventid: Int,
+    var ownertype: String,
+    var ownerid: Int,
+    var calname: String,
+    var summary: String,
+    var description: String? = null,
+    var allday: Int,
+    var recurrence: LocalDate,
+    var color: EventColor,
+    var start: OffsetDateTime,
+    var end: OffsetDateTime
+)
+
+@XmlRootElement(name = "response")
+data class EventResponse(
+    var event: MutableList<Event> = mutableListOf()
+)
+
+/**
+ * INSTANCE means [CourseInstance]
+ * @see [Populi.getEvents]
+ */
+enum class CalendarOwnerType { PERSON, INSTANCE, ORG, ROOM, RESOURCE, CAMPUS, LIBRARY, LIBRARY_HOURS }
+
+data class EventCalendar(
+    var ownertype: CalendarOwnerType,
+    var ownerid: Int
+)
