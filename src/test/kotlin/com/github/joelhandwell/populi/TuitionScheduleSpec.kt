@@ -1,6 +1,6 @@
 package com.github.joelhandwell.populi
 
-import com.joelhandwell.populi.jaxb.MonetaryAmountAdapter
+import com.github.joelhandwell.populi.jaxb.MonetaryAmountAdapter
 import org.javamoney.moneta.Money
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe

@@ -1,7 +1,7 @@
 package com.github.joelhandwell.populi
 
 import com.github.tomakehurst.wiremock.client.WireMock
-import com.joelhandwell.populi.jaxb.sanitizeXml
+import com.github.joelhandwell.populi.jaxb.sanitizeXml
 import java.io.StringWriter
 import java.nio.file.Paths
 import java.util.*

@@ -1,7 +1,7 @@
 package com.github.joelhandwell.populi
 
-import com.joelhandwell.populi.jaxb.ClockLocalTimeAdapter
-import com.joelhandwell.populi.jaxb.DayOfWeekAdapter
+import com.github.joelhandwell.populi.jaxb.ClockLocalTimeAdapter
+import com.github.joelhandwell.populi.jaxb.DayOfWeekAdapter
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.io.StringWriter

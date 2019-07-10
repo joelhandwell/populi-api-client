@@ -10,7 +10,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import com.github.joelhandwell.populi.Populi.CustomFieldType.*
-import com.joelhandwell.populi.jaxb.PopuliResponseConverterFactory
+import com.github.joelhandwell.populi.jaxb.PopuliResponseConverterFactory
 import retrofit2.http.FieldMap
 import java.time.LocalDate
 

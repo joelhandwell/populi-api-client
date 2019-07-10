@@ -1,4 +1,4 @@
-package com.joelhandwell.populi.jaxb
+package com.github.joelhandwell.populi.jaxb
 
 import com.github.joelhandwell.populi.ApplicationAnswer
 import org.javamoney.moneta.Money
