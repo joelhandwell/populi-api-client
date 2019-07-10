@@ -40,6 +40,20 @@ val events = mutableListOf(e1, e2)
 
 private val response = EventResponse(events)
 
+val event = Event(
+    eventid = 1111,
+    ownertype = "PERSON",
+    ownerid = 1234,
+    calname = "My Calendar",
+    summary = "Lunch",
+    description = "",
+    allday = 0,
+    start = OffsetDateTime.parse("2017-01-26T13:00:00-06:00"),
+    end = OffsetDateTime.parse("2017-01-26T14:00:00-06:00")
+)
+
+private val responseSingle = EventSingleResponse(event)
+
 object EventSpec : Spek({
 
     describe("Events") {
@@ -76,6 +90,13 @@ object EventSpec : Spek({
             )
             assertEquals(expectedMap, getEventsFieldMap(startDate, endDate, calendars))
         }
+    }
+
+    describe("Event (single)") {
+
+        it("marshal to xml") { assertMarshals(responseSingle) }
+
+        it("unmarshal from xml") { assertUnmarshals(responseSingle, getEventXml) }
     }
 })
 
@@ -114,5 +135,20 @@ const val getEventsXml = """
         </color>
         <start>2017-01-26T15:00:00-06:00</start>
         <end>2017-01-26T16:00:00-06:00</end>
+    </event>
+</response>"""
+
+const val getEventXml = """
+<response>
+    <event>
+        <eventid>1111</eventid>
+        <ownertype>PERSON</ownertype>
+        <ownerid>1234</ownerid>
+        <calname>My Calendar</calname>
+        <summary>Lunch</summary>
+        <description></description>
+        <allday>0</allday>
+        <start>2017-01-26T13:00:00-06:00</start>
+        <end>2017-01-26T14:00:00-06:00</end>
     </event>
 </response>"""

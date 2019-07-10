@@ -75,6 +75,7 @@ object LocalProperty {
     val inquiryId = p.getProperty("real.inquiry_id").toInt()
     val fileId = p.getProperty("real.file_id").toInt()
     val tagId = p.getProperty("real.tag_id").toInt()
+    val eventId = p.getProperty("real.event_id").toInt()
 }
 
 /**

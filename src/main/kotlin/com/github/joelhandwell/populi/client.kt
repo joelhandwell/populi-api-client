@@ -595,6 +595,12 @@ class Populi(
      */
     fun getEvents(startDate: LocalDate? = null, endDate: LocalDate? = null, calendars: MutableList<EventCalendar>? = null): MutableList<Event> =
         sendRequest(this.api.getEvents(mapOf(FIELD_ACCESS_KEY to accessKey, FIELD_TASK to "getEvents").plus(getEventsFieldMap(startDate, endDate, calendars)))).event
+
+    /**
+     * Returns data for a particular event. Optional attendees, location, and resources data can be returned if present. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getEvent)
+     */
+    fun getEvent(eventID: Int, recurrence: LocalDate? = null) =
+        sendRequest(this.api.getEvent(accessKey, eventID = eventID, recurrence = recurrence?.toString())).event
 }
 
 fun getEventsFieldMap(startDate: LocalDate? = null, endDate: LocalDate? = null, calendars: MutableList<EventCalendar>? = null): Map<String, String> {
@@ -676,6 +682,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getTags(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTags"): Call<TagResponse>
     @FormUrlEncoded @POST(API_URI) fun getTaggedPeople(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTaggedPeople", @Field("tagID") tagID: Int? = null, @Field("tagName") tagName: String? = null, @Field("page") page: Int? = null): Call<PersonResponse>
     @FormUrlEncoded @POST(API_URI) fun getEvents(@FieldMap fields: Map<String, String>): Call<EventResponse>
+    @FormUrlEncoded @POST(API_URI) fun getEvent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getEvent", @Field("eventID") eventID: Int, @Field("recurrence") recurrence: String? = null): Call<EventSingleResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

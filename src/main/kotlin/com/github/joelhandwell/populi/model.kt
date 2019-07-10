@@ -1295,15 +1295,21 @@ data class Event(
     var summary: String,
     var description: String? = null,
     var allday: Int,
-    var recurrence: LocalDate,
-    var color: EventColor,
+    var recurrence: LocalDate? = null,
+    var color: EventColor? = null,
     var start: OffsetDateTime,
     var end: OffsetDateTime
+    // TODO Optional attendees, location, and resources data needs to be implemented.
 )
 
 @XmlRootElement(name = "response")
 data class EventResponse(
     var event: MutableList<Event> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+data class EventSingleResponse(
+    var event: Event
 )
 
 /**
