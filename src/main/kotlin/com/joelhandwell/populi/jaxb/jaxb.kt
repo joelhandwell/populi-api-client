@@ -1,5 +1,6 @@
-package com.github.joelhandwell.populi
+package com.joelhandwell.populi.jaxb
 
+import com.github.joelhandwell.populi.ApplicationAnswer
 import org.javamoney.moneta.Money
 import org.w3c.dom.Element
 import java.io.StringWriter
@@ -60,11 +61,11 @@ class PopuliResponseConverterFactory : Converter.Factory() {
     }
 }
 
-val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-val clockLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:ma") //Oct 21, 2017 5:11pm
-val localTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mma")
-val usaDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy") //Dec 31, 2017
-val transcriptFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM. d yyyy") //Jan. 5 1985
+private val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+private val clockLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:ma") //Oct 21, 2017 5:11pm
+private val localTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mma")
+private val usaDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy") //Dec 31, 2017
+private val transcriptFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM. d yyyy") //Jan. 5 1985
 
 class LocalDateTimeAdapter : XmlAdapter<String, LocalDateTime>() {
 

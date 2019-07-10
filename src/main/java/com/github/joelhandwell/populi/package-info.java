@@ -9,6 +9,7 @@
 })
 package com.github.joelhandwell.populi;
 
+import com.joelhandwell.populi.jaxb.*;
 import io.github.threetenjaxb.core.OffsetDateTimeXmlAdapter;
 import io.github.threetenjaxb.core.YearXmlAdapter;
 

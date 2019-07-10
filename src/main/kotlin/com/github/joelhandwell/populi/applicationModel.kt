@@ -1,5 +1,6 @@
 package com.github.joelhandwell.populi
 
+import com.joelhandwell.populi.jaxb.ApplicationAnswerAdapter
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.money.MonetaryAmount
