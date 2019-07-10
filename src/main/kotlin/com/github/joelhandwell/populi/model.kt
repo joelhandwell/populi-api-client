@@ -1322,3 +1322,31 @@ data class EventCalendar(
     var ownertype: CalendarOwnerType,
     var ownerid: Int
 )
+
+@XmlRootElement(name = "article")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class NewsArticle(
+    var article_id: Int,
+    var title: String,
+    var content: String,
+    var pinned: Int? = null,
+    var pinned_until: LocalDate,
+    var added_at: LocalDateTime,
+    var added_by: Int,
+    var added_by_name: String,
+    var updated_at: LocalDateTime? = null,
+    var updated_by: Int? = null,
+    var updated_by_name: String? = null,
+
+    @XmlElementWrapper(name = "roles")
+    var role: MutableList<Role> = mutableListOf()
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class NewsArticleResponse(
+    @XmlAttribute(name = "num_results")
+    var num_results: Int,
+
+    var article: MutableList<NewsArticle> = mutableListOf()
+)

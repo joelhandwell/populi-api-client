@@ -139,4 +139,6 @@ class ApplicationAnswerAdapter : XmlAdapter<Any, ApplicationAnswer>() {
 
 fun sanitizeXml(xml: String): String {
     return xml.replace("&([^;&]+(?!(?:\\w|;)))".toRegex(), "&amp;$1")
+        .replace("<\n( )*!\\[CDATA\\[".toRegex(), "<![CDATA[")
+        .replace("\\]\\]>\n( )*</".toRegex(), "]]></")
 }

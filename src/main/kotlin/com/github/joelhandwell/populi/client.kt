@@ -588,19 +588,29 @@ class Populi(
     }
 
     /**
-     * Returns calendar events. The "calendars" optional parameter is specified as [MutableList] of [EventCalendar].
-     * Possible 'ownertype' values are [CalendarOwnerType]
+     * Returns calendar events. Possible 'ownertype' values are [CalendarOwnerType]
      * The "recurrence" attribute will only be present in the response if it's a recurring event
      * The "color" attribute is the particular calendar's color. So all of it's events and it's label will be presented in that color for distinguishing purposes. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getEvents)
+     * @param startDate Format like MM/DD/YYYY or YYYY-MM-DD. Defaults to the current date.
+     * @param endDate Format like MM/DD/YYYY or YYYY-MM-DD. Defaults to 1 month in the future.
+     * @param calendars [MutableList] of [EventCalendar] to return events from. Defaults to returning events from the current user's calendars.
      */
     fun getEvents(startDate: LocalDate? = null, endDate: LocalDate? = null, calendars: MutableList<EventCalendar>? = null): MutableList<Event> =
         sendRequest(this.api.getEvents(mapOf(FIELD_ACCESS_KEY to accessKey, FIELD_TASK to "getEvents").plus(getEventsFieldMap(startDate, endDate, calendars)))).event
 
     /**
      * Returns data for a particular event. Optional attendees, location, and resources data can be returned if present. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getEvent)
+     * @param eventID The numeric ID of the event you're interested in. Required.
+     * @param recurrence If you want a particular occurrence of a reoccurring event. By default the first occurrence will be returned. Example: 2017-01-26. Not required.
      */
     fun getEvent(eventID: Int, recurrence: LocalDate? = null) =
         sendRequest(this.api.getEvent(accessKey, eventID = eventID, recurrence = recurrence?.toString())).event
+
+    /**
+     * Returns the Populi news feed, ordered most recent to least recent (with pinned articles at the top). [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getNews)
+     * @param offset The numeric value you want to offset the results by. Not required.
+     */
+    fun getNews(offset: Int? = null) = sendRequest(this.api.getNews(accessKey, offset = offset))
 }
 
 fun getEventsFieldMap(startDate: LocalDate? = null, endDate: LocalDate? = null, calendars: MutableList<EventCalendar>? = null): Map<String, String> {
@@ -683,6 +693,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getTaggedPeople(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTaggedPeople", @Field("tagID") tagID: Int? = null, @Field("tagName") tagName: String? = null, @Field("page") page: Int? = null): Call<PersonResponse>
     @FormUrlEncoded @POST(API_URI) fun getEvents(@FieldMap fields: Map<String, String>): Call<EventResponse>
     @FormUrlEncoded @POST(API_URI) fun getEvent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getEvent", @Field("eventID") eventID: Int, @Field("recurrence") recurrence: String? = null): Call<EventSingleResponse>
+    @FormUrlEncoded @POST(API_URI) fun getNews(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getNews", @Field("offset") offset: Int? = null): Call<NewsArticleResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

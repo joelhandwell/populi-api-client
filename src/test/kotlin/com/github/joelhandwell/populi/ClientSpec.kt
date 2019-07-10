@@ -260,6 +260,11 @@ object ClientSpec : Spek({
             assertEquals(event, populi.getEvent(eventID = 1111))
         }
 
+        it("send request, receive response and parse it into NewsArticle"){
+            stubForPopuli("getNews", getNewsXml)
+            assertEquals(newsArticleResponse, populi.getNews())
+        }
+
         xit("real") {
             val real = realClient()
 
@@ -296,6 +301,7 @@ object ClientSpec : Spek({
             //println(real.getTaggedPeople(tagID = LocalProperty.tagId))
             println(real.getEvents(calendars = mutableListOf(EventCalendar(CalendarOwnerType.INSTANCE, LocalProperty.courseInstanceId))))
             println(real.getEvent(LocalProperty.eventId))
+            println(real.getNews())
         }
 
         afterGroup { server.stop() }
