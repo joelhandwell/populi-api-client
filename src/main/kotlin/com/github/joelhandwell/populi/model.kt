@@ -1350,3 +1350,30 @@ data class NewsArticleResponse(
 
     var article: MutableList<NewsArticle> = mutableListOf()
 )
+
+@XmlRootElement(name = "todo")
+data class ToDo(
+    var todoid: Int,
+    var due_date: LocalDate,
+    var overdue: Int,
+    var assigned_to: Int,
+    var assigned_by: Int,
+    var attached_to: Int,
+    var completed_time: LocalDateTime? = null,
+    var added_time: LocalDateTime,
+    var content: String,
+    var assigned_to_name: String?,
+    var assigned_by_name: String?,
+    var attached_to_name: String?,
+    var attached_to_type: String?
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class ToDoResponse(
+
+    @XmlAttribute(name = "num_results")
+    var num_results: Int,
+
+    var todo: MutableList<ToDo> = mutableListOf()
+)

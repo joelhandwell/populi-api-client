@@ -611,21 +611,14 @@ class Populi(
      * @param offset The numeric value you want to offset the results by. Not required.
      */
     fun getNews(offset: Int? = null) = sendRequest(this.api.getNews(accessKey, offset = offset))
-}
 
-fun getEventsFieldMap(startDate: LocalDate? = null, endDate: LocalDate? = null, calendars: MutableList<EventCalendar>? = null): Map<String, String> {
-    val fieldMap = mutableMapOf<String, String>()
-
-    if (startDate != null) fieldMap["startDate"] = startDate.toString()
-    if (endDate != null) fieldMap["endDate"] = endDate.toString()
-    if (!calendars.isNullOrEmpty()) fieldMap.putAll(calendars.mapIndexed { index, eventCalendar ->
-        mapOf(
-            "calendars[$index][ownertype]" to eventCalendar.ownertype.toString(),
-            "calendars[$index][ownerid]" to eventCalendar.ownerid.toString()
-        )
-    }.flatMap { it.toList() })
-
-    return fieldMap.toMap()
+    /**
+     * Returns todos for the current user. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getTodos)
+     * @param completed Possible values: NO (default), YES, or BOTH. Whether you'd like to see completed todos, uncompleted todos, or all todos. Not required.
+     * @param page If you're using a limit, which page of results would you like? So 2 for the second page, etc. Not required.
+     */
+    fun getTodos(completed: Boolean? = null, page: Int? = null) =
+        sendRequest(this.api.getTodos(accessKey, completed = if (completed != null && completed == true) "YES" else "NO", page = page))
 }
 
 interface PopuliApi {
@@ -694,6 +687,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getEvents(@FieldMap fields: Map<String, String>): Call<EventResponse>
     @FormUrlEncoded @POST(API_URI) fun getEvent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getEvent", @Field("eventID") eventID: Int, @Field("recurrence") recurrence: String? = null): Call<EventSingleResponse>
     @FormUrlEncoded @POST(API_URI) fun getNews(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getNews", @Field("offset") offset: Int? = null): Call<NewsArticleResponse>
+    @FormUrlEncoded @POST(API_URI) fun getTodos(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTodos", @Field("completed") completed: String, @Field("page") page: Int? = null): Call<ToDoResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
@@ -713,4 +707,19 @@ private fun <T> sendRequest(call: Call<T>): T {
         throw RuntimeException("request not success, error body: ${response.errorBody()}")
     }
     return response.body() ?: throw RuntimeException("response body was null")
+}
+
+fun getEventsFieldMap(startDate: LocalDate? = null, endDate: LocalDate? = null, calendars: MutableList<EventCalendar>? = null): Map<String, String> {
+    val fieldMap = mutableMapOf<String, String>()
+
+    if (startDate != null) fieldMap["startDate"] = startDate.toString()
+    if (endDate != null) fieldMap["endDate"] = endDate.toString()
+    if (!calendars.isNullOrEmpty()) fieldMap.putAll(calendars.mapIndexed { index, eventCalendar ->
+        mapOf(
+            "calendars[$index][ownertype]" to eventCalendar.ownertype.toString(),
+            "calendars[$index][ownerid]" to eventCalendar.ownerid.toString()
+        )
+    }.flatMap { it.toList() })
+
+    return fieldMap.toMap()
 }

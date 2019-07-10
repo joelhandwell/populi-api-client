@@ -246,7 +246,7 @@ object ClientSpec : Spek({
             assertEquals(taggedPersonResponse, populi.getTaggedPeople(tagID = 1111))
         }
 
-        it("send request, receive response and parse it into Events with specific owners"){
+        it("send request, receive response and parse it into Events with specific owners") {
             stubForPopuli("getEvents", getEventsXml)
             val calendars = mutableListOf(
                 EventCalendar(CalendarOwnerType.PERSON, 1234),
@@ -255,14 +255,19 @@ object ClientSpec : Spek({
             assertEquals(events, populi.getEvents(LocalDate.of(2019, 7, 9), LocalDate.of(2019, 7, 10), calendars))
         }
 
-        it("send request, receive response and parse it into single Event"){
+        it("send request, receive response and parse it into single Event") {
             stubForPopuli("getEvent", getEventXml)
             assertEquals(event, populi.getEvent(eventID = 1111))
         }
 
-        it("send request, receive response and parse it into NewsArticle"){
+        it("send request, receive response and parse it into NewsArticle") {
             stubForPopuli("getNews", getNewsXml)
             assertEquals(newsArticleResponse, populi.getNews())
+        }
+
+        it("send request, receive response and parse it into ToDo") {
+            stubForPopuli("getTodos", getTodosXml)
+            assertEquals(toDoResponse, populi.getTodos())
         }
 
         xit("real") {
@@ -299,9 +304,10 @@ object ClientSpec : Spek({
             //println(real.getInquiry(inquiryId))
             //println(real.getTags())
             //println(real.getTaggedPeople(tagID = LocalProperty.tagId))
-            println(real.getEvents(calendars = mutableListOf(EventCalendar(CalendarOwnerType.INSTANCE, LocalProperty.courseInstanceId))))
-            println(real.getEvent(LocalProperty.eventId))
-            println(real.getNews())
+            //println(real.getEvents(calendars = mutableListOf(EventCalendar(CalendarOwnerType.INSTANCE, LocalProperty.courseInstanceId))))
+            //println(real.getEvent(LocalProperty.eventId))
+            //println(real.getNews())
+            println(real.getTodos())
         }
 
         afterGroup { server.stop() }
