@@ -1377,3 +1377,16 @@ data class ToDoResponse(
 
     var todo: MutableList<ToDo> = mutableListOf()
 )
+
+@XmlRootElement(name = "print_layout")
+data class PrintLayout(
+    var id: String,
+    var name: String,
+    var type: String,
+    var added_at: LocalDateTime
+)
+
+@XmlRootElement(name = "response")
+data class PrintLayoutResponse(
+    var print_layout: MutableList<PrintLayout> = mutableListOf()
+)

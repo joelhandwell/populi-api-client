@@ -620,6 +620,11 @@ class Populi(
      */
     fun getTodos(completed: Boolean? = null, page: Int? = null) =
         sendRequest(this.api.getTodos(accessKey, completed = if (completed != null && completed == true) "YES" else "NO", page = page))
+
+    /**
+     * Returns all information related to built-in and custom Open Office ODT print layout templates. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPrintLayouts)
+     */
+    fun getPrintLayouts() = sendRequest(this.api.getPrintLayouts(accessKey)).print_layout
 }
 
 interface PopuliApi {
@@ -689,6 +694,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getEvent(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getEvent", @Field("eventID") eventID: Int, @Field("recurrence") recurrence: String? = null): Call<EventSingleResponse>
     @FormUrlEncoded @POST(API_URI) fun getNews(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getNews", @Field("offset") offset: Int? = null): Call<NewsArticleResponse>
     @FormUrlEncoded @POST(API_URI) fun getTodos(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTodos", @Field("completed") completed: String, @Field("page") page: Int? = null): Call<ToDoResponse>
+    @FormUrlEncoded @POST(API_URI) fun getPrintLayouts(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPrintLayouts"): Call<PrintLayoutResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

@@ -270,6 +270,11 @@ object ClientSpec : Spek({
             assertEquals(toDoResponse, populi.getTodos())
         }
 
+        it("send request, receive response and parse it into PrintLayout"){
+            stubForPopuli("getPrintLayouts", getPrintLayoutsXml)
+            assertEquals(printLayouts, populi.getPrintLayouts())
+        }
+
         xit("real") {
             val real = realClient()
 
@@ -307,7 +312,8 @@ object ClientSpec : Spek({
             //println(real.getEvents(calendars = mutableListOf(EventCalendar(CalendarOwnerType.INSTANCE, LocalProperty.courseInstanceId))))
             //println(real.getEvent(LocalProperty.eventId))
             //println(real.getNews())
-            println(real.getTodos())
+            //println(real.getTodos())
+            println(real.getPrintLayouts())
         }
 
         afterGroup { server.stop() }
