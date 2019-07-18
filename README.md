@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.joelhandwell:populi-api-client:1.0.8'
+    implementation 'com.github.joelhandwell:populi-api-client:1.1.0'
 }
 ```
 
