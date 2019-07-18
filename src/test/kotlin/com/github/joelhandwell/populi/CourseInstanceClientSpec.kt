@@ -112,32 +112,32 @@ object CourseInstanceClientSpec : Spek({
     afterGroup { server.stop() }
 
     xdescribe("Populi Client with real info on CourseInstance"){
-        val real = realClient()
-        val termId = LocalProperty.termId
-        val courseInstanceId = LocalProperty.courseInstanceId
-        val personId = LocalProperty.personId
+        //val real = realClient()
+        //val termId = LocalProperty.termId
+        //val courseInstanceId = LocalProperty.courseInstanceId
+        //val personId = LocalProperty.personId
 
-        println(real.getTermCourseInstances(termId))
-        println(real.getTermStudents(term_id = termId))
-        println(real.getTermEnrollment(termId))
-        println(real.getTuitionSchedules())
-        println(real.getCourseGroupInfo(course_group_id = LocalProperty.course_group_id))
-        println(real.getTermCourseInstances(termId))
-        println(real.getCourseInstance(courseInstanceId))
-        println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
-        println(real.getCourseInstanceAssignments(courseInstanceId))
-        println(real.getStudentAssignmentSubmissions(LocalProperty.courseInstanceAssignmentId, personId))
-        println(real.getCourseInstanceFiles(courseInstanceId))
-        println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
-        println(real.getLessonContent(courseInstanceId, LocalProperty.lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
-        println(real.getMyCourses(person_id = personId, term_id = termId))
-        println(real.getCourseInstanceStudents(courseInstanceId))
-        println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
-        println(real.getRaw("getCourseInstanceMeetings", courseInstanceId))
-        println(real.getCourseInstanceMeetings(courseInstanceId))
-        println(real.getRaw("getCourseInstanceStudentAttendance", courseInstanceId, personId))
-        println(real.getRaw("getCurrentAcademicTerm"))
-        println(real.getCurrentAcademicTerm())
-        println(real.getCourseOfferingLinks(courseInstanceId))
+        //println(real.getTermCourseInstances(termId))
+        //println(real.getTermStudents(term_id = termId))
+        //println(real.getTermEnrollment(termId))
+        //println(real.getTuitionSchedules())
+        //println(real.getCourseGroupInfo(course_group_id = LocalProperty.course_group_id))
+        //println(real.getTermCourseInstances(termId))
+        //println(real.getCourseInstance(courseInstanceId))
+        //println(real.getCourseInstanceAssignmentGroups(courseInstanceId))
+        //println(real.getCourseInstanceAssignments(courseInstanceId))
+        //println(real.getStudentAssignmentSubmissions(LocalProperty.courseInstanceAssignmentId, personId))
+        //println(real.getCourseInstanceFiles(courseInstanceId))
+        //println(real.getRaw("getCourseInstanceLessons", courseInstanceId))
+        //println(real.getLessonContent(courseInstanceId, LocalProperty.lessonId)) // got: <?xml version="1.0" encoding="UTF-8"?><error><code>OTHER_ERROR</code><message>This task is no longer supported</message></error>
+        //println(real.getMyCourses(person_id = personId, term_id = termId))
+        //println(real.getCourseInstanceStudents(courseInstanceId))
+        //println(real.getRaw("getCourseInstanceStudent", courseInstanceId, personId))
+        //println(real.getRaw("getCourseInstanceMeetings", courseInstanceId))
+        //println(real.getCourseInstanceMeetings(courseInstanceId))
+        //println(real.getRaw("getCourseInstanceStudentAttendance", courseInstanceId, personId))
+        //println(real.getRaw("getCurrentAcademicTerm"))
+        //println(real.getCurrentAcademicTerm())
+        //println(real.getCourseOfferingLinks(courseInstanceId))
     }
 })

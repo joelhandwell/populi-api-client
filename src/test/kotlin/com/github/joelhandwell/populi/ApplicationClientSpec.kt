@@ -49,12 +49,12 @@ object ApplicationClientSpec : Spek({
     afterGroup { server.stop() }
 
     xdescribe("Populi Client with real info on Application") {
-        val real = realClient()
-        println(real.getApplications())
-        println(real.getApplicationTemplates())
-        println(real.getPersonApplications(LocalProperty.personId))
-        println(real.getApplication(LocalProperty.applicationId))
-        println(real.getApplicationFieldOptions(LocalProperty.applicationFieldId))
-        println(real.getApplicationComponents(LocalProperty.applicationId))
+        //val real = realClient()
+        //println(real.getApplications())
+        //println(real.getApplicationTemplates())
+        //println(real.getPersonApplications(LocalProperty.personId))
+        //println(real.getApplication(LocalProperty.applicationId))
+        //println(real.getApplicationFieldOptions(LocalProperty.applicationFieldId))
+        //println(real.getApplicationComponents(LocalProperty.applicationId))
     }
 })
