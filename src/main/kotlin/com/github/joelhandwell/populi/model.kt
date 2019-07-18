@@ -911,12 +911,17 @@ data class TermStudentResponse(
 )
 
 @XmlRootElement(name = "enrollment")
+@XmlAccessorType(XmlAccessType.FIELD)
 data class Enrollment(
     var person_id: Int,
+
+    @XmlElements(XmlElement(name = "academic_term_id"), XmlElement(name = "term_id"))
     var academic_term_id: Int,
+
     var instance_id: Int,
     var catalog_course_id: Int,
     var status: String,
+    var status_date: LocalDate? = null,
     var credits: Double,
     var hours: Double,
     var academic_term_name: String,
@@ -926,7 +931,7 @@ data class Enrollment(
 )
 
 @XmlRootElement(name = "response")
-data class TermEnrollmentResponse(
+data class EnrollmentResponse(
     var enrollment: MutableList<Enrollment> = mutableListOf()
 )
 

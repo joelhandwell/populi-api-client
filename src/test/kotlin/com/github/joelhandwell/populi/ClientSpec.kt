@@ -281,6 +281,11 @@ object ClientSpec : Spek({
             assertEquals(updatedPeopleResponse, populi.getUpdatedPeople(LocalDateTime.of(2018, 11, 23, 22, 59, 59)))
         }
 
+        it("send request, receive response and parse it into UpdatedEnrollement"){
+            stubForPopuli("getUpdatedEnrollment", getUpdatedEnrollmentXml)
+            assertEquals(updatedEnrollments, populi.getUpdatedEnrollment(LocalDate.of(2018, 11, 23)))
+        }
+
         xit("real") {
             val real = realClient()
 
@@ -320,7 +325,8 @@ object ClientSpec : Spek({
             //println(real.getNews())
             //println(real.getTodos())
             //println(real.getPrintLayouts())
-            println(real.getUpdatedPeople(LocalDateTime.of(2018, 11, 23, 22, 59, 59)))
+            //println(real.getUpdatedPeople(LocalDateTime.of(2018, 11, 23, 22, 59, 59)))
+            println(real.getUpdatedEnrollment(LocalDate.of(2018, 11, 23)))
         }
 
         afterGroup { server.stop() }

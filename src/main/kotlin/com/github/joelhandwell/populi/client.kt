@@ -632,12 +632,19 @@ class Populi(
      * Returns all people who have had information changed since start_time. This is useful if you want to sync Populi users to a directory service, etc.
      * People count as updated if their roles, tags, profile data, password, or contact information change. People added/deleted since start_time will also be returned.
      * The idea here is to make it possible to periodically run a script which pulls changes out of Populi since the last time it ran and pushes them to another system (e.g. Open Directory or Active Directory). If you want to sync contact info, check out getPerson to pull more detailed information.
-     * There is a limit of 200 results in the response. The "num_results" attribute in the <response> element indicates the total number of results regardless of the limit or offset.
+     * There is a limit of 200 results in the response. The "num_results" attribute in the <response> element indicates the total number of results regardless of the limit or offset. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getUpdatedPeople)
      * @param start_time Return all people with updated info since this second. Format should be a local timestamp like "2010-11-06 13:27:10". Required.
      * @param offset The numeric value you want to offset the results by. Not Required.
      */
     fun getUpdatedPeople(start_time: LocalDateTime, offset: Int? = null) =
         sendRequest(this.api.getUpdatedPeople(accessKey, start_time = spaceDelimitedLocalDateTimeFormatter.format(start_time), offset = offset))
+
+    /**
+     * Returns updated enrollment for a particular time. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getUpdatedEnrollment)
+     * @param start_date Format should be a date like "2010-11-06". Required.
+     */
+    fun getUpdatedEnrollment(start_date: LocalDate) =
+        sendRequest(this.api.getUpdatedEnrollment(accessKey, start_date = start_date.toString())).enrollment
 }
 
 interface PopuliApi {
@@ -659,7 +666,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getCourseGroupInfo(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseGroupInfo", @Field("course_group_id") course_group_id: Int, @Field("academic_year_id") academic_year_id: Int? = null): Call<CourseGroupInfoResponse>
     @FormUrlEncoded @POST(API_URI) fun getTermCourseInstances(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermCourseInstances", @Field("term_id") term_id: Int): Call<TermCourseInstanceResponse>
     @FormUrlEncoded @POST(API_URI) fun getTermStudents(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermStudents", @Field("term_id") term_id: Int? = null, @Field("program_id") program_id: Int? = null, @Field("campus_id") campus_id: Int? = null, @Field("return_image_data") return_image_data: Int? = null, @Field("page") page: Int? = null): Call<TermStudentResponse>
-    @FormUrlEncoded @POST(API_URI) fun getTermEnrollment(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermEnrollment", @Field("term_id") term_id: Int): Call<TermEnrollmentResponse>
+    @FormUrlEncoded @POST(API_URI) fun getTermEnrollment(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTermEnrollment", @Field("term_id") term_id: Int): Call<EnrollmentResponse>
     @FormUrlEncoded @POST(API_URI) fun getTuitionSchedules(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTuitionSchedules"): Call<TuitionScheduleResponse>
     @FormUrlEncoded @POST(API_URI) fun getStudentTermTuitionSchedules(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getStudentTermTuitionSchedules", @Field("person_id") person_id: Int, @Field("academic_term_id") academic_term_id: Int): Call<StudentTermTuitionScheduleResponse>
     @FormUrlEncoded @POST(API_URI) fun getCourseInstance(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getCourseInstance", @Field("instance_id") instance_id: Int): Call<CourseInstance>
@@ -709,6 +716,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getTodos(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTodos", @Field("completed") completed: String, @Field("page") page: Int? = null): Call<ToDoResponse>
     @FormUrlEncoded @POST(API_URI) fun getPrintLayouts(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPrintLayouts"): Call<PrintLayoutResponse>
     @FormUrlEncoded @POST(API_URI) fun getUpdatedPeople(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUpdatedPeople", @Field("start_time") start_time: String, @Field("offset") offset: Int? = null): Call<UpdatedPersonResponse>
+    @FormUrlEncoded @POST(API_URI) fun getUpdatedEnrollment(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUpdatedEnrollment", @Field("start_date") start_date: String): Call<EnrollmentResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>
