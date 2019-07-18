@@ -61,7 +61,7 @@ class PopuliResponseConverterFactory : Converter.Factory() {
     }
 }
 
-private val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+val spaceDelimitedLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 private val clockLocalDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:ma") //Oct 21, 2017 5:11pm
 private val localTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mma")
 private val usaDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d, yyyy") //Dec 31, 2017

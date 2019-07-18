@@ -11,8 +11,10 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import com.github.joelhandwell.populi.Populi.CustomFieldType.*
 import com.github.joelhandwell.populi.jaxb.PopuliResponseConverterFactory
+import com.github.joelhandwell.populi.jaxb.spaceDelimitedLocalDateTimeFormatter
 import retrofit2.http.FieldMap
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 inline fun <reified R : Any> R.logger(): Logger =
     LoggerFactory.getLogger(this::class.java.name.substringBefore("\$Companion"))
@@ -625,6 +627,17 @@ class Populi(
      * Returns all information related to built-in and custom Open Office ODT print layout templates. [ref](https://support.populiweb.com/hc/en-us/articles/223798747-API-Reference#getPrintLayouts)
      */
     fun getPrintLayouts() = sendRequest(this.api.getPrintLayouts(accessKey)).print_layout
+
+    /**
+     * Returns all people who have had information changed since start_time. This is useful if you want to sync Populi users to a directory service, etc.
+     * People count as updated if their roles, tags, profile data, password, or contact information change. People added/deleted since start_time will also be returned.
+     * The idea here is to make it possible to periodically run a script which pulls changes out of Populi since the last time it ran and pushes them to another system (e.g. Open Directory or Active Directory). If you want to sync contact info, check out getPerson to pull more detailed information.
+     * There is a limit of 200 results in the response. The "num_results" attribute in the <response> element indicates the total number of results regardless of the limit or offset.
+     * @param start_time Return all people with updated info since this second. Format should be a local timestamp like "2010-11-06 13:27:10". Required.
+     * @param offset The numeric value you want to offset the results by. Not Required.
+     */
+    fun getUpdatedPeople(start_time: LocalDateTime, offset: Int? = null) =
+        sendRequest(this.api.getUpdatedPeople(accessKey, start_time = spaceDelimitedLocalDateTimeFormatter.format(start_time), offset = offset))
 }
 
 interface PopuliApi {
@@ -695,6 +708,7 @@ interface PopuliApi {
     @FormUrlEncoded @POST(API_URI) fun getNews(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getNews", @Field("offset") offset: Int? = null): Call<NewsArticleResponse>
     @FormUrlEncoded @POST(API_URI) fun getTodos(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getTodos", @Field("completed") completed: String, @Field("page") page: Int? = null): Call<ToDoResponse>
     @FormUrlEncoded @POST(API_URI) fun getPrintLayouts(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getPrintLayouts"): Call<PrintLayoutResponse>
+    @FormUrlEncoded @POST(API_URI) fun getUpdatedPeople(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String = "getUpdatedPeople", @Field("start_time") start_time: String, @Field("offset") offset: Int? = null): Call<UpdatedPersonResponse>
 
     //for debug
     @FormUrlEncoded @POST(API_URI) fun getRaw(@Field(FIELD_ACCESS_KEY) accessKey: String, @Field(FIELD_TASK) task: String): Call<String>

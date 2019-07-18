@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.time.LocalDate
+import java.time.LocalDateTime
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
@@ -270,9 +271,14 @@ object ClientSpec : Spek({
             assertEquals(toDoResponse, populi.getTodos())
         }
 
-        it("send request, receive response and parse it into PrintLayout"){
+        it("send request, receive response and parse it into PrintLayout") {
             stubForPopuli("getPrintLayouts", getPrintLayoutsXml)
             assertEquals(printLayouts, populi.getPrintLayouts())
+        }
+
+        it("send request, receive response and parse it into UpdatedPerson") {
+            stubForPopuli("getUpdatedPeople", getUpdatedPeopleXml)
+            assertEquals(updatedPeopleResponse, populi.getUpdatedPeople(LocalDateTime.of(2018, 11, 23, 22, 59, 59)))
         }
 
         xit("real") {
@@ -313,7 +319,8 @@ object ClientSpec : Spek({
             //println(real.getEvent(LocalProperty.eventId))
             //println(real.getNews())
             //println(real.getTodos())
-            println(real.getPrintLayouts())
+            //println(real.getPrintLayouts())
+            println(real.getUpdatedPeople(LocalDateTime.of(2018, 11, 23, 22, 59, 59)))
         }
 
         afterGroup { server.stop() }

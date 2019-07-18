@@ -234,6 +234,40 @@ data class PersonSSN(
     var result: String
 )
 
+enum class PersonStatus { ACTIVE, DELETED, DECEASED }
+
+@XmlRootElement(name = "person")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class UpdatedPersonInfo(
+    var id: Int,
+    var first_name: String,
+    var last_name: String,
+    var preferred_name: String? = null,
+    var middle_name: String? = null,
+    var prefix: String,
+    var suffix: String? = null,
+    var former_name: String? = null,
+    var maiden_name: String? = null,
+    var gender: String,
+    var birth_date: LocalDate,
+    var status: PersonStatus,
+
+    @XmlElement(name = "is_active_user") var is_active_user: Int,
+    var user_name: String? = null,
+
+    var updated_at: LocalDateTime
+)
+
+@XmlRootElement(name = "response")
+@XmlAccessorType(XmlAccessType.FIELD)
+data class UpdatedPersonResponse(
+
+    @XmlAttribute(name = "num_results")
+    var num_results: Int,
+
+    var person: MutableList<UpdatedPersonInfo> = mutableListOf()
+)
+
 @XmlRootElement(name = "role")
 data class PersonRole(
     var id: Int,
