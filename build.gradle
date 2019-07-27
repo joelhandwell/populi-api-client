@@ -1,6 +1,6 @@
 buildscript {
-    ext.spek_version = '2.0.5'
-    ext.retrofit_version = '2.5.0'
+    ext.spek_version = '2.0.6'
+    ext.retrofit_version = '2.6.0'
     ext.github_url = "https://github.com/joelhandwell/$project.name"
     ext.library_desc = 'Populi API Client with Retrofit2 and JAXB'
 }
