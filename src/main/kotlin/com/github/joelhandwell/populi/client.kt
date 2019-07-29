@@ -12,6 +12,7 @@ import retrofit2.http.POST
 import com.github.joelhandwell.populi.Populi.CustomFieldType.*
 import com.github.joelhandwell.populi.jaxb.PopuliResponseConverterFactory
 import com.github.joelhandwell.populi.jaxb.spaceDelimitedLocalDateTimeFormatter
+import okhttp3.OkHttpClient
 import retrofit2.http.FieldMap
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -31,19 +32,29 @@ class Populi(
         private var password: String? = null
         private var accessKey: String? = null
         private var baseUrl: String? = null
+        private var client: OkHttpClient? = null
 
         fun withUsername(username: String) = apply { this.username = username }
         fun withPassword(password: String) = apply { this.password = password }
         fun withAccessKey(accessKey: String) = apply { this.accessKey = accessKey }
         fun withBaseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
+        fun withClient(client: OkHttpClient) = apply { this.client = client }
 
         fun build(): Populi {
 
-            val builder = Retrofit.Builder().baseUrl(baseUrl ?: throw RuntimeException("baseUrl is null"))
+            val builderWithBaseUrl = Retrofit.Builder().baseUrl(baseUrl ?: throw RuntimeException("baseUrl is null"))
+
+            val builderWithClient = if (client == null) {
+                builderWithBaseUrl
+            } else {
+                builderWithBaseUrl.client(client)
+            }
+
+            val builderWithConverterFactory = builderWithClient
                 .addConverterFactory(PopuliResponseConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
 
-            val api = builder.build().create(PopuliApi::class.java)
+            val api = builderWithConverterFactory.build().create(PopuliApi::class.java)
 
             if (accessKey == null) {
                 log.info("fetching accessKey with username and password")

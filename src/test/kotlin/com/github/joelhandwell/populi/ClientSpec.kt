@@ -11,6 +11,10 @@ import java.time.LocalDateTime
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
+import java.util.concurrent.TimeUnit
+import okhttp3.OkHttpClient
+
+
 
 object ClientSpec : Spek({
 
@@ -40,6 +44,18 @@ object ClientSpec : Spek({
             val degrees = populiWithUsernamePassword.getDegrees()
             assertNotNull(degrees)
             assertDegrees(degrees)
+        }
+
+        it("creates api client with custom OkHttpClient"){
+            val client = OkHttpClient.Builder()
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100, TimeUnit.SECONDS).build()
+
+            Populi.Builder()
+                .withBaseUrl("http://localhost")
+                .withAccessKey("key")
+                .withClient(client)
+                .build()
         }
 
         it("send request, receive response and parse it into Degrees") {
