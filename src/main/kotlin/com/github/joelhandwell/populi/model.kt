@@ -13,6 +13,9 @@ data class AccessKeyResponse(
     var access_key: String, var account_id: AccountId, var account_type: String
 )
 
+/**
+ * Each degree can have multiple specializations. Specializations can only be associated with one degree. [ref](https://support.populiweb.com/hc/en-us/articles/223789907-Degrees-and-specializations#specializations)
+ */
 @XmlRootElement(name = "specialization")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Specialization(
@@ -27,6 +30,11 @@ data class Specialization(
     var cip_code: String? = null
 )
 
+/**
+ * Degrees are the academic awards that you give to students who complete a course of study at your school.
+ * They include everything from your standard 2-year, 4-year, and graduate degrees to post-secondary awards and certificates.
+ * Degrees can include specializations—majors, emphases, etc. [ref](https://support.populiweb.com/hc/en-us/articles/223789907-Degrees-and-specializations)
+ */
 @XmlRootElement(name = "degree")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Degree(
