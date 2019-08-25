@@ -47,7 +47,7 @@ class Populi(
             val builderWithClient = if (client == null) {
                 builderWithBaseUrl
             } else {
-                builderWithBaseUrl.client(client)
+                builderWithBaseUrl.client(client!!)
             }
 
             val builderWithConverterFactory = builderWithClient
